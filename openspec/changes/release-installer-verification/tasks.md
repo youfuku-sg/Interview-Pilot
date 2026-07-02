@@ -1,9 +1,9 @@
 ## 1. release ブランチの準備
 
-- [ ] 1.1 現在の feature ブランチから `release/v<version>` ブランチを作成する
-- [ ] 1.2 `package.json` のバージョンを更新する
-- [ ] 1.3 `src-tauri/Cargo.toml` のバージョンを更新する
-- [ ] 1.4 `src-tauri/tauri.conf.json` のバージョンを更新する
+- [x] 1.1 現在の feature ブランチから `release/v<version>` ブランチを作成する
+- [x] 1.2 `package.json` のバージョンを更新する
+- [x] 1.3 `src-tauri/Cargo.toml` のバージョンを更新する
+- [x] 1.4 `src-tauri/tauri.conf.json` のバージョンを更新する
 
 ## 2. main へのマージと push トリガーの確認
 

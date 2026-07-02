@@ -2,6 +2,17 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.12] - 2026-07-03
+
+### Added
+
+- GitHub Actions で lint / 型チェックを実行する `ci` ワークフローを新設（push全ブランチ + main向けPRで起動）
+- ESLint を導入（TypeScript + React 向け最小構成）
+
+### Changed
+
+- `src-tauri/src/speaker/linux.rs` の import 順序を `cargo fmt` に合わせて修正
+
 ## [0.1.11] - 2026-07-03
 
 ### Added

@@ -2,16 +2,23 @@
 
 ## 1. 目的
 
-この文書は、GitHub Actions の `ci` ワークフローで行うフロントエンド・Rust の静的チェックについてまとめる。
+この文書は、GitHub Actions の `.github/workflows/ci.yml` で行うフロントエンド・Rust の静的チェックについてまとめる。
 
-ビルド・リリース用の `publish` ワークフローとは別に、日常のコード変更を検証する軽量なチェックとして用意している。手順は `GitHub Actions リリース手順.md` を参照。
+`ci.yml` は日常のコード変更を検証する軽量なチェック(`frontend` / `rust` ジョブ)と、Windows インストーラのビルド・GitHub Release 作成(`verify-tag-on-main` / `publish-tauri` ジョブ)を1つのワークフローファイルに統合したものである。後者の起動条件・挙動は `GitHub Actions リリース手順.md` を参照。
 
 ## 2. 起動条件
 
+`frontend` / `rust` ジョブ(本ドキュメントの対象):
+
 - 任意のブランチへの push
 - `main` を対象とした Pull Request
+- 手動実行 (`workflow_dispatch`)
 
-`publish` ワークフロー（`main` push / `v*` タグ push / 手動実行のみ）とは異なり、`feature/*` や `release/v<version>` への push でも毎回起動する。
+`verify-tag-on-main` / `publish-tauri` ジョブ(ビルド・Release 作成、詳細は `GitHub Actions リリース手順.md` を参照):
+
+- `v*` タグ push のうち、タグが `main` の履歴に含まれる場合
+- 手動実行 (`workflow_dispatch`)
+- いずれの場合も `frontend` / `rust` ジョブが成功していることが前提条件となる(`needs: [frontend, rust, verify-tag-on-main]`)。`feature/*` や `release/v<version>` への通常 push では `frontend` / `rust` のみが実行され、ビルド・Release 作成は行われない。
 
 ## 3. ジョブ構成
 

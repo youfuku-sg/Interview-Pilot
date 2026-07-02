@@ -44,6 +44,10 @@
    - 理由: 新規 lint 導入の目的は「今後のコード変更で問題を検出できるようにする」ことであり、初回時点で大量のエラーが出て CI が実用にならないなら、ルールをその場で最小限緩めて通す（該当ルールを `warn` にする、または `.eslintignore` で一時的に除外する等）。どのルールを緩めたかは tasks 実施時に記録する。
    - 代替案: 既存コードを全て修正してからルールを厳格にする → 今回のスコープ（CIの土台を作る）を超えるため不採用。
 
+7. **`eslint-plugin-react-hooks` は `recommended` config をそのまま使わず、`rules-of-hooks` / `exhaustive-deps` の2ルールのみ有効化する**
+   - 理由: 実際に導入してみたところ、同パッケージの最新版（v7系）の `recommended` は React Compiler 向けの追加ルール（`refs` / `immutability` / `set-state-in-effect` / `purity`、および ESLint コアの `preserve-caught-error`）まで含んでおり、これらだけで約73件のエラーが発生した。本プロジェクトは React Compiler を使用していないため、これらのルールを有効化する動機がなく、Decision 1 で想定していた「React Hooks 向けルール」の範囲を超えていた。
+   - 代替案: これらも Decision 6 同様に `warn` へ緩和して残す → 使う予定のない React Compiler 前提のルールをそもそも有効化しない方が構成として自然なため、`recommended` を展開せず該当2ルールのみを明示的に指定する形にした。
+
 ## Risks / Trade-offs
 
 - [Risk] ESLint 未設定のプロジェクトに最小構成を導入すると、既存コードで想定より多くのエラー/警告が出て CI が使い物にならない可能性がある → [Mitigation] Decision 6 の通り、その場でルールを最小限緩めて「CIが通る最小構成」を優先し、厳格化は別 change で段階的に行う。

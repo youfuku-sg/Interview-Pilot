@@ -34,6 +34,28 @@ jobs:
       - name: Install frontend deps
         run: npm ci
 
+      - name: Extract changelog for this version
+        id: changelog
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          BODY=$(awk -v ver="$VERSION" '
+            /^## \[/{
+              if (found) exit
+              if ($0 ~ "\\[" ver "\\]") { found=1; next }
+              next
+            }
+            found { print }
+          ' CHANGELOG.md)
+          if [ -z "$(echo "$BODY" | tr -d '[:space:]')" ]; then
+            BODY="Windows installer build for personal testing. Download the attached NSIS/MSI installer from this draft release and verify it locally before publishing."
+          fi
+          {
+            echo "body<<CHANGELOG_EOF"
+            echo "$BODY"
+            echo "CHANGELOG_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Build & publish
         uses: tauri-apps/tauri-action@v0.5.16
         env:
@@ -41,7 +63,7 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: "Interview-Pilot v__VERSION__"
-          releaseBody: "Windows installer build for personal testing. Download the attached NSIS/MSI installer from this draft release and verify it locally before publishing."
+          releaseBody: ${{ steps.changelog.outputs.body }}
           releaseDraft: true
           prerelease: false
           includeUpdaterJson: false

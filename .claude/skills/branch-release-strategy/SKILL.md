@@ -1,10 +1,10 @@
 ---
 name: branch-release-strategy
-description: Follow the repository branch and release strategy when starting work, creating branches, preparing releases, choosing versions, updating VERSION/CHANGELOG, tagging releases, handling hotfixes, or ensuring incidental repository diffs such as OpenSpec files are committed before release.
+description: Follow the repository branch and release strategy when starting work, creating branches, preparing releases, choosing versions, updating VERSION/CHANGELOG, always creating v-version release tags, handling hotfixes, or ensuring incidental repository diffs such as OpenSpec files are committed before release.
 license: MIT
 metadata:
   author: Interview-Pilot
-  version: "1.1"
+  version: "1.2"
   sourceDocument: "docs/仕様/ブランチ・リリース戦略.md"
 ---
 
@@ -20,7 +20,7 @@ Details and the latest source of truth live in `docs/仕様/ブランチ・リ�
 - Use `release/v<version>` for release preparation.
 - Use `hotfix/v<version>` for emergency fixes.
 - Use semantic versions in `MAJOR.MINOR.PATCH` form.
-- Use `v<version>` for release tags when tags are needed.
+- Always create and push a `v<version>` tag for every release. A release is not complete without the version tag.
 - Run release/build automation from `main` pushes, `v<version>` tag pushes, or manual workflow dispatch.
 - Keep one feature focused on one purpose where practical.
 - Do not leave incidental diffs or untracked files behind during release work. Commit them before release/tag operations even when they are not part of the main code change.
@@ -60,8 +60,10 @@ Use `release/v<version>` for release preparation. The expected initial flow is:
 5. Attach build artifacts to a draft GitHub Release.
 6. Install and verify the produced artifact.
 7. Merge the release branch into the stable branch if verification passes.
-8. Create a `v<version>` tag when the release flow calls for a tag.
+8. Create and push the `v<version>` tag for the release. Do this for every release, even if a `main` push build has already run.
 9. Delete the `release/*` branch after merge.
+
+Do not report a release as complete until `git tag --list "v<version>"` shows the tag locally and the tag has been pushed to the remote.
 
 The repository strategy currently favors `1 release = 1 feature`; avoid bundling multiple unrelated features into one release unless the user explicitly chooses that.
 

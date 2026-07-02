@@ -1,4 +1,7 @@
-const ciLintVerificationNumber: number = "not-a-number";
-
-const x = 1;
-x = 2;
+export function ciLintVerification(): boolean {
+  let x = 5;
+  if (x = 3) {
+    return x > 0;
+  }
+  return false;
+}

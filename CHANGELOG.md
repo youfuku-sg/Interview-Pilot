@@ -2,6 +2,14 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.17] - 2026-07-03
+
+### Changed
+
+- `.github/workflows/ci.yml` と `.github/workflows/publish.yml` を1つのワークフローファイル(`ci.yml`)に統合した。`publish-tauri`(Windows インストーラビルド・draft Release 作成)ジョブは `frontend`(型チェック・lint)と `rust`(`cargo fmt --check`・`clippy`)の CI ジョブが成功し、かつタグが `main` 上にある場合のみ実行されるようになった(`needs: [frontend, rust, verify-tag-on-main]` / `if: success() && needs.verify-tag-on-main.outputs.on_main == 'true'`)。従来は CI とビルド・Release作成が独立したワークフローで同時に走っており、CI が失敗するコードにタグを打ってもビルド・Release作成が完走してしまっていた
+- `.github/workflows/publish.yml` を削除した
+- `frontend` / `rust` の CI ジョブが `workflow_dispatch`(手動実行)でも起動するようにした
+
 ## [0.1.16] - 2026-07-03
 
 ### Changed

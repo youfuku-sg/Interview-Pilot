@@ -2,6 +2,16 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.11] - 2026-07-03
+
+### Added
+
+- `CHANGELOG.md` を新設し、Keep a Changelog 風の形式で運用を開始
+
+### Changed
+
+- `publish` ワークフローの GitHub Release 本文を、固定文言から `CHANGELOG.md` の該当バージョンのエントリを抽出する方式に変更（該当エントリがない場合は従来の固定文言にフォールバック）
+
 ## [0.1.10] - 2026-07-02
 
 ### Added

@@ -2,6 +2,12 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.13] - 2026-07-03
+
+### Changed
+
+- `feature/*` を安定ブランチへ直接マージすることを禁止し、`main` へのあらゆる push（ドキュメント整理や OpenSpec アーカイブを含む）は必ず `release/v<version>` を経由するよう `docs/仕様/ブランチ・リリース戦略.md` と `branch-release-strategy` スキルを更新
+
 ## [0.1.12] - 2026-07-03
 
 ### Added

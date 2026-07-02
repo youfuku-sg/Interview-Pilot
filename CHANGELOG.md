@@ -4,6 +4,12 @@
 
 ## [0.1.16] - 2026-07-03
 
+### Changed
+
+- `README.md` を Pluely upstream 由来の英語・商用マーケティング文言(寄付/雇用勧誘バッジ、作者個人SNSリンク、`pluely.com` ダウンロードリンク・バッジ、ライセンス販売訴求)から、Interview-Pilot(個人利用前提の面接支援アプリ)向けの日本語説明に全面的に書き直した。`docs/仕様/要求仕様書.md` 8.6節の倫理方針に反する「ステルス」「検知されない」訴求表現も中立的な説明に置き換えた
+- `SECURITY.md` を日本語化し、upstream リポジトリ・連絡先への参照を本リポジトリ向けの内容に置き換えた
+- 完了済みの OpenSpec change(`rebrand-readme-security-ja`, `enrich-agent-skills-and-config`)を `openspec/changes/archive/` にアーカイブし、対応する capability spec を `openspec/specs/` に同期した
+
 ### Fixed
 
 - `.github/workflows/publish.yml` の起動条件を `main` push OR `v<version>` タグ push から、`v<version>` タグ push かつそのタグの指すコミットが `main` の履歴に含まれる場合のみ（AND条件）に変更した。`release/v<version>` を `main` にマージした直後に対応するタグを push すると、同一コミットに対してビルドが2回（main push分・タグ push分）走ってしまう問題を解消した

@@ -2,6 +2,19 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.14] - 2026-07-03
+
+### Added
+
+- Claude Code / Codex CLI 向けの案件固有エージェントスキル4件（`pluely-cleanup-checklist`, `tauri-rust-conventions`, `interview-support-domain`, `local-llm-stt-integration`）を `.claude/skills/` と `.codex/skills/` に追加
+- プロジェクト概要・技術スタック・ディレクトリ構成・OpenSpecワークフローをまとめた `CLAUDE.md` を新設
+- チーム/リポジトリ共通で安全な許可ルールを収録する `.claude/settings.json`（git管理下）を新設
+
+### Changed
+
+- `.claude/skills/` にのみ存在していた4スキル（`building-components`, `vercel-react-best-practices`, `vercel-composition-patterns`, `web-design-guidelines`）を `.codex/skills/` にミラーし、パリティを回復
+- `.claude/settings.local.json` から、読み取り専用・定型コマンドの許可ルールを `.claude/settings.json` に移動
+
 ## [0.1.13] - 2026-07-03
 
 ### Changed

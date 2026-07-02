@@ -21,7 +21,7 @@
 
 ## 4. トリガー対象外の確認
 
-- [ ] 4.1 `feature/*` または `release/v<version>` ブランチへの push では `publish` ワークフローが起動しないことを確認する
+- [x] 4.1 `feature/*` または `release/v<version>` ブランチへの push では `publish` ワークフローが起動しないことを確認する
 
 ## 5. 問題対応
 

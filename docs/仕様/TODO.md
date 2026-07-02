@@ -82,6 +82,8 @@
 ### Phase 3: ビルド / リリース整備
 
 - [x] ブランチ / リリース戦略資料を作る
+- [x] Claude Code / Codex 用のブランチ・リリース戦略スキルを作る
+- [x] GitHub Actions を `main` push と `v<version>` tag push で起動する方針を反映する
 - [ ] ブランチ / リリース戦略資料の未決事項を埋める
 - [x] 現在の GitHub Actions の `publish.yml` を読む
 - [x] 既存 workflow が Pluely のどの secret に依存しているか整理する

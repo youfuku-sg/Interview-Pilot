@@ -92,3 +92,12 @@ git push origin v0.1.10
 - `v0.1.11` タグ push（run `28609316798`）: 成功。同一 Release に反映された
 - `feature/*` / `release/v<version>` ブランチへの push ではワークフローが起動しないことを確認した
 - Release 本文が `CHANGELOG.md` の `## [0.1.11]` エントリを反映するかは、ユーザーによる GitHub Releases ページの目視確認待ち（`gh` CLI 側は反映遅延で未確認）
+
+## 9. main 上タグ限定トリガーの検証結果（v0.1.16）
+
+`publish-trigger-tag-on-main-only` change にて、`release/v0.1.16` → `main` マージ → `v0.1.16` タグ push という実際の手順で AND 条件（タグ push かつ `main` 上）が機能することを確認した。
+
+- `main` push（`release/v0.1.16` マージ後の push）: `publish` ワークフローの新規実行は発生しなかった（`gh run list` で確認）。旧来の二重ビルド（`main` push 分・タグ push 分の2回起動）が解消された
+- `v0.1.16` タグ push（run `28619541798`）: `verify-tag-on-main` ジョブが成功（`main` 上と判定）→ `publish-tauri` ジョブが成功し、Windows インストーラ（NSIS/MSI）2点を draft Release にアップロードした
+- 検証用タグ `v0.1.16-test-not-on-main`（`main` に含まれないコミットに push、run `28619571245`）: `verify-tag-on-main` ジョブは成功したが `on_main=false` と判定し、`publish-tauri` ジョブは `skipped` になった。検証後、当該タグとコミットのブランチは削除済み
+- `workflow_dispatch`（手動実行）の動作は、Claude Code の `gh` トークンに発火権限（`Must have admin rights to Repository`）がなく自動検証できなかった。GitHub の Actions タブからのユーザー自身による確認が必要

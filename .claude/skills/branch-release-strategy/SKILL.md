@@ -1,11 +1,10 @@
 ---
 name: branch-release-strategy
-description: Follow the repository branch and release strategy when starting work, creating branches, preparing releases, choosing versions, updating VERSION/CHANGELOG, tagging releases, or handling hotfixes.
+description: Follow the repository branch and release strategy when starting work, creating branches, preparing releases, choosing versions, updating VERSION/CHANGELOG, tagging releases, handling hotfixes, or ensuring incidental repository diffs such as OpenSpec files are committed before release.
 license: MIT
-compatibility: Requires git and the repository document docs/仕様/ブランチ・リリース戦略.md.
 metadata:
   author: Interview-Pilot
-  version: "1.0"
+  version: "1.1"
   sourceDocument: "docs/仕様/ブランチ・リリース戦略.md"
 ---
 
@@ -24,6 +23,7 @@ Details and the latest source of truth live in `docs/仕様/ブランチ・リ�
 - Use `v<version>` for release tags when tags are needed.
 - Run release/build automation from `main` pushes, `v<version>` tag pushes, or manual workflow dispatch.
 - Keep one feature focused on one purpose where practical.
+- Do not leave incidental diffs or untracked files behind during release work. Commit them before release/tag operations even when they are not part of the main code change.
 - After merging `release/*` or `hotfix/*` into the stable branch, delete the release or hotfix branch.
 
 ## Starting Normal Work
@@ -36,6 +36,18 @@ Before changing implementation files for ordinary development:
 4. If on an unrelated branch, pause and ask the user whether to switch, create a new feature branch, or continue intentionally.
 
 Prefer branch names that describe the work, for example `feature/japanese-ui`, `feature/personal-docs`, or `feature/release-workflow`.
+
+## Incidental Diffs
+
+Before creating a `release/*` or `hotfix/*` branch, merging into the stable branch, creating a release tag, or declaring release work complete:
+
+1. Run `git status --short`.
+2. Identify diffs and untracked files that are not part of the primary implementation, such as OpenSpec artifacts, planning docs, release notes, skill files, or verification records.
+3. Commit those files unconditionally instead of leaving them unstaged or untracked. Prefer a separate focused commit, for example `Record release verification plan` or `Update release strategy skill`.
+4. Include generated/planning files when they explain, validate, or complete the work, especially files under `openspec/`.
+5. Do not commit build outputs, secrets, local environment files, or dependency directories that should be ignored. If such files appear, report them and leave them uncommitted.
+
+This repository favors a clean release history over leaving supporting artifacts outside git. Do not pause to ask whether to commit incidental OpenSpec or documentation diffs; commit them.
 
 ## Release Preparation
 

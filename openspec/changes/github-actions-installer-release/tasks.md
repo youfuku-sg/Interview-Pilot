@@ -26,10 +26,10 @@
 
 ## 5. 動作確認
 
-- [ ] 5.1 `workflow_dispatch` でワークフローを手動実行する
-- [ ] 5.2 Actions のログでビルドが全ステップ成功することを確認する
-- [ ] 5.3 draft の GitHub Release が作成され、Windows インストーラ（NSIS/MSI）が添付されていることを確認する
-- [ ] 5.4 Release に updater 用 JSON が含まれていないことを確認する
+- [x] 5.1 `v*` タグ push でワークフローを実行する（`workflow_dispatch` は workflow が default branch に入った後に利用する）
+- [x] 5.2 Actions のログでビルドが全ステップ成功することを確認する
+- [x] 5.3 draft の GitHub Release が作成され、Windows インストーラ（NSIS/MSI）が添付されていることを確認する
+- [x] 5.4 Release に updater 用 JSON が含まれていないことを確認する
 
 ## 6. ドキュメント整備
 

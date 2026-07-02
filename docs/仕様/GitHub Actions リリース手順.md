@@ -13,6 +13,8 @@
 - タグは `v<version>` 形式を使う
 - `publish` ワークフローは `master` への通常 push では起動しない
 - 起動方法は、手動実行または `v*` タグ push とする
+- `workflow_dispatch` は、GitHub の default branch に `publish` ワークフローが存在する状態で利用する
+- default branch へ反映する前の初回検証では、対象コミットに `v*` タグを push して起動確認する
 - 当面の成果物は Windows 向けインストーラのみとする
 - Release は draft として作成する
 - Tauri updater 用 JSON は生成しない
@@ -29,6 +31,8 @@
 7. 実行ログで `publish-tauri` job が開始されることを確認する
 
 ## 4. タグ push 実行手順
+
+default branch へ workflow を反映する前に検証したい場合は、この方法を使う。
 
 1. リリース対象のコミットが入ったブランチを確認する
 2. `v<version>` 形式でタグを作成する

@@ -2,6 +2,12 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.18] - 2026-07-03
+
+### Fixed
+
+- v0.1.17 リリース作業で `.github/workflows/publish.yml` を `rm` した後、`git add` にこのファイルを含め忘れたため削除がコミットされておらず、`main` に旧 `publish.yml`(CI 成功をゲートしない版)が残存していた。そのため `v0.1.17` タグ push で `ci.yml` と `publish.yml` の両方が起動し、Windows ビルドが二重に実行され、`v0.1.17` の draft Release にインストーラが重複アップロードされた。本リリースで `publish.yml` の削除を正しくコミットし、単一ワークフロー(`ci.yml`)構成に修正した
+
 ## [0.1.17] - 2026-07-03
 
 ### Changed

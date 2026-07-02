@@ -37,9 +37,10 @@
    - 理由: `docs/仕様/初期マイルストーン.md` 6.3「署名なしビルドで始める候補とする」を採用。Windows SmartScreen 警告が出ることは `docs/仕様/初期マイルストーン.md` 7.3 で許容済み。
    - 代替案: 自己署名証明書を用意する → 初期段階の手間に見合わないため見送り、将来必要になれば別 change で対応。
 
-5. **updater: `includeUpdaterJson` を無効化し、`tauri.conf.json` の updater エンドポイントは変更しない（今回のスコープ外）**
-   - 理由: updater JSON 生成には有効な署名鍵と到達可能なエンドポイントが必要。今回は Release からの手動インストールのみが目標のため、updater 関連は触らずワークフロー側の生成だけ止める。
-   - 代替案: `tauri.conf.json` の `updater.endpoints` も同時に見直す → スコープが広がり、アプリ設定変更（`docs/仕様/TODO.md` で別途扱う対象）に踏み込むため今回は見送る。
+5. **updater: `includeUpdaterJson` と `bundle.createUpdaterArtifacts` を無効化し、`tauri.conf.json` の updater エンドポイントは変更しない**
+   - 理由: updater JSON 生成には有効な署名鍵と到達可能なエンドポイントが必要。今回は Release からの手動インストールのみが目標のため、Release 添付用の updater JSON と bundler の updater artifact 生成を止める。
+   - 補足: 実際の Actions 検証で、`bundle.createUpdaterArtifacts: true` のままだと `plugins.updater.pubkey` に反応して `TAURI_SIGNING_PRIVATE_KEY` が要求されることが分かったため、署名なしビルドの成立に必要な最小変更として `false` にする。
+   - 代替案: `tauri.conf.json` の `updater.endpoints` / `pubkey` や plugin 登録も同時に見直す → スコープが広がり、アプリ実行時の updater 機能整理（`docs/仕様/TODO.md` で別途扱う対象）に踏み込むため今回は見送る。
 
 6. **Release は draft のまま、リリース名/本文の Pluely 文言のみ最小限差し替え**
    - 理由: `docs/仕様/初期マイルストーン.md` 6.3「Release は draft を基本候補とする」。本文の "Pluely v..." や macOS 向け案内はそのまま残すと混乱するため、Windows 向けの記述に絞って書き換える。UI 文言や README の本格的な日本語化・個人利用化は別 Phase（Phase 1/2）で扱う。

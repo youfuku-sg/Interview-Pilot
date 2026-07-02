@@ -22,6 +22,7 @@
 - [x] 4.2 `updaterJsonPreferNsis` を削除する
 - [x] 4.3 `releaseDraft: true` を維持する
 - [x] 4.4 `releaseName` / `releaseBody` の Pluely / macOS 前提の文言を、Windows インストーラ向けの内容に書き換える
+- [x] 4.5 `src-tauri/tauri.conf.json` の `bundle.createUpdaterArtifacts` を `false` にし、署名鍵なしで updater artifact 生成を要求しないようにする
 
 ## 5. 動作確認
 

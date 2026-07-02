@@ -2,7 +2,7 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
-## [0.1.14] - 2026-07-03
+## [0.1.15] - 2026-07-03
 
 ### Added
 
@@ -14,6 +14,10 @@
 
 - `.claude/skills/` にのみ存在していた4スキル（`building-components`, `vercel-react-best-practices`, `vercel-composition-patterns`, `web-design-guidelines`）を `.codex/skills/` にミラーし、パリティを回復
 - `.claude/settings.local.json` から、読み取り専用・定型コマンドの許可ルールを `.claude/settings.json` に移動
+
+### Fixed
+
+- `package.json` / `src-tauri/Cargo.toml` のみバージョンを更新し `src-tauri/tauri.conf.json` / `package-lock.json` の更新を漏らしたため、実際のアプリバージョンが `0.1.13` のままビルドされ、既存の `v0.1.13` draft release に誤ってインストーラがアップロードされる問題があった。`v0.1.14` は正式リリースされておらず欠番とし、本リリースで全バージョンフィールドを揃えて修正した
 
 ## [0.1.13] - 2026-07-03
 

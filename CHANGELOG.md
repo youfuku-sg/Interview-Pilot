@@ -2,6 +2,13 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.16] - 2026-07-03
+
+### Fixed
+
+- `.github/workflows/publish.yml` の起動条件を `main` push OR `v<version>` タグ push から、`v<version>` タグ push かつそのタグの指すコミットが `main` の履歴に含まれる場合のみ（AND条件）に変更した。`release/v<version>` を `main` にマージした直後に対応するタグを push すると、同一コミットに対してビルドが2回（main push分・タグ push分）走ってしまう問題を解消した
+- 判定用に `verify-tag-on-main` ジョブ（`ubuntu-latest`）を追加し、`git merge-base --is-ancestor` でタグが `main` 上にあるかを確認してから Windows ビルドジョブを実行するようにした。`main` に含まれないタグ push（例: `release/*` ブランチ上での誤タグ）ではビルドをスキップする。`workflow_dispatch`（手動実行）はこの判定の対象外とする
+
 ## [0.1.15] - 2026-07-03
 
 ### Added

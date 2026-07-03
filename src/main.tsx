@@ -5,6 +5,10 @@ import { AppProvider, ThemeProvider } from "./contexts";
 import "./global.css";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import AppRoutes from "./routes";
+import moment from "moment";
+import "moment/locale/ja";
+
+moment.locale("ja");
 
 const currentWindow = getCurrentWindow();
 const windowLabel = currentWindow.label;

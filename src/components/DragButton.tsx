@@ -38,12 +38,11 @@ export const DragButton = () => {
           <div className="flex flex-col gap-2 w-116">
             <div className="flex flex-col gap-1 pb-2">
               <p className="text-md font-medium">
-                You need an active license to use this feature.
+                この機能を使用するには有効なライセンスが必要です。
               </p>
               <p className="text-sm font-medium text-muted-foreground">
-                Once you complete your purchase, you'll receive a license key
-                via email. Paste in the Settings → Pluely Access section to
-                activate.
+                購入が完了すると、メールでライセンスキーが届きます。設定 →
+                Pluely Access セクションに貼り付けて有効化してください。
               </p>
             </div>
             <GetLicense setState={setIsOpen} />

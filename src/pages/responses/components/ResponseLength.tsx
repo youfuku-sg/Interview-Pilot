@@ -26,8 +26,8 @@ export const ResponseLength = () => {
   return (
     <div className="space-y-4">
       <Header
-        title="Response Length"
-        description="Control how detailed the AI responses should be. Changes apply to all new conversations and will influence how the AI structures responses"
+        title="回答の長さ"
+        description="AIの回答の詳しさを制御します。変更は新しい会話すべてに適用され、AIの回答構成に影響します"
         isMainTitle
       />
 

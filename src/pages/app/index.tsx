@@ -71,7 +71,7 @@ const App = () => {
             <Button
               size={"icon"}
               className="cursor-pointer"
-              title="Open Dev Space"
+              title="開発者スペースを開く"
               onClick={openDashboard}
             >
               <SparklesIcon className="h-4 w-4" />

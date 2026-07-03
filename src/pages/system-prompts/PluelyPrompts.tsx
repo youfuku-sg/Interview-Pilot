@@ -122,7 +122,7 @@ export const PluelyPrompts = () => {
     } catch (err) {
       console.error("Failed to fetch Pluely prompts:", err);
       setError(
-        typeof err === "string" ? err : "Failed to fetch Pluely prompts"
+        typeof err === "string" ? err : "Pluelyのプロンプト取得に失敗しました"
       );
     } finally {
       setIsLoading(false);
@@ -204,14 +204,14 @@ export const PluelyPrompts = () => {
     return (
       <div className="space-y-4 mt-6">
         <Header
-          title="Pluely Default Prompts"
-          description="Pre-configured prompts with optimal model selection"
+          title="Pluely既定プロンプト"
+          description="最適なモデルがあらかじめ設定されたプロンプトです"
         />
         <Empty
           isLoading={true}
           icon={Sparkles}
-          title="Loading prompts..."
-          description="Fetching Pluely default prompts"
+          title="プロンプトを読み込み中..."
+          description="Pluely既定プロンプトを取得しています"
         />
       </div>
     );
@@ -221,8 +221,8 @@ export const PluelyPrompts = () => {
     return (
       <div className="space-y-4 mt-6">
         <Header
-          title="Pluely Default Prompts"
-          description="Pre-configured prompts with optimal model selection"
+          title="Pluely既定プロンプト"
+          description="最適なモデルがあらかじめ設定されたプロンプトです"
         />
         <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-3">
           <p className="text-sm text-destructive">{error}</p>
@@ -241,19 +241,19 @@ export const PluelyPrompts = () => {
         <div className="flex items-start gap-3 w-full">
           <div className="flex flex-col gap-1 w-full">
             <Header
-              title="Pluely Default Prompts"
-              description="Pre-configured prompts with optimal model pairings. Selecting a prompt will automatically set the recommended AI model for best results."
+              title="Pluely既定プロンプト"
+              description="最適なモデルの組み合わせがあらかじめ設定されたプロンプトです。選択すると、最良の結果を得るための推奨AIモデルが自動的に設定されます。"
             />
             {lastUpdated && (
               <div className="flex justify-end items-center gap-1 text-[10px] text-muted-foreground">
                 <ClockIcon className="size-2" />
-                <span>Last updated: {moment(lastUpdated).fromNow()}</span>
+                <span>最終更新: {moment(lastUpdated).fromNow()}</span>
               </div>
             )}
           </div>
         </div>
         {!hasActiveLicense && (
-          <GetLicense buttonText="Unlock" buttonClassName="shrink-0" />
+          <GetLicense buttonText="ロック解除" buttonClassName="shrink-0" />
         )}
       </div>
 

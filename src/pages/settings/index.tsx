@@ -8,7 +8,7 @@ import { PageLayout } from "@/layouts";
 
 const Settings = () => {
   return (
-    <PageLayout title="Settings" description="Manage your settings">
+    <PageLayout title="設定" description="アプリの設定を管理します">
       {/* Theme */}
       <Theme />
 

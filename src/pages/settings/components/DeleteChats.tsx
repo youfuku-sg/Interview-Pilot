@@ -21,8 +21,8 @@ export const DeleteChats = ({
   return (
     <div id="delete-chats" className="space-y-3">
       <Header
-        title="Delete Chat History"
-        description="Permanently delete all your chat conversations and history. This action cannot be undone and will remove all stored conversations from your local storage."
+        title="チャット履歴を削除"
+        description="すべてのチャット会話・履歴を完全に削除します。この操作は取り消せず、ローカルストレージに保存されたすべての会話が削除されます。"
         isMainTitle
       />
 
@@ -30,7 +30,7 @@ export const DeleteChats = ({
         {isDeleting && (
           <div className="p-3 bg-green-50 border border-green-200 rounded-md">
             <p className="text-xs text-green-700 font-medium">
-              ✅ All chat history has been successfully deleted.
+              ✅ すべてのチャット履歴を削除しました。
             </p>
           </div>
         )}
@@ -40,17 +40,17 @@ export const DeleteChats = ({
           disabled={isDeleting}
           variant="destructive"
           className="w-full h-11"
-          title="Delete all chat history"
+          title="すべてのチャット履歴を削除"
         >
           {isDeleting ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Deleting...
+              削除中...
             </>
           ) : (
             <>
               <TrashIcon className="h-4 w-4 mr-2" />
-              Delete All Chats
+              すべてのチャットを削除
             </>
           )}
         </Button>
@@ -61,22 +61,20 @@ export const DeleteChats = ({
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border rounded-lg p-6 max-w-md mx-4">
             <h3 className="text-lg font-semibold mb-2">
-              Delete All Chat History
+              すべてのチャット履歴を削除
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Are you sure you want to delete all chat history? This action
-              cannot be undone and will permanently remove all stored
-              conversations.
+              本当にすべてのチャット履歴を削除しますか?この操作は取り消せず、保存されたすべての会話が完全に削除されます。
             </p>
             <div className="flex justify-end gap-2">
               <Button
                 variant="outline"
                 onClick={() => setShowDeleteConfirmDialog(false)}
               >
-                Cancel
+                キャンセル
               </Button>
               <Button variant="destructive" onClick={deleteAllChats}>
-                Delete All
+                すべて削除
               </Button>
             </div>
           </div>

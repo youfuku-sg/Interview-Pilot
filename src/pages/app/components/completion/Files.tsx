@@ -47,8 +47,8 @@ export const Files = ({
             className="cursor-pointer"
             title={
               supportsImages
-                ? "Attach images"
-                : "Image upload not supported by current AI provider"
+                ? "画像を添付"
+                : "現在のAIプロバイダーは画像アップロードに対応していません"
             }
           >
             <PaperclipIcon className="h-4 w-4" />
@@ -71,14 +71,14 @@ export const Files = ({
           >
             <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/30">
               <h3 className="font-semibold text-sm select-none">
-                Attached Images ({attachedFiles.length}/{MAX_FILES})
+                添付画像 ({attachedFiles.length}/{MAX_FILES})
               </h3>
               <Button
                 size="icon"
                 variant="ghost"
                 onClick={() => setIsFilesPopoverOpen(false)}
                 className="cursor-pointer"
-                title="Close"
+                title="閉じる"
               >
                 <XIcon className="h-4 w-4" />
               </Button>
@@ -118,7 +118,7 @@ export const Files = ({
                       variant="default"
                       className="absolute top-2 right-2 h-6 w-6 cursor-pointer"
                       onClick={() => removeFile(file.id)}
-                      title="Remove image"
+                      title="画像を削除"
                     >
                       <XIcon className="h-3 w-3" />
                     </Button>
@@ -136,7 +136,7 @@ export const Files = ({
                 variant="outline"
               >
                 <PlusIcon className="h-4 w-4 mr-2" />
-                Add More Images {!canAddMore && `(${MAX_FILES} max)`}
+                画像を追加 {!canAddMore && `(最大${MAX_FILES}枚)`}
               </Button>
               <Button
                 className="w-2/4"
@@ -144,7 +144,7 @@ export const Files = ({
                 onClick={onRemoveAllFiles}
               >
                 <TrashIcon className="h-4 w-4 mr-2" />
-                Remove All Images
+                すべての画像を削除
               </Button>
             </div>
           </PopoverContent>

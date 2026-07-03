@@ -47,7 +47,7 @@ export const CreateEditProvider = ({
           className="w-full h-11 border-1 border-input/50 focus:border-primary/50 transition-colors"
         >
           <PlusIcon className="h-4 w-4 mr-2" />
-          Add Custom STT Provider
+          カスタムSTTプロバイダーを追加
         </Button>
       ) : (
         <Card className="p-4 border border-input/50 bg-transparent">
@@ -55,10 +55,10 @@ export const CreateEditProvider = ({
             <Header
               title={
                 editingProvider
-                  ? `Edit STT Provider`
-                  : "Add Custom STT Provider"
+                  ? `STTプロバイダーを編集`
+                  : "カスタムSTTプロバイダーを追加"
               }
-              description="Create a custom STT provider to use with your STT-powered applications."
+              description="STT搭載アプリで使用するカスタムSTTプロバイダーを作成します。"
             />
             <div className="w-[120px]">
               <Selection
@@ -66,11 +66,11 @@ export const CreateEditProvider = ({
                   ?.filter((provider) => !provider?.isCustom)
                   .map((provider) => {
                     return {
-                      label: provider?.id || "STT Provider",
-                      value: provider?.id || "STT Provider",
+                      label: provider?.id || "STTプロバイダー",
+                      value: provider?.id || "STTプロバイダー",
                     };
                   })}
-                placeholder={"Auto-fill"}
+                placeholder={"自動入力"}
                 onChange={(value) => {
                   handleAutoFill(value);
                 }}
@@ -82,8 +82,8 @@ export const CreateEditProvider = ({
             {/* Basic Configuration */}
             <div className="space-y-1">
               <Header
-                title="Curl Command *"
-                description="The curl command to use with the STT provider."
+                title="curlコマンド *"
+                description="STTプロバイダーで使用するcurlコマンドです。"
               />
               <Textarea
                 className={cn(
@@ -107,22 +107,19 @@ export const CreateEditProvider = ({
               <div className="bg-muted/50 p-4 rounded-lg space-y-4">
                 <div className="bg-card border p-3 rounded-lg">
                   <p className="text-sm font-medium text-primary mb-2">
-                    💡 Important: You can add custom variables or directly
-                    include your API keys/values
+                    💡 重要: カスタム変数を追加するか、APIキー・値を直接埋め込むことができます
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    No need to enter variables separately when selecting the
-                    provider - you can embed them directly in the curl command
-                    (e.g., replace YOUR_API_KEY with your actual key or use{" "}
+                    プロバイダー選択時に変数を別途入力する必要はありません。curlコマンドに直接埋め込めます(例: YOUR_API_KEYを実際のキーに置き換える、またはモデル名に{" "}
                     <code className="bg-muted px-1 rounded text-xs">
                       {"{{MODEL}}"}
                     </code>{" "}
-                    for model name).
+                    を使用する)。
                   </p>
                 </div>
 
                 <h4 className="text-sm font-semibold text-foreground">
-                  ⚠️ Required Variables for STT Providers:
+                  ⚠️ STTプロバイダーに必要な変数:
                 </h4>
                 <div className="grid grid-cols-1 gap-3 text-sm">
                   <div className="flex items-center gap-3 p-3 bg-card border rounded-lg">
@@ -130,40 +127,37 @@ export const CreateEditProvider = ({
                       {"{{AUDIO}}"}
                     </code>
                     <span className="text-foreground font-medium">
-                      → REQUIRED: Base64 encoded audio data or audio file as wav
-                      file if you are using multipart/form-data (using -F or
-                      --form)
+                      → 必須: Base64エンコードされた音声データ、または
+                      multipart/form-data(-F や --form)を使用する場合はwavファイルとしての音声ファイル
                     </span>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <p className="text-sm text-muted-foreground">
-                    <strong className="text-foreground">Quick Setup:</strong>{" "}
-                    Replace{" "}
+                    <strong className="text-foreground">クイックセットアップ:</strong>{" "}
+                    curlコマンド内の{" "}
                     <code className="bg-muted px-1 rounded text-xs">
                       YOUR_API_KEY
                     </code>{" "}
-                    with your actual API key directly in the curl command.
+                    を実際のAPIキーに直接置き換えてください。
                   </p>
                   <p className="text-sm text-muted-foreground">
                     <strong className="text-foreground">
-                      Custom Variables:
+                      カスタム変数:
                     </strong>{" "}
-                    You can add your own variables using the same{" "}
+                    同じ{" "}
                     <code className="bg-muted px-1 rounded text-xs">
                       {"{{VARIABLE_NAME}}"}
                     </code>{" "}
-                    format and they'll be available for configuration when you
-                    select this provider.
+                    形式で独自の変数を追加でき、このプロバイダーを選択したときに設定できるようになります。
                   </p>
                   <p className="text-xs text-muted-foreground italic">
-                    💡 Tip: The{" "}
+                    💡 ヒント: {" "}
                     <code className="bg-muted px-1 rounded text-xs">
                       {"{{AUDIO}}"}
                     </code>{" "}
-                    variable is essential for STT functionality - make sure it's
-                    properly included in your curl command.
+                    変数はSTT機能に必須です。curlコマンドに正しく含まれていることを確認してください。
                   </p>
                 </div>
               </div>
@@ -173,8 +167,8 @@ export const CreateEditProvider = ({
           <div className="space-y-0">
             <div className="flex justify-between items-center space-x-2">
               <Header
-                title="Streaming"
-                description="streaming is used to stream the response from the AI provider."
+                title="ストリーミング"
+                description="AIプロバイダーからのレスポンスをストリーミングで受け取ります。"
               />
               <Switch
                 checked={formData.streaming}
@@ -188,15 +182,14 @@ export const CreateEditProvider = ({
               />
             </div>
             <span className="text-xs italic text-red-500">
-              Streaming is not supported for STT providers. it will be fixed in
-              the future.
+              STTプロバイダーではストリーミングに対応していません。今後対応予定です。
             </span>
           </div>
           {/* Response Configuration */}
           <div className="space-y-2">
             <Header
-              title="Response Content Path *"
-              description="The path to extract content from the API response."
+              title="レスポンスコンテンツパス *"
+              description="APIレスポンスからコンテンツを抽出するためのパスです。"
             />
 
             <TextInput
@@ -209,7 +202,7 @@ export const CreateEditProvider = ({
                 }))
               }
               error={errors.responseContentPath}
-              notes="The path to extract content from the API response. Examples: text, transcript, results[0].alternatives[0].transcript"
+              notes="APIレスポンスからコンテンツを抽出するためのパスです。例: text, transcript, results[0].alternatives[0].transcript"
             />
           </div>
 
@@ -219,7 +212,7 @@ export const CreateEditProvider = ({
               onClick={() => setShowForm(!showForm)}
               className="h-11 border-1 border-input/50 focus:border-primary/50 transition-colors"
             >
-              Cancel
+              キャンセル
             </Button>
             <Button
               onClick={handleSave}
@@ -230,11 +223,11 @@ export const CreateEditProvider = ({
               )}
             >
               {errors.curl ? (
-                "Invalid cURL, try again"
+                "cURLが無効です。もう一度お試しください"
               ) : (
                 <>
                   <SaveIcon className="h-4 w-4 mr-2" />
-                  {editingProvider ? "Update" : "Save"} Provider
+                  プロバイダーを{editingProvider ? "更新" : "保存"}
                 </>
               )}
             </Button>

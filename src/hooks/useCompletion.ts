@@ -184,7 +184,7 @@ export const useCompletion = () => {
         if (!selectedAIProvider.provider && !usePluelyAPI) {
           setState((prev) => ({
             ...prev,
-            error: "Please select an AI provider in settings",
+            error: "設定画面でAIプロバイダーを選択してください",
           }));
           return;
         }
@@ -195,7 +195,7 @@ export const useCompletion = () => {
         if (!provider && !usePluelyAPI) {
           setState((prev) => ({
             ...prev,
-            error: "Invalid provider selected",
+            error: "無効なプロバイダーが選択されています",
           }));
           return;
         }
@@ -430,7 +430,7 @@ export const useCompletion = () => {
         // Show error to user
         setState((prev) => ({
           ...prev,
-          error: "Failed to save conversation. Please try again.",
+          error: "会話の保存に失敗しました。もう一度お試しください。",
         }));
       }
     },
@@ -448,7 +448,7 @@ export const useCompletion = () => {
         console.error("No conversation ID provided");
         setState((prev) => ({
           ...prev,
-          error: "Invalid conversation selected",
+          error: "無効な会話が選択されています",
         }));
         return;
       }
@@ -463,14 +463,14 @@ export const useCompletion = () => {
           console.error(`Conversation ${id} not found in database`);
           setState((prev) => ({
             ...prev,
-            error: "Conversation not found. It may have been deleted.",
+            error: "会話が見つかりません。削除された可能性があります。",
           }));
         }
       } catch (error) {
         console.error("Failed to load conversation:", error);
         setState((prev) => ({
           ...prev,
-          error: "Failed to load conversation. Please try again.",
+          error: "会話の読み込みに失敗しました。もう一度お試しください。",
         }));
       }
     };
@@ -587,7 +587,7 @@ export const useCompletion = () => {
             if (!selectedAIProvider.provider && !usePluelyAPI) {
               setState((prev) => ({
                 ...prev,
-                error: "Please select an AI provider in settings",
+                error: "設定画面でAIプロバイダーを選択してください",
               }));
               return;
             }
@@ -598,7 +598,7 @@ export const useCompletion = () => {
             if (!provider && !usePluelyAPI) {
               setState((prev) => ({
                 ...prev,
-                error: "Invalid provider selected",
+                error: "無効なプロバイダーが選択されています",
               }));
               return;
             }
@@ -876,7 +876,7 @@ export const useCompletion = () => {
             setState((prev) => ({
               ...prev,
               error:
-                "Screen Recording permission required. Please enable it by going to System Settings > Privacy & Security > Screen & System Audio Recording. If you don't see Pluely in the list, click the '+' button to add it. If it's already listed, make sure it's enabled. Then restart the app.",
+                "画面収録の権限が必要です。システム設定 > プライバシーとセキュリティ > 画面と システム音声の録画 から有効にしてください。一覧にPluelyが表示されない場合は「+」ボタンをクリックして追加してください。すでに一覧にある場合は有効になっているか確認してください。設定後、アプリを再起動してください。",
             }));
             setIsScreenshotLoading(false);
             screenshotInitiatedByThisContext.current = false;
@@ -905,7 +905,7 @@ export const useCompletion = () => {
     } catch (error) {
       setState((prev) => ({
         ...prev,
-        error: "Failed to capture screenshot. Please try again.",
+        error: "スクリーンショットの取得に失敗しました。もう一度お試しください。",
       }));
       isProcessingScreenshotRef.current = false;
       screenshotInitiatedByThisContext.current = false;

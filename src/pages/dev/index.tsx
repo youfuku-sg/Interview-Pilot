@@ -7,7 +7,7 @@ const DevSpace = () => {
   const settings = useSettings();
 
   return (
-    <PageLayout title="Dev Space" description="Manage your dev space">
+    <PageLayout title="開発者スペース" description="開発者スペースを管理します">
       <Contribute />
       {/* Provider Selection */}
       <AIProviders {...settings} />

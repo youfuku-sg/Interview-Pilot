@@ -13,8 +13,8 @@ export const Screenshot = ({
 }: UseCompletionReturn) => {
   const { supportsImages } = useApp();
   const captureMode = screenshotConfiguration.enabled
-    ? "Screenshot"
-    : "Selection";
+    ? "スクリーンショット"
+    : "範囲選択";
   const processingMode = screenshotConfiguration.mode;
 
   const isDisabled =
@@ -29,8 +29,8 @@ export const Screenshot = ({
       className="cursor-pointer"
       title={
         !supportsImages
-          ? "Screenshot not supported by current AI provider"
-          : `${captureMode} mode (${processingMode}) - ${attachedFiles.length}/${MAX_FILES} files`
+          ? "現在のAIプロバイダーはスクリーンショットに対応していません"
+          : `${captureMode}モード (${processingMode}) - ${attachedFiles.length}/${MAX_FILES} ファイル`
       }
       onClick={captureScreenshot}
       disabled={isDisabled}

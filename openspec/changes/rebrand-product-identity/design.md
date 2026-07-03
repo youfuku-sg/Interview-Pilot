@@ -10,6 +10,20 @@
 - `src-tauri/tauri.conf.json` の `app.windows[0].title`: `"Pluely - AI Assistant"`(メインオーバーレイウィンドウの初期タイトル。`localize-ui-japanese` change の翻訳パスから漏れており未翻訳のまま)
 - `src-tauri/tauri.conf.json` の `bundle` に `windows.wix.language` の指定なし。Tauri/WiX のデフォルト言語(`en-US`)が使われており、これが MSI インストーラファイル名の `_en-US` サフィックスと、MSIインストーラのウィザード文言(ライセンス同意・インストール先選択・進捗表示等)が英語のままである原因
 - `src-tauri/tauri.conf.json` の `bundle` に `windows.nsis.languages` の指定なし。NSIS(`.exe`)インストーラのウィザード文言も英語のまま。ユーザーが実際にインストールを実行して確認・指摘
+- アプリ内UIに残る「Pluely」ブランド名表記。ユーザーが実際にダッシュボードを操作して確認・指摘。主な出現箇所(2026-07-03 時点、`grep -rn "Pluely" src/ --include="*.tsx" --include="*.ts"` による網羅ではなく代表例):
+  - `src/components/Sidebar.tsx`: サイドバー上部のロゴ文字列 `"Pluely"`
+  - `src/layouts/ErrorLayout.tsx`: エラー画面のロゴ文字列 `"Pluely"`
+  - `src/pages/dashboard/index.tsx`: ページ説明文(`"Pluelyライセンスで..."`)
+  - `src/pages/dashboard/components/Usage.tsx`: カード見出し `"Pluelyの利用状況"`、説明文 `"今月のPluely APIの利用状況"`
+  - `src/pages/dashboard/components/PluelyApiSetup.tsx`: セクション見出し・説明文(`"Pluelyは○個のモデルに対応"` 等)、コンポーネント名自体も `PluelyApiSetup`
+  - `src/pages/settings/components/AutostartToggle.tsx`: 説明文(`"システム起動時にPluelyを自動的に開きます"` 等)
+  - `src/pages/app/components/speech/PermissionFlow.tsx`: 権限案内文言(`"Pluelyを有効にしてください"` 等)
+  - `src/pages/shortcuts/components/Cursor.tsx`: 説明文(`"Pluelyのカーソル表示を制御します"`)
+  - `src/hooks/useMenuItems.tsx`: footer メニュー項目 `"Pluelyを終了"`
+  - `src/hooks/useChatCompletion.ts` / `src/hooks/useCompletion.ts`: 画面収録権限の案内文言内
+  - `src/pages/audio/index.tsx`: フォールバック説明文
+  - `src/components/Contribute.tsx` / `src/components/Promote.tsx` / `src/components/DragButton.tsx`: Pluely 本家のライセンスキー課金・紹介マーケティング文言内(これら機能自体の削除要否は別スコープ、`localize-ui-japanese` で「現状のまま日本語化する」と決定済み)
+  - 上記は代表例であり、実装時に改めて網羅的な grep を行う
 
 Tauri のビルド成果物(Windows インストーラ)のファイル名は `productName` とバージョンから自動生成される(`Pluely_<version>_x64_en-US.msi` 等)。`localize-ui-japanese` change で UI 内の日本語化は完了しているが、「Pluely」というアプリ名自体の扱いは意図的にスコープ外としていた(README/SECURITY のリブランドも同様に、パッケージ名・identifier の変更は対象外)。NSIS インストーラ(`_x64-setup.exe`)は現状ロケールサフィックスを含んでいないため、`en-US` の影響を受けているのは MSI のみ。
 
@@ -21,6 +35,7 @@ Tauri のビルド成果物(Windows インストーラ)のファイル名は `pr
 - `productName` / パッケージ名 / `identifier` の変更要否と、変更する場合の影響範囲を整理する
 - 変更する場合、Windows インストーラのファイル名が Interview-Pilot 由来になるようにする
 - `identifier` 変更に伴うリスク(既存インストールとの互換性、将来の自動アップデート機構への影響)を洗い出す
+- アプリ内UIに残る「Pluely」ブランド名表記(ロゴ・タイトル・見出し・説明文等)の置き換え候補を洗い出し、置き換え先の名称・「Pluely API」等の機能名の扱いをユーザーに確認する
 
 **Non-Goals:**
 - アプリアイコン・ロゴなど新規ビジュアルアセットの制作(別スコープ)
@@ -59,12 +74,19 @@ Tauri のビルド成果物(Windows インストーラ)のファイル名は `pr
    - WiX(案4)とは別の設定項目のため、個別に検証・決定する
    - 決定はユーザーに委ねる
 
+6. **アプリ内UIの「Pluely」ブランド名表記の置き換え**
+   - 案A: Context に列挙した箇所すべてで「Pluely」を `"Interview-Pilot"` 等の新しい名称に置き換える。ユーザーが「名前変更してほしい」と明示しているため、方向性としては最有力
+   - 案B: 一部箇所(例: ロゴ・タイトル等の目立つ箇所)のみ置き換え、`Pluely API`/`PluelyApiSetup` のようにライセンスキー課金機能自体の名称は Pluely 本家サービスを指す固有名詞として残す
+   - 論点: 「Pluely API」はコード上 Pluely 本家のクラウドAPIサービスへの実際の接続を指しており(`shouldUsePluelyAPI`、`api_access_key` 等)、表示名を変えても機能の実体(Pluely運営のサービスに接続する)は変わらない。表示名だけ変えると実態と乖離し紛らわしくなる可能性があるため、この機能自体を残すか削除するか(`pluely-cleanup-checklist` スキルが指摘する既存の論点)と合わせて検討する必要がある
+   - 決定(置き換え先名称、Pluely API機能の扱い)はユーザーに委ねる
+
 ## Risks / Trade-offs
 
 - [Risk] `identifier` を変更すると、既存インストール環境(開発機など)で二重インストール状態になる可能性がある → [Mitigation] 変更前に既存インストールをアンインストールする手順を `docs/仕様/GitHub Actions リリース手順.md` 等に記載する
 - [Risk] `productName` 変更後、初回ビルドで生成物名が変わることに伴う周知漏れ(過去のインストーラ名を前提にした手順書等) → [Mitigation] `docs/仕様/GitHub Actions リリース手順.md` の記載を更新する
 - [Risk] `wix.language` / `nsis.languages` を日本語に変更した場合、CI(Windows GitHub-hosted runner)上のツールチェーンに日本語ロケールリソースが含まれない、または未検証の不具合がある可能性がある → [Mitigation] 実際にタグ push でビルドして生成物・インストーラの表示を確認するまでは正式決定としない
 - [Trade-off] 名称変更を急がず据え置く場合、インストーラ名の Pluely 表記は今後のリリースでも継続する
+- [Risk] 「Pluely API」のように機能名として使われている「Pluely」表記まで一律に置き換えると、実際に Pluely 本家サービスへ接続する機能であるという実態と表示名が乖離し、ユーザーが誤解する可能性がある → [Mitigation] 機能名としての「Pluely」と、単なるブランド名としての「Pluely」を区別してユーザーに確認する
 
 ## Open Questions
 
@@ -72,3 +94,5 @@ Tauri のビルド成果物(Windows インストーラ)のファイル名は `pr
 - ウィンドウタイトルの「Pluely」表記を残すか置き換えるか(上記と連動)
 - `bundle.windows.wix.language` を `ja-JP` に変更するか(上記と独立して判断可能)
 - `bundle.windows.nsis.languages` を日本語に変更するか(上記と独立して判断可能)
+- アプリ内UIの「Pluely」表記の置き換え先名称は何にするか(例: `Interview-Pilot`)
+- 「Pluely API」等、Pluely 本家サービスに接続する機能自体の名称・扱いをどうするか(表示名のみ変更 / 機能ごと見直し)

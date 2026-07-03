@@ -96,7 +96,7 @@
 - [x] Tauri updater 用 JSON を作るか決める
 - [x] 署名なしビルドで進めるか、署名を設定するか決める
 - [x] Pluely 名のままビルドするか、Interview-Pilot 名に変えるか決める
-- [ ] `productName` / `identifier` / window title の変更タイミングを決める
+- [x] `productName` / `identifier` / window title の変更タイミングを決める(`rebrand-product-identity` change で `Interview-Pilot` / `com.interview-pilot.app` に変更済み)
 - [x] 成果物を GitHub Release に添付する方法を決める
 - [x] workflow 失敗時に原因を追えるようログ確認手順をまとめる
 

@@ -49,7 +49,7 @@ const Dashboard = () => {
   return (
     <PageLayout
       title="ダッシュボード"
-      description="Pluelyライセンスで、より高速な応答・迅速なサポート・プレミアム機能を利用できます。"
+      description="クラウドAPIライセンスで、より高速な応答・迅速なサポート・プレミアム機能を利用できます。"
       rightSlot={!hasActiveLicense ? <GetLicense /> : null}
     >
       {/* Pluely API Setup */}

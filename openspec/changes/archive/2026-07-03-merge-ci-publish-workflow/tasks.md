@@ -21,3 +21,5 @@
 - [ ] 3.5 `workflow_dispatch` による手動実行で `frontend` / `rust` / `verify-tag-on-main` / `publish-tauri` が一通り実行されることを確認する(Claude Code の `gh` トークンには `workflow_dispatch` 発火権限がなく自動検証不可。GitHub の Actions タブからユーザー自身による確認が必要)
 
 **インシデント記録(アーカイブ後判明)**: 1.6 の `.github/workflows/publish.yml` 削除は `rm` コマンドではファイルを消したものの、その後の `git add` にこのファイルを含め忘れたためコミットされていなかった。そのため `v0.1.17` タグ push で `ci.yml`(新)と `publish.yml`(旧・CI非依存)の両方が起動し、Windows ビルドが二重実行され、`v0.1.17` の draft Release にインストーラが重複アップロードされた。`hotfix/v0.1.18` で削除を正しくコミットして修正した。詳細は `docs/仕様/GitHub Actions リリース手順.md` の検証結果セクションを参照。
+
+**v0.1.18 動作確認**: `main` push では `ci.yml` の CI ジョブのみ起動し `publish.yml` は起動しない(削除済みのため起動しようがない)ことを確認。`v0.1.18` タグ push(run `28621973076`)で `frontend` → `rust` → `verify-tag-on-main` → `publish-tauri` の4ジョブすべてが成功。`gh api` / `gh release list` / GraphQL / 認証なし curl はいずれも Release 一覧が空(`totalCount: 0`)を返したが、ユーザーがブラウザで GitHub の Releases ページを直接確認した結果、Release は実在し CHANGELOG 本文も反映されていることを確認した。`gh` CLI・REST API・GraphQL API がワークフロー完了直後に Release を返さない反映遅延は、`GitHub Actions リリース手順.md` §7 に記載の通り実在する既知事象であり、今回で改めて実地確認された(遅延はこれまで想定していたより長い可能性がある)。

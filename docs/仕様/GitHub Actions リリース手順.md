@@ -106,3 +106,13 @@ git push origin v0.1.10
 - `v0.1.16` タグ push（run `28619541798`）: `verify-tag-on-main` ジョブが成功（`main` 上と判定）→ `publish-tauri` ジョブが成功し、Windows インストーラ（NSIS/MSI）2点を draft Release にアップロードした
 - 検証用タグ `v0.1.16-test-not-on-main`（`main` に含まれないコミットに push、run `28619571245`）: `verify-tag-on-main` ジョブは成功したが `on_main=false` と判定し、`publish-tauri` ジョブは `skipped` になった。検証後、当該タグとコミットのブランチは削除済み
 - `workflow_dispatch`（手動実行）の動作は、Claude Code の `gh` トークンに発火権限（`Must have admin rights to Repository`）がなく自動検証できなかった。GitHub の Actions タブからのユーザー自身による確認が必要
+
+## 10. ci.yml への統合とインシデントの検証結果（v0.1.17 / v0.1.18）
+
+`merge-ci-publish-workflow` change にて `.github/workflows/publish.yml` を `.github/workflows/ci.yml` に統合したが、実装時に `rm` したファイルを `git add` し忘れ、削除がコミットされないまま `v0.1.17` としてリリースしてしまった。
+
+- `v0.1.17` タグ push: `ci.yml`（新・CI ゲート付き、run `28620767431`）と `publish.yml`（旧・削除漏れ、run `28620767394`）の両方が起動し、Windows ビルドが二重実行され、同一の draft Release にインストーラが重複アップロードされた
+- `hotfix/v0.1.18` で `publish.yml` の削除を正しくコミットし、`main` にマージ・push
+- `v0.1.18` の `main` push: CI ジョブ（`frontend`/`rust`）のみ起動し、`publish.yml` は起動しようがなくなった（ファイル自体が存在しないため）
+- `v0.1.18` タグ push（run `28621973076`）: `frontend` → `rust` → `verify-tag-on-main` → `publish-tauri` の4ジョブすべてが成功
+- Release の実在確認: `gh api repos/<owner>/<repo>/releases`・`gh release list`・GraphQL (`releases { totalCount }`)・認証なし `curl` のいずれも一時的に `0`件・空を返したが、ユーザーがブラウザで GitHub Releases ページを直接確認したところ Release は実在し、CHANGELOG 本文も反映されていた。`gh` CLI・REST/GraphQL API の反映遅延は、想定していたよりも長く続く場合がある（数分〜十数分単位で解消しないことがある）。Release の存在確認は API に頼らず、疑わしい場合はブラウザで直接確認すること

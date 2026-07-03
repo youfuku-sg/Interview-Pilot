@@ -2,6 +2,13 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.1.19] - 2026-07-03
+
+### Changed
+
+- `docs/仕様/GitHub Actions リリース手順.md` に v0.1.17/v0.1.18 の検証結果(`publish.yml` 削除漏れによる二重ビルドと `hotfix/v0.1.18` での修正、および `gh` CLI・REST/GraphQL API の Release 反映遅延が想定より長く続きうることの実地確認)を記録した
+- `merge-ci-publish-workflow` change のタスク記録に、アーカイブ後に判明したインシデントと解決結果を追記した
+
 ## [0.1.18] - 2026-07-03
 
 ### Fixed

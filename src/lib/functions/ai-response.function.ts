@@ -237,7 +237,7 @@ export async function* fetchAIResponse(params: {
     }
 
     if (!userMessage) {
-      throw new Error("User message is required");
+      throw new Error("ユーザーメッセージが必要です");
     }
     if (imagesBase64.length > 0 && !provider.curl.includes("{{IMAGE}}")) {
       throw new Error(

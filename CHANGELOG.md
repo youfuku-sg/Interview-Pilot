@@ -2,6 +2,20 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.2.0] - 2026-07-03
+
+### Added
+
+- アプリUI全体を日本語化した。`src/layouts`・`src/components`・`src/pages`(app/audio/screenshot/settings/system-prompts/shortcuts/dashboard/responses/chats/dev)配下の英語のハードコード文字列を日本語に置き換え、実行時の言語切り替え機能は導入せず単一の日本語UIとした
+- サイドバーのナビゲーションラベル(`useMenuItems.tsx`)、ショートカット名・説明(`config/shortcuts.ts`)、回答の長さ・言語選択の選択肢(`lib/response-settings.constants.ts`)、UIに表示されるエラーメッセージ(hooks/lib内)も日本語化した
+- Tauriのネイティブウィンドウタイトルを日本語化した
+- `moment.locale("ja")` をアプリ起動時にグローバル設定し、相対時刻表示(`fromNow()`)などが日本語で表示されるようにした
+
+### Notes
+
+- Pluely由来のライセンスキー課金・紹介マーケティング機能(Contribute/Promote/GetLicense/PluelyApiSetup)は削除せず、文言のみ日本語化した。削除の要否は別途検討する
+- コードコメント・ログ出力・内部識別子は対象外(英語のまま)
+
 ## [0.1.19] - 2026-07-03
 
 ### Changed

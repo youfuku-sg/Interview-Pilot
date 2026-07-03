@@ -18,8 +18,8 @@ export const CustomProviders = ({ allAiProviders }: UseSettingsReturn) => {
   return (
     <div className="space-y-2">
       <Header
-        title="Custom Providers"
-        description="Create and manage custom AI providers. Configure endpoints, authentication, and response formats."
+        title="カスタムプロバイダー"
+        description="カスタムAIプロバイダーを作成・管理します。エンドポイント・認証・レスポンス形式を設定できます。"
       />
 
       <div className="space-y-2">
@@ -39,20 +39,20 @@ export const CustomProviders = ({ allAiProviders }: UseSettingsReturn) => {
                     <div className="flex items-center justify-between">
                       <div>
                         <h4 className="font-medium text-sm">
-                          {json?.url || "Invalid curl command"}
+                          {json?.url || "無効なcurlコマンド"}
                         </h4>
 
                         <div className="flex items-center gap-2 mt-1">
                           <p className="text-xs text-muted-foreground">
-                            {`Response Path: ${
-                              provider?.responseContentPath || "Not set"
+                            {`レスポンスパス: ${
+                              provider?.responseContentPath || "未設定"
                             }`}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {" • "}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            Streaming: {provider?.streaming ? "Yes" : "No"}
+                            ストリーミング: {provider?.streaming ? "はい" : "いいえ"}
                           </p>
                         </div>
                       </div>
@@ -63,7 +63,7 @@ export const CustomProviders = ({ allAiProviders }: UseSettingsReturn) => {
                           onClick={() =>
                             provider?.id && handleEdit(provider?.id)
                           }
-                          title="Edit Provider"
+                          title="プロバイダーを編集"
                         >
                           <EditIcon className="h-3 w-3" />
                         </Button>
@@ -73,7 +73,7 @@ export const CustomProviders = ({ allAiProviders }: UseSettingsReturn) => {
                           onClick={() =>
                             provider?.id && handleDelete(provider?.id)
                           }
-                          title="Delete Provider"
+                          title="プロバイダーを削除"
                           className="text-destructive hover:text-destructive"
                         >
                           <TrashIcon className="h-3 w-3" />
@@ -93,18 +93,17 @@ export const CustomProviders = ({ allAiProviders }: UseSettingsReturn) => {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border rounded-lg p-6 max-w-md mx-4">
             <h3 className="text-lg font-semibold mb-2">
-              Delete Custom Provider
+              カスタムプロバイダーを削除
             </h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Are you sure you want to delete this custom provider? This action
-              cannot be undone.
+              本当にこのカスタムプロバイダーを削除しますか?この操作は取り消せません。
             </p>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={cancelDelete}>
-                Cancel
+                キャンセル
               </Button>
               <Button variant="destructive" onClick={confirmDelete}>
-                Delete
+                削除
               </Button>
             </div>
           </div>

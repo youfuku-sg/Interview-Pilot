@@ -37,7 +37,7 @@ export const ChatAudio = ({
           variant="outline"
           onClick={handleMicClick}
           className="size-7 lg:size-9 rounded-lg lg:rounded-xl"
-          title={isRecording ? "Recording..." : "Voice input"}
+          title={isRecording ? "録音中..." : "音声入力"}
           disabled={disabled}
         >
           <MicIcon
@@ -56,15 +56,15 @@ export const ChatAudio = ({
       >
         <div className="text-sm">
           <div className="font-semibold text-orange-600 mb-1">
-            Speech Provider Required
+            音声プロバイダーが必要です
           </div>
           <p className="text-muted-foreground">
             <div className="mt-2 flex items-center gap-1 text-orange-600">
               <InfoIcon size={16} />
-              <span>Provider not configured</span>
+              <span>プロバイダーが未設定です</span>
             </div>
             <span className="block mt-2">
-              Configure a speech provider in settings to enable voice input.
+              設定画面で音声プロバイダーを設定すると、音声入力が有効になります。
             </span>
           </p>
         </div>

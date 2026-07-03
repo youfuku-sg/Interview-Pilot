@@ -29,48 +29,48 @@ export const useMenuItems = () => {
   }[] = [
     {
       icon: HomeIcon,
-      label: "Dashboard",
+      label: "ダッシュボード",
       href: "/dashboard",
     },
     {
       icon: MessagesSquare,
-      label: "Chats",
+      label: "チャット",
       href: "/chats",
     },
     {
       icon: WandSparkles,
-      label: "System prompts",
+      label: "システムプロンプト",
       href: "/system-prompts",
     },
     {
       icon: Settings,
-      label: "App Settings",
+      label: "アプリ設定",
       href: "/settings",
     },
     {
       icon: MessageSquareTextIcon,
-      label: "Responses",
+      label: "回答",
       href: "/responses",
     },
     {
       icon: MonitorIcon,
-      label: "Screenshot",
+      label: "スクリーンショット",
       href: "/screenshot",
     },
     {
       icon: AudioLinesIcon,
-      label: "Audio",
+      label: "音声",
       href: "/audio",
     },
     {
       icon: SquareSlashIcon,
-      label: "Cursor & Shortcuts",
+      label: "カーソル・ショートカット",
       href: "/shortcuts",
     },
 
     {
       icon: Code,
-      label: "Dev space",
+      label: "開発者スペース",
       href: "/dev-space",
     },
   ];
@@ -80,19 +80,19 @@ export const useMenuItems = () => {
       ? [
           {
             icon: MailIcon,
-            label: "Contact Support",
+            label: "サポートに問い合わせ",
             href: "mailto:support@pluely.com",
           },
         ]
       : []),
     {
       icon: BugIcon,
-      label: "Report a bug",
+      label: "バグを報告",
       href: "https://github.com/iamsrikanthnani/pluely/issues/new?template=bug-report.yml",
     },
     {
       icon: PowerIcon,
-      label: "Quit pluely",
+      label: "Pluelyを終了",
       action: async () => {
         await invoke("exit_app");
       },
@@ -105,7 +105,7 @@ export const useMenuItems = () => {
     link: string;
   }[] = [
     {
-      title: "Website",
+      title: "ウェブサイト",
       icon: GlobeIcon,
       link: "https://pluely.com",
     },
@@ -120,7 +120,7 @@ export const useMenuItems = () => {
       link: "https://buymeacoffee.com/srikanthnani",
     },
     {
-      title: "Follow on X",
+      title: "Xでフォロー",
       icon: XIcon,
       link: "https://x.com/srikanthnani",
     },

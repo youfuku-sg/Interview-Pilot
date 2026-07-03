@@ -54,7 +54,7 @@ export const ShortcutManager = () => {
     const conflict = checkShortcutConflicts(key, actionId);
     if (conflict) {
       setConflicts([
-        `Shortcut "${key}" is already used by: ${conflict.actions
+        `ショートカット「${key}」はすでに次で使用されています: ${conflict.actions
           .map((id) => actions.find((a) => a.id === id)?.name)
           .join(", ")}`,
       ]);
@@ -91,7 +91,7 @@ export const ShortcutManager = () => {
       });
     } catch (error) {
       console.error("Failed to apply shortcuts:", error);
-      setConflicts([`Failed to apply shortcuts: ${error}`]);
+      setConflicts([`ショートカットの適用に失敗しました: ${error}`]);
     } finally {
       setIsApplying(false);
     }
@@ -112,7 +112,7 @@ export const ShortcutManager = () => {
       loadShortcuts();
     } catch (error) {
       console.error("Failed to reset shortcuts:", error);
-      setConflicts(["Failed to reset shortcuts. Please try again."]);
+      setConflicts(["ショートカットのリセットに失敗しました。もう一度お試しください。"]);
     } finally {
       setIsApplying(false);
     }
@@ -125,12 +125,11 @@ export const ShortcutManager = () => {
         <div>
           <h3 className="text-md lg:text-lg font-semibold flex items-center gap-2">
             <Keyboard className="size-5 lg:size-5" />
-            Keyboard Shortcuts
+            キーボードショートカット
           </h3>
           <p className="text-sm text-muted-foreground">
-            {actions.length} shortcut{actions.length !== 1 ? "s" : ""}{" "}
-            configured
-            {!hasActiveLicense && " • Get a license to customize shortcuts"}
+            {actions.length}件のショートカットを設定済み
+            {!hasActiveLicense && " • カスタマイズにはライセンスが必要です"}
           </p>
         </div>
         <div className="flex gap-2">
@@ -152,10 +151,10 @@ export const ShortcutManager = () => {
             variant="outline"
             onClick={handleReset}
             disabled={isApplying}
-            title="Reset all shortcuts to platform defaults"
+            title="すべてのショートカットをプラットフォームの既定値にリセット"
           >
             <RotateCcw className="size-3 lg:size-4" />
-            Reset
+            リセット
           </Button>
         </div>
       </div>
@@ -183,14 +182,13 @@ export const ShortcutManager = () => {
             <Lock className="size-4 lg:size-5 text-primary mt-0.5" />
             <div className="flex-1 space-y-2">
               <p className="text-xs lg:text-sm font-medium">
-                Unlock Shortcut Customization
+                ショートカットのカスタマイズをアンロック
               </p>
               <p className="text-[10px] lg:text-xs text-muted-foreground">
-                You can enable/disable shortcuts, but need a active license to
-                customize the key bindings.
+                ショートカットの有効/無効は切り替えられますが、キー割り当てのカスタマイズには有効なライセンスが必要です。
               </p>
               <GetLicense
-                buttonText="Get License"
+                buttonText="ライセンスを取得"
                 buttonClassName="w-full mt-2"
               />
             </div>
@@ -284,11 +282,11 @@ export const ShortcutManager = () => {
                       className="min-w-[80px]"
                       title={
                         isLocked
-                          ? "License required to customize"
-                          : "Change this shortcut"
+                          ? "カスタマイズにはライセンスが必要です"
+                          : "このショートカットを変更"
                       }
                     >
-                      Change
+                      変更
                     </Button>
                   </div>
                 </div>
@@ -300,7 +298,7 @@ export const ShortcutManager = () => {
 
       {/* Footer Note */}
       <p className="text-xs text-muted-foreground text-center pt-2">
-        💡 Shortcuts work globally, even when the app is hidden
+        💡 ショートカットはアプリが非表示のときもグローバルに動作します
       </p>
     </div>
   );

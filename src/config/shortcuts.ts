@@ -3,8 +3,8 @@ import { ShortcutAction } from "@/types";
 export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   {
     id: "toggle_dashboard",
-    name: "Toggle Dashboard",
-    description: "Open/Close the dashboard window",
+    name: "ダッシュボードの切り替え",
+    description: "ダッシュボードウィンドウを開閉します",
     defaultKey: {
       macos: "cmd+shift+d",
       windows: "ctrl+shift+d",
@@ -13,8 +13,8 @@ export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   },
   {
     id: "toggle_window",
-    name: "Toggle Window",
-    description: "Show/Hide the main window",
+    name: "ウィンドウの切り替え",
+    description: "メインウィンドウを表示/非表示にします",
     defaultKey: {
       macos: "cmd+backslash",
       windows: "ctrl+backslash",
@@ -23,8 +23,8 @@ export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   },
   {
     id: "focus_input",
-    name: "Refocus Input Box",
-    description: "Bring Pluely forward and place the cursor in the input area",
+    name: "入力欄にフォーカス",
+    description: "Pluelyを前面に表示し、入力欄にカーソルを合わせます",
     defaultKey: {
       macos: "cmd+shift+i",
       windows: "ctrl+shift+i",
@@ -33,8 +33,8 @@ export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   },
   {
     id: "move_window",
-    name: "Move Window",
-    description: "Move overlay with arrow keys (hold to move continuously)",
+    name: "ウィンドウの移動",
+    description: "矢印キーでオーバーレイを移動します(押し続けると連続移動)",
     defaultKey: {
       macos: "cmd",
       windows: "ctrl",
@@ -43,8 +43,8 @@ export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   },
   {
     id: "system_audio",
-    name: "System Audio",
-    description: "Toggle system audio capture",
+    name: "システム音声",
+    description: "システム音声キャプチャの切り替え",
     defaultKey: {
       macos: "cmd+shift+m",
       windows: "ctrl+shift+m",
@@ -53,8 +53,8 @@ export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   },
   {
     id: "audio_recording",
-    name: "Voice Input",
-    description: "Start voice recording",
+    name: "音声入力",
+    description: "音声録音を開始します",
     defaultKey: {
       macos: "cmd+shift+a",
       windows: "ctrl+shift+a",
@@ -63,8 +63,8 @@ export const DEFAULT_SHORTCUT_ACTIONS: ShortcutAction[] = [
   },
   {
     id: "screenshot",
-    name: "Screenshot",
-    description: "Capture screenshot",
+    name: "スクリーンショット",
+    description: "スクリーンショットをキャプチャします",
     defaultKey: {
       macos: "cmd+shift+s",
       windows: "ctrl+shift+s",

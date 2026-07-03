@@ -60,8 +60,8 @@ export const ChatFiles = ({
             className="size-7 lg:size-9 rounded-lg lg:rounded-xl"
             title={
               supportsImages
-                ? "Attach images"
-                : "Image upload not supported by current AI provider"
+                ? "画像を添付"
+                : "現在のAIプロバイダーは画像アップロードに対応していません"
             }
           >
             <PaperclipIcon className="size-3 lg:size-4" />
@@ -84,14 +84,14 @@ export const ChatFiles = ({
           >
             <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/30">
               <h3 className="font-semibold text-sm select-none">
-                Attached Images ({attachedFiles.length}/{MAX_FILES})
+                添付画像 ({attachedFiles.length}/{MAX_FILES})
               </h3>
               <Button
                 size="icon"
                 variant="ghost"
                 onClick={() => setIsFilesPopoverOpen(false)}
                 className="cursor-pointer"
-                title="Close"
+                title="閉じる"
               >
                 <XIcon className="h-4 w-4" />
               </Button>
@@ -131,7 +131,7 @@ export const ChatFiles = ({
                       variant="default"
                       className="absolute top-2 right-2 h-6 w-6 cursor-pointer"
                       onClick={() => removeFile(file.id)}
-                      title="Remove image"
+                      title="画像を削除"
                     >
                       <XIcon className="h-3 w-3" />
                     </Button>
@@ -149,7 +149,7 @@ export const ChatFiles = ({
                 variant="outline"
               >
                 <PlusIcon className="h-4 w-4 mr-2" />
-                Add More {!canAddMore && `(${MAX_FILES} max)`}
+                追加 {!canAddMore && `(最大${MAX_FILES}枚)`}
               </Button>
               <Button
                 className="w-2/4"
@@ -157,7 +157,7 @@ export const ChatFiles = ({
                 onClick={onRemoveAllFiles}
               >
                 <TrashIcon className="h-4 w-4 mr-2" />
-                Remove All
+                すべて削除
               </Button>
             </div>
           </PopoverContent>

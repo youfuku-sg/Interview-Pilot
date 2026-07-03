@@ -35,7 +35,7 @@ export const Audio = ({
               setEnableVAD(!enableVAD);
             }}
             className="cursor-pointer"
-            title="Toggle voice input"
+            title="音声入力の切り替え"
           >
             <MicIcon className="h-4 w-4" />
           </Button>
@@ -52,7 +52,7 @@ export const Audio = ({
       >
         <div className="text-sm select-none">
           <div className="font-semibold text-orange-600 mb-1">
-            Speech Provider Configuration Required
+            音声プロバイダーの設定が必要です
           </div>
           <p className="text-muted-foreground">
             {!speechProviderStatus ? (
@@ -60,13 +60,12 @@ export const Audio = ({
                 <div className="mt-2 flex flex-row gap-1 items-center text-orange-600">
                   <InfoIcon size={16} />
                   {selectedSttProvider.provider ? null : (
-                    <p>PROVIDER IS MISSING</p>
+                    <p>プロバイダーが未設定です</p>
                   )}
                 </div>
 
                 <span className="block mt-2">
-                  Please go to settings and configure your speech provider to
-                  enable voice input.
+                  設定画面で音声プロバイダーを設定すると、音声入力が有効になります。
                 </span>
               </>
             ) : null}

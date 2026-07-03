@@ -43,8 +43,8 @@ export const Providers = ({
     <div className="space-y-3">
       <div className="space-y-2">
         <Header
-          title="Select AI Provider"
-          description="Select your preferred AI service provider or custom providers to get started."
+          title="AIプロバイダーを選択"
+          description="使用するAIサービスプロバイダー、またはカスタムプロバイダーを選択してください。"
         />
         <Selection
           selected={selectedAIProvider?.provider}
@@ -52,13 +52,13 @@ export const Providers = ({
             const json = curl2Json(provider?.curl);
             return {
               label: provider?.isCustom
-                ? json?.url || "Custom Provider"
-                : provider?.id || "Custom Provider",
-              value: provider?.id || "Custom Provider",
+                ? json?.url || "カスタムプロバイダー"
+                : provider?.id || "カスタムプロバイダー",
+              value: provider?.id || "カスタムプロバイダー",
               isCustom: provider?.isCustom,
             };
           })}
-          placeholder="Choose your AI provider"
+          placeholder="AIプロバイダーを選択"
           onChange={(value) => {
             onSetSelectedAIProvider({
               provider: value,
@@ -70,24 +70,24 @@ export const Providers = ({
 
       {localSelectedProvider ? (
         <Header
-          title={`Method: ${
-            localSelectedProvider?.method || "Invalid"
-          }, Endpoint: ${localSelectedProvider?.url || "Invalid"}`}
-          description={`If you want to use different url or method, you can always create a custom provider.`}
+          title={`メソッド: ${
+            localSelectedProvider?.method || "不正な値"
+          }, エンドポイント: ${localSelectedProvider?.url || "不正な値"}`}
+          description={`別のURLやメソッドを使いたい場合は、カスタムプロバイダーをいつでも作成できます。`}
         />
       ) : null}
 
       {findKeyAndValue("api_key") ? (
         <div className="space-y-2">
           <Header
-            title="API Key"
-            description={`Enter your ${
+            title="APIキー"
+            description={`${
               allAiProviders?.find(
                 (p) => p?.id === selectedAIProvider?.provider
               )?.isCustom
-                ? "Custom Provider"
+                ? "カスタムプロバイダー"
                 : selectedAIProvider?.provider
-            } API key to authenticate and access AI models. Your key is stored locally and never shared.`}
+            }のAPIキーを入力すると、認証してAIモデルにアクセスできます。キーはローカルに保存され、共有されることはありません。`}
           />
 
           <div className="space-y-2">
@@ -142,7 +142,7 @@ export const Providers = ({
                   disabled={isApiKeyEmpty()}
                   size="icon"
                   className="shrink-0 h-11 w-11"
-                  title="Submit API Key"
+                  title="APIキーを送信"
                 >
                   <KeyIcon className="h-4 w-4" />
                 </Button>
@@ -163,7 +163,7 @@ export const Providers = ({
                   size="icon"
                   variant="destructive"
                   className="shrink-0 h-11 w-11"
-                  title="Remove API Key"
+                  title="APIキーを削除"
                 >
                   <TrashIcon className="h-4 w-4" />
                 </Button>
@@ -188,25 +188,22 @@ export const Providers = ({
               <div className="space-y-1" key={variable?.key}>
                 <Header
                   title={variable?.value || ""}
-                  description={`add your preferred ${variable?.key?.replace(
-                    /_/g,
-                    " "
-                  )} for ${
+                  description={`${
                     allAiProviders?.find(
                       (p) => p?.id === selectedAIProvider?.provider
                     )?.isCustom
-                      ? "Custom Provider"
+                      ? "カスタムプロバイダー"
                       : selectedAIProvider?.provider
-                  }`}
+                  }の${variable?.key?.replace(/_/g, " ")}を入力してください`}
                 />
                 <TextInput
-                  placeholder={`Enter ${
+                  placeholder={`${
                     allAiProviders?.find(
                       (p) => p?.id === selectedAIProvider?.provider
                     )?.isCustom
-                      ? "Custom Provider"
+                      ? "カスタムプロバイダー"
                       : selectedAIProvider?.provider
-                  } ${variable?.key?.replace(/_/g, " ") || "value"}`}
+                  }の${variable?.key?.replace(/_/g, " ") || "値"}を入力`}
                   value={getVariableValue()}
                   onChange={(value) => {
                     if (!variable?.key || !selectedAIProvider) return;

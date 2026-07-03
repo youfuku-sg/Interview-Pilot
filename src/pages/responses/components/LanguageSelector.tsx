@@ -32,8 +32,8 @@ export const LanguageSelector = () => {
   return (
     <div className="space-y-4">
       <Header
-        title="Response Language"
-        description="Select the language for AI responses. Setting applies globally to all providers and conversations. Language support may vary depending on your selected LLM provider"
+        title="回答の言語"
+        description="AIの回答に使用する言語を選択します。この設定はすべてのプロバイダー・会話に一括で適用されます。対応言語は選択したLLMプロバイダーによって異なる場合があります"
         isMainTitle
       />
 
@@ -42,7 +42,7 @@ export const LanguageSelector = () => {
           selected={selectedLanguage}
           onChange={handleLanguageChange}
           options={languageOptions}
-          placeholder="Select a language"
+          placeholder="言語を選択"
           disabled={!hasActiveLicense}
         />
       </div>

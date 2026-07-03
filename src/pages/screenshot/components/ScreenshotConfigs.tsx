@@ -24,11 +24,11 @@ export const ScreenshotConfigs = ({
         <div className="space-y-2">
           <div className="flex flex-col">
             <Header
-              title="Capture Method"
+              title="キャプチャ方法"
               description={
                 screenshotConfiguration.enabled
-                  ? "Screenshot Mode: Quickly capture the entire screen with one click."
-                  : "Selection Mode: Click and drag to select a specific area to capture."
+                  ? "スクリーンショットモード: ワンクリックで画面全体をすばやくキャプチャします。"
+                  : "範囲選択モード: ドラッグして特定の範囲を選択してキャプチャします。"
               }
             />
           </div>
@@ -47,8 +47,8 @@ export const ScreenshotConfigs = ({
                 )}
                 <div className="text-sm font-medium">
                   {screenshotConfiguration.enabled
-                    ? "Screenshot Mode"
-                    : "Selection Mode"}
+                    ? "スクリーンショットモード"
+                    : "範囲選択モード"}
                 </div>
               </div>
             </SelectTrigger>
@@ -56,17 +56,17 @@ export const ScreenshotConfigs = ({
               <SelectItem value="selection" disabled={!hasActiveLicense}>
                 <div className="flex items-center gap-2">
                   <MousePointer2Icon className="size-4" />
-                  <div className="font-medium">Selection Mode</div>
+                  <div className="font-medium">範囲選択モード</div>
                   {!hasActiveLicense && (
                     <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
-                      You need an active license to use Selection Mode.
+                      範囲選択モードの利用には有効なライセンスが必要です。
                     </span>
                   )}
                 </div>
               </SelectItem>
               <SelectItem value="screenshot" className="flex flex-row gap-2">
                 <LaptopMinimalIcon className="size-4" />
-                <div className="font-medium">Screenshot Mode</div>
+                <div className="font-medium">スクリーンショットモード</div>
               </SelectItem>
             </SelectContent>
           </Select>
@@ -76,11 +76,11 @@ export const ScreenshotConfigs = ({
         <div className="space-y-2">
           <div className="flex flex-col">
             <Header
-              title="Processing Mode"
+              title="処理モード"
               description={
                 screenshotConfiguration.mode === "manual"
-                  ? "Screenshots will be captured and automatically added to your attached files. You can then submit them with your own prompt. you can capture multiple screenshots and submit them later."
-                  : "Screenshots will be automatically submitted to AI using your custom prompt. No manual intervention required. only one screenshot can be submitted at a time."
+                  ? "スクリーンショットは自動的に添付ファイルに追加されます。その後、自分のプロンプトと一緒に送信できます。複数枚キャプチャして後でまとめて送信することも可能です。"
+                  : "スクリーンショットはカスタムプロンプトを使ってAIに自動送信されます。手動操作は不要ですが、一度に送信できるスクリーンショットは1枚のみです。"
               }
             />
           </div>
@@ -91,17 +91,17 @@ export const ScreenshotConfigs = ({
             <SelectTrigger className="w-full h-11 border-1 border-input/50 focus:border-primary/50 transition-colors">
               <div className="flex items-center gap-2">
                 <div className="text-sm font-medium">
-                  {screenshotConfiguration.mode === "auto" ? "Auto" : "Manual"}{" "}
-                  Mode
+                  {screenshotConfiguration.mode === "auto" ? "自動" : "手動"}
+                  モード
                 </div>
               </div>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="manual">
-                <div className="font-medium">Manual Mode</div>
+                <div className="font-medium">手動モード</div>
               </SelectItem>
               <SelectItem value="auto">
-                <div className="font-medium">Auto Mode</div>
+                <div className="font-medium">自動モード</div>
               </SelectItem>
             </SelectContent>
           </Select>
@@ -110,15 +110,15 @@ export const ScreenshotConfigs = ({
         {/* Auto Prompt Input - Only show when auto mode is selected */}
         {screenshotConfiguration.mode === "auto" && (
           <div className="space-y-2">
-            <Label className="text-sm font-medium">Auto Prompt</Label>
+            <Label className="text-sm font-medium">自動プロンプト</Label>
             <Input
-              placeholder="Enter prompt for automatic screenshot analysis..."
+              placeholder="スクリーンショット自動解析用のプロンプトを入力..."
               value={screenshotConfiguration.autoPrompt}
               onChange={(e) => handleScreenshotPromptChange(e.target.value)}
               className="w-full h-11 border-1 border-input/50 focus:border-primary/50 transition-colors"
             />
             <p className="text-xs text-muted-foreground">
-              This prompt will be used automatically when screenshots are taken
+              スクリーンショット撮影時にこのプロンプトが自動的に使用されます
             </p>
           </div>
         )}
@@ -127,12 +127,11 @@ export const ScreenshotConfigs = ({
       {/* Tips */}
       <div className="text-xs text-muted-foreground/70">
         <p>
-          💡 <strong>Tip:</strong>{" "}
+          💡 <strong>ヒント:</strong>{" "}
           {screenshotConfiguration.enabled
-            ? "Screenshot mode captures the full screen with one click."
-            : "Selection mode lets you choose specific areas to capture."}{" "}
-          Auto mode is great for quick analysis, manual mode gives you more
-          control.
+            ? "スクリーンショットモードはワンクリックで画面全体をキャプチャします。"
+            : "範囲選択モードでは特定の範囲を選んでキャプチャできます。"}{" "}
+          自動モードはすばやい解析に、手動モードはより細かい制御に向いています。
         </p>
       </div>
     </div>

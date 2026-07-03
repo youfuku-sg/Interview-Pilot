@@ -171,8 +171,10 @@ const Overlay: React.FC<OverlayProps> = ({ monitorIndex }) => {
         {/* Instructions - Show on all monitors so users always see them */}
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-6 py-3 rounded-lg font-sans text-sm pointer-events-none z-[5000] shadow-2xl backdrop-blur-sm">
           <div className="flex items-center gap-2">
-            <span className="font-semibold">Screen Capture:</span>
-            <span>Click and drag to select area · Press ESC to cancel</span>
+            <span className="font-semibold">画面キャプチャ:</span>
+            <span>
+              ドラッグして範囲を選択 ・ ESCキーでキャンセル
+            </span>
           </div>
         </div>
 
@@ -187,7 +189,7 @@ const Overlay: React.FC<OverlayProps> = ({ monitorIndex }) => {
           style={{ cursor: "none" }}
           className="fixed top-5 right-5 bg-red-500 hover:bg-red-600 text-white border-none px-5 py-2.5 rounded-lg font-sans text-sm z-[5000] transition-colors duration-200 shadow-2xl backdrop-blur-sm font-semibold"
         >
-          Cancel (ESC)
+          キャンセル (ESC)
         </button>
 
         {/* Selection Rectangle */}

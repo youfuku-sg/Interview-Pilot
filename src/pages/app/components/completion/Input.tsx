@@ -49,7 +49,7 @@ export const Input = ({
           <div className="relative select-none">
             <InputComponent
               ref={inputRef}
-              placeholder="Ask me anything..."
+              placeholder="何でも聞いてください..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -96,17 +96,17 @@ export const Input = ({
           <div className="flex items-center justify-between px-4 py-2 border-b bg-muted/30">
             <div className="flex flex-row gap-1 items-center">
               <h3 className="font-semibold text-xs select-none">
-                {keepEngaged ? "Conversation Mode" : "AI Response"}
+                {keepEngaged ? "会話モード" : "AIの回答"}
               </h3>
               <div className="text-[10px] text-muted-foreground/70">
-                (Use arrow keys to scroll)
+                (矢印キーでスクロール)
               </div>
             </div>
             <div className="flex items-center gap-2 select-none">
               <div className="flex flex-row items-center gap-2 mr-2">
-                <p className="text-[10px]">{`Toggle ${
-                  keepEngaged ? "AI response" : "conversation mode"
-                }`}</p>
+                <p className="text-[10px]">{`${
+                  keepEngaged ? "AIの回答" : "会話モード"
+                }を切り替え`}</p>
                 <span className="text-[10px] text-muted-foreground/60 bg-muted/30 px-1 py-0 rounded border border-input/50">
                   {navigator.platform.toLowerCase().includes("mac")
                     ? "⌘"
@@ -142,10 +142,10 @@ export const Input = ({
                 className="cursor-pointer"
                 title={
                   isLoading
-                    ? "Cancel loading"
+                    ? "読み込みをキャンセル"
                     : keepEngaged
-                    ? "Close and start new conversation"
-                    : "Clear conversation"
+                    ? "閉じて新しい会話を開始"
+                    : "会話をクリア"
                 }
               >
                 <XIcon />
@@ -157,13 +157,13 @@ export const Input = ({
             <div className="p-4">
               {error && (
                 <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded text-sm text-destructive">
-                  <strong>Error:</strong> {error}
+                  <strong>エラー:</strong> {error}
                 </div>
               )}
               {isLoading && (
                 <div className="flex items-center gap-2 my-4 text-muted-foreground animate-pulse select-none">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span className="text-sm">Generating response...</span>
+                  <span className="text-sm">回答を生成中...</span>
                 </div>
               )}
               {response && <Markdown>{response}</Markdown>}
@@ -188,7 +188,7 @@ export const Input = ({
                         >
                           <div className="flex items-center gap-2 mb-2">
                             <span className="text-xs font-medium text-muted-foreground uppercase">
-                              {message.role === "user" ? "You" : "AI"}
+                              {message.role === "user" ? "あなた" : "AI"}
                             </span>
                             <span className="text-xs text-muted-foreground">
                               {new Date(message.timestamp).toLocaleTimeString(

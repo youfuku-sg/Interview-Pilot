@@ -165,11 +165,11 @@ export const SystemAudio = (props: useSystemAudioType) => {
   };
 
   const getButtonTitle = () => {
-    if (setupRequired) return "Setup required - Click for instructions";
-    if (error && !setupRequired) return `Error: ${error}`;
-    if (isProcessing) return "Transcribing audio...";
-    if (capturing) return "Stop system audio capture";
-    return "Start system audio capture";
+    if (setupRequired) return "セットアップが必要です - クリックして手順を確認";
+    if (error && !setupRequired) return `エラー: ${error}`;
+    if (isProcessing) return "音声を文字起こし中...";
+    if (capturing) return "システム音声のキャプチャを停止";
+    return "システム音声のキャプチャを開始";
   };
 
   return (
@@ -220,7 +220,7 @@ export const SystemAudio = (props: useSystemAudioType) => {
                   />
                 )}
                 {setupRequired && (
-                  <h2 className="font-semibold text-sm">Setup Required</h2>
+                  <h2 className="font-semibold text-sm">セットアップが必要です</h2>
                 )}
 
                 {/* Action Buttons */}
@@ -236,14 +236,14 @@ export const SystemAudio = (props: useSystemAudioType) => {
                         "h-6 text-[10px] gap-1 px-2",
                         screenshotImage && "bg-primary text-primary-foreground"
                       )}
-                      title="Capture screenshot to include with transcription"
+                      title="文字起こしに添付するスクリーンショットをキャプチャ"
                     >
                       {isCapturingScreenshot ? (
                         <LoaderIcon className="w-3 h-3 animate-spin" />
                       ) : (
                         <CameraIcon className="w-3 h-3" />
                       )}
-                      Screenshot
+                      スクリーンショット
                     </Button>
                   )}
 
@@ -254,10 +254,10 @@ export const SystemAudio = (props: useSystemAudioType) => {
                       variant="ghost"
                       onClick={startNewConversation}
                       className="h-6 text-[10px] gap-1 px-2"
-                      title="Start a new conversation"
+                      title="新しい会話を開始"
                     >
                       <PlusIcon className="w-3 h-3" />
-                      New
+                      新規
                     </Button>
                   )}
 
@@ -267,7 +267,7 @@ export const SystemAudio = (props: useSystemAudioType) => {
                       size="icon"
                       variant="ghost"
                       className="h-6 w-6"
-                      title="Close"
+                      title="閉じる"
                       onClick={() => {
                         setIsPopoverOpen(false);
                         resizeWindow(false);
@@ -287,15 +287,15 @@ export const SystemAudio = (props: useSystemAudioType) => {
                   <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/5 border border-primary/20">
                     <img
                       src={`data:image/png;base64,${screenshotImage}`}
-                      alt="Screenshot"
+                      alt="スクリーンショット"
                       className="h-12 w-20 object-cover rounded"
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] font-medium">
-                        Screenshot attached
+                        スクリーンショットを添付しました
                       </p>
                       <p className="text-[9px] text-muted-foreground">
-                        Will be sent with next transcription
+                        次の文字起こしと一緒に送信されます
                       </p>
                     </div>
                     <Button
@@ -315,7 +315,7 @@ export const SystemAudio = (props: useSystemAudioType) => {
                     <AlertCircleIcon className="w-3.5 h-3.5 text-red-500 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="text-[10px] font-medium text-red-800">
-                        Error
+                        エラー
                       </p>
                       <p className="text-[10px] text-red-700">{error}</p>
                     </div>

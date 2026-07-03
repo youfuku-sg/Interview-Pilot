@@ -11,18 +11,16 @@ const Responses = () => {
 
   return (
     <PageLayout
-      title="Response Settings"
-      description="Customize how AI generates and displays responses"
+      title="回答設定"
+      description="AIによる回答の生成・表示方法をカスタマイズします"
     >
       {!hasActiveLicense && (
         <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
           <p className="text-[10px] lg:text-sm text-foreground font-medium mb-2">
-            🔒 Premium Features
+            🔒 プレミアム機能
           </p>
           <p className="text-[10px] lg:text-sm text-muted-foreground">
-            Response customization features (Response Length, Language
-            Selection, and Auto-Scroll Control) require an active license to
-            use.
+            回答のカスタマイズ機能(回答の長さ・言語選択・自動スクロール制御)の利用には有効なライセンスが必要です。
           </p>
         </div>
       )}

@@ -15,8 +15,8 @@ export const useVersion = () => {
         setError(null);
       } catch (err) {
         console.error("Failed to fetch version:", err);
-        setError("Failed to load version");
-        setVersion("Unknown");
+        setError("バージョンの読み込みに失敗しました");
+        setVersion("不明");
       } finally {
         setIsLoading(false);
       }

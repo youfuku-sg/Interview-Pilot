@@ -17,25 +17,25 @@ export const AutostartToggle = ({ className }: AutostartToggleProps) => {
   return (
     <div id="autostart" className={`space-y-2 ${className}`}>
       <Header
-        title="Launch on Startup"
-        description="Automatically open Pluely when your system starts"
+        title="起動時に自動起動"
+        description="システム起動時にPluelyを自動的に開きます"
         isMainTitle
       />
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div>
-            <Label className="text-sm font-medium">Open on Start</Label>
+            <Label className="text-sm font-medium">起動時に開く</Label>
             <p className="text-xs text-muted-foreground mt-1">
               {isEnabled
-                ? "Pluely will launch automatically on system startup"
-                : "Pluely will not launch automatically"}
+                ? "システム起動時にPluelyが自動的に起動します"
+                : "Pluelyは自動的に起動しません"}
             </p>
           </div>
         </div>
         <Switch
           checked={isEnabled}
           onCheckedChange={handleSwitchChange}
-          aria-label="Toggle autostart"
+          aria-label="自動起動の切り替え"
         />
       </div>
     </div>

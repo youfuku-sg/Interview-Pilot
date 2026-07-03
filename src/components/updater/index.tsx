@@ -135,35 +135,35 @@ export const Updater = () => {
         return (
           <>
             <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-            Downloading... {progress.percentage}%
+            ダウンロード中... {progress.percentage}%
           </>
         );
       case "installing":
         return (
           <>
             <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-            Installing...
+            インストール中...
           </>
         );
       case "ready":
         return (
           <>
             <CheckCircle className="mr-2 h-4 w-4" />
-            Ready - Restarting...
+            準備完了 - 再起動中...
           </>
         );
       case "error":
         return (
           <>
             <AlertCircle className="mr-2 h-4 w-4" />
-            Try Again
+            再試行
           </>
         );
       default:
         return (
           <>
             <Download className="mr-2 h-4 w-4" />
-            Download & Install Update
+            アップデートをダウンロードしてインストール
           </>
         );
     }
@@ -212,8 +212,8 @@ export const Updater = () => {
           onClick={handleTriggerClick}
           className="cursor-pointer"
           disabled={updateState === "checking"}
-          title={`Update available: ${update?.version}`}
-          aria-label={`Update available: ${update?.version}`}
+          title={`アップデートがあります: ${update?.version}`}
+          aria-label={`アップデートがあります: ${update?.version}`}
         >
           {updateState === "checking" ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -234,11 +234,10 @@ export const Updater = () => {
             {/* Update Header */}
             <div className="border-b border-input/50 pb-2">
               <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                Update Available
+                アップデートがあります
               </h1>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                A new version ({update?.version}) is available. Here's what's
-                new:
+                新しいバージョン({update?.version})が利用可能です。更新内容:
               </p>
             </div>
 
@@ -248,7 +247,7 @@ export const Updater = () => {
                 <Markdown>{update.body}</Markdown>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Release notes not available for this version.
+                  このバージョンのリリースノートはありません。
                 </p>
               )}
             </div>
@@ -268,14 +267,14 @@ export const Updater = () => {
 
           <div className="text-center">
             <p className="text-xs text-muted-foreground">
-              Having trouble downloading?{" "}
+              ダウンロードがうまくいかない場合は{" "}
               <a
                 href={"https://pluely.com/downloads?ref=pluely-app"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-700 underline inline-flex items-center gap-1"
               >
-                Download manually
+                手動でダウンロード
                 <ExternalLink className="h-3 w-3" />
               </a>
             </p>

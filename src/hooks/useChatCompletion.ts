@@ -179,7 +179,7 @@ export const useChatCompletion = (
         if (!selectedAIProvider.provider && !usePluelyAPI) {
           setState((prev) => ({
             ...prev,
-            error: "Please select an AI provider in settings",
+            error: "設定画面でAIプロバイダーを選択してください",
           }));
           return;
         }
@@ -190,7 +190,7 @@ export const useChatCompletion = (
         if (!provider && !usePluelyAPI) {
           setState((prev) => ({
             ...prev,
-            error: "Invalid provider selected",
+            error: "無効なプロバイダーが選択されています",
           }));
           return;
         }
@@ -359,7 +359,7 @@ export const useChatCompletion = (
             console.error("Failed to save conversation:", error);
             setState((prev) => ({
               ...prev,
-              error: "Failed to save conversation. Please try again.",
+              error: "会話の保存に失敗しました。もう一度お試しください。",
             }));
           }
         }
@@ -567,7 +567,7 @@ export const useChatCompletion = (
             setState((prev) => ({
               ...prev,
               error:
-                "Screen Recording permission required. Please enable it by going to System Settings > Privacy & Security > Screen & System Audio Recording. If you don't see Pluely in the list, click the '+' button to add it. If it's already listed, make sure it's enabled. Then restart the app.",
+                "画面収録の権限が必要です。システム設定 > プライバシーとセキュリティ > 画面と システム音声の録画 から有効にしてください。一覧にPluelyが表示されない場合は「+」ボタンをクリックして追加してください。すでに一覧にある場合は有効になっているか確認してください。設定後、アプリを再起動してください。",
             }));
             setIsScreenshotLoading(false);
             screenshotInitiatedByThisContext.current = false;
@@ -595,7 +595,7 @@ export const useChatCompletion = (
         if (!hasActiveLicense) {
           setState((prev) => ({
             ...prev,
-            error: "Selection mode requires an active license",
+            error: "範囲選択モードの利用には有効なライセンスが必要です",
           }));
           setIsScreenshotLoading(false);
           screenshotInitiatedByThisContext.current = false;
@@ -607,7 +607,7 @@ export const useChatCompletion = (
     } catch (error) {
       setState((prev) => ({
         ...prev,
-        error: "Failed to capture screenshot. Please try again.",
+        error: "スクリーンショットの取得に失敗しました。もう一度お試しください。",
       }));
       isProcessingScreenshotRef.current = false;
       screenshotInitiatedByThisContext.current = false;

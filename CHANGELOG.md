@@ -2,6 +2,21 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.3.0] - 2026-07-04
+
+### Changed
+
+- `package.json` / `src-tauri/Cargo.toml` の name、`src-tauri/tauri.conf.json` の `productName` / `identifier` を fork元の `pluely` / `Pluely` / `com.srikanthnani.pluely` から `interview-pilot` / `Interview-Pilot` / `com.interview-pilot.app` に変更した
+- ネイティブウィンドウタイトル(`window.rs`、`tauri.conf.json` の `app.windows[0].title`)を `Interview-Pilot` 表記・日本語化した
+- Windows インストーラの言語設定を日本語化した(`bundle.windows.wix.language: ["ja-JP"]`、`bundle.windows.nsis.languages: ["Japanese"]`)。次回ビルドから MSI ファイル名が `_ja-JP` サフィックスになり、MSI/NSIS インストール中のウィザード文言も日本語表示になる見込み(実機検証はこのリリースのビルドで確認する)
+- アプリ内UIのユーザー向け表示文言に残っていた「Pluely」ブランド表記(サイドバーロゴ、エラー画面、ダッシュボード、設定画面、権限案内、ショートカット説明、footer メニュー等)を `Interview-Pilot` または汎用名(「クラウドAPI」「推奨プロンプト」等)に置き換えた。関数名・コンポーネント名・ファイル名・localStorage キー名・コード内コメントは対象外とし、既存ローカルデータへの影響を避けた
+- `Contribute`/`Promote` コンポーネントや `support@pluely.com` など、実際に pluely.com 本家サービスを指す文言は実態と乖離させないため置き換え対象外とした
+
+### Notes
+
+- `identifier` の変更により、既存インストール環境では旧 Pluely 名義のインストールが残る可能性がある(未検証、次回リリースで確認)
+- `src-tauri/Cargo.lock` はこの作業環境に Rust ツールチェーンが無く `cargo` を実行できなかったため、`name`/`version` フィールドのみ手動更新した。次回 Rust 環境でのビルド時に整合性を再確認すること
+
 ## [0.2.0] - 2026-07-03
 
 ### Added

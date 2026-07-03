@@ -21,3 +21,14 @@
 #### Scenario: wix.language 未設定時は既定言語が使われる
 - **WHEN** `bundle.windows.wix.language` を設定していない状態でビルドが成功する
 - **THEN** 生成される MSI インストーラのファイル名は従来通り `_en-US` サフィックスを含む
+
+### Requirement: インストール中のウィザード文言が設定した言語で表示される
+`bundle.windows.wix.language` および `bundle.windows.nsis.languages` を日本語ロケールに設定した場合、生成される MSI / NSIS インストーラの実行時に表示されるウィザード文言(ライセンス同意画面、インストール先選択、進捗表示等)が日本語で表示されなければならない (SHALL)。設定しない場合、Tauri/WiX/NSIS の既定言語(英語)がそのまま使われる (MAY)。
+
+#### Scenario: 日本語ロケール設定後にインストーラのウィザードが日本語で表示される
+- **WHEN** `bundle.windows.wix.language` に `"ja-JP"`、`bundle.windows.nsis.languages` に日本語ロケールを設定したビルドで生成された MSI / NSIS インストーラを実行する
+- **THEN** インストールウィザードの文言が日本語で表示される
+
+#### Scenario: 言語設定未変更時は既定言語(英語)のまま
+- **WHEN** `bundle.windows.wix.language` / `bundle.windows.nsis.languages` を設定していないビルドで生成されたインストーラを実行する
+- **THEN** インストールウィザードの文言は従来通り英語で表示される

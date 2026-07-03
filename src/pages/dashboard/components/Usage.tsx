@@ -57,9 +57,11 @@ export function Usage({
       <CardHeader className="flex flex-row items-stretch border-b !p-0 ">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-0">
-            <CardTitle className="text-md lg:text-lg">Pluelyの利用状況</CardTitle>
+            <CardTitle className="text-md lg:text-lg">
+              クラウドAPIの利用状況
+            </CardTitle>
             <CardDescription className="text-xs lg:text-sm">
-              今月のPluely APIの利用状況
+              今月のクラウドAPIの利用状況
             </CardDescription>
           </div>
 

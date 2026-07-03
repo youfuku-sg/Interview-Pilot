@@ -7,7 +7,7 @@ Interview-Pilot is a personal-use fork of [Pluely](https://github.com/iamsrikant
 - Frontend: React 19 + TypeScript, built with Vite (`npm run dev`, `npm run build`, `npm run typecheck`, `npm run lint`).
 - Backend: Tauri v2 (Rust), source under `src-tauri/`.
 - Storage: SQLite via `tauri-plugin-sql`, migrations in `src-tauri/src/db/`.
-- Package/binary name is still `pluely` (`package.json` `name`, `src-tauri/Cargo.toml` `[package] name`) pending a rebrand pass — see [rebrand-readme-security-ja](openspec/changes/rebrand-readme-security-ja/).
+- Package/binary name, `productName`, and `identifier` are `interview-pilot` / `Interview-Pilot` / `com.interview-pilot.app` (renamed from Pluely's `pluely` / `Pluely` / `com.srikanthnani.pluely`) — see [rebrand-product-identity](openspec/changes/rebrand-product-identity/).
 
 ## Directory structure
 

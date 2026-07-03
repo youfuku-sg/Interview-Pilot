@@ -92,7 +92,7 @@ export const useMenuItems = () => {
     },
     {
       icon: PowerIcon,
-      label: "Pluelyを終了",
+      label: "Interview-Pilotを終了",
       action: async () => {
         await invoke("exit_app");
       },

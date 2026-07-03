@@ -122,7 +122,7 @@ export const PluelyPrompts = () => {
     } catch (err) {
       console.error("Failed to fetch Pluely prompts:", err);
       setError(
-        typeof err === "string" ? err : "Pluelyのプロンプト取得に失敗しました"
+        typeof err === "string" ? err : "推奨プロンプトの取得に失敗しました"
       );
     } finally {
       setIsLoading(false);
@@ -204,14 +204,14 @@ export const PluelyPrompts = () => {
     return (
       <div className="space-y-4 mt-6">
         <Header
-          title="Pluely既定プロンプト"
+          title="推奨プロンプト"
           description="最適なモデルがあらかじめ設定されたプロンプトです"
         />
         <Empty
           isLoading={true}
           icon={Sparkles}
           title="プロンプトを読み込み中..."
-          description="Pluely既定プロンプトを取得しています"
+          description="推奨プロンプトを取得しています"
         />
       </div>
     );
@@ -221,7 +221,7 @@ export const PluelyPrompts = () => {
     return (
       <div className="space-y-4 mt-6">
         <Header
-          title="Pluely既定プロンプト"
+          title="推奨プロンプト"
           description="最適なモデルがあらかじめ設定されたプロンプトです"
         />
         <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-3">
@@ -241,7 +241,7 @@ export const PluelyPrompts = () => {
         <div className="flex items-start gap-3 w-full">
           <div className="flex flex-col gap-1 w-full">
             <Header
-              title="Pluely既定プロンプト"
+              title="推奨プロンプト"
               description="最適なモデルの組み合わせがあらかじめ設定されたプロンプトです。選択すると、最良の結果を得るための推奨AIモデルが自動的に設定されます。"
             />
             {lastUpdated && (

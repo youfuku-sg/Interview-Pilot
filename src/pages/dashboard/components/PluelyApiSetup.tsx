@@ -279,13 +279,13 @@ export const PluelyApiSetup = () => {
 
   const title = isModelsLoading
     ? "モデルを読み込み中..."
-    : `Pluelyは${models?.length}個のモデルに対応`;
+    : `クラウドAPIは${models?.length}個のモデルに対応`;
 
   const description = isModelsLoading
     ? "対応モデルの一覧を取得しています..."
     : providerList
     ? `${providerList}などのプロバイダーの主要モデルを利用でき、より高速な応答のために軽量なモデルも選択できます。`
-    : "Pluelyが対応するすべてのモデルをご覧ください。";
+    : "クラウドAPIが対応するすべてのモデルをご覧ください。";
 
   return (
     <div id="pluely-api" className="space-y-3 -mt-2">
@@ -469,13 +469,13 @@ export const PluelyApiSetup = () => {
       </div>
       <div className="flex justify-between items-center">
         <Header
-          title={`Pluely APIを${pluelyApiEnabled ? "無効化" : "有効化"}`}
+          title={`クラウドAPIを${pluelyApiEnabled ? "無効化" : "有効化"}`}
           description={
             storedLicenseKey
               ? pluelyApiEnabled
-                ? "音声・チャットにすべてPluelyのAPIを使用しています。"
+                ? "音声・チャットにすべてクラウドAPIを使用しています。"
                 : "音声・チャットにご自身のAIプロバイダーをすべて使用しています。"
-              : "Pluely APIを有効にするには有効なライセンスが必要です。ご自身のAIプロバイダー・STTプロバイダーを使用することもできます。"
+              : "クラウドAPIを有効にするには有効なライセンスが必要です。ご自身のAIプロバイダー・STTプロバイダーを使用することもできます。"
           }
         />
         <Switch

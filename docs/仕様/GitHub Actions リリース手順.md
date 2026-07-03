@@ -82,6 +82,8 @@ git push origin v0.1.10
 - `GITHUB_TOKEN` の権限: Release 作成に必要な `contents: write` が有効か
 - `publish-tauri` が実行されない場合、まず `frontend` / `rust` が成功しているか、`verify-tag-on-main` の判定結果（ログの `on_main` 出力）を確認する
 
+インストーラのファイル名は `src-tauri/tauri.conf.json` の `productName` / `bundle.windows.wix.language` に由来する（`rebrand-product-identity` change で `productName` を `Interview-Pilot`、`wix.language` を `ja-JP` に変更済み）。`v0.2.0` までは `Pluely_<version>_x64_en-US.msi` / `Pluely_<version>_x64-setup.exe` だったが、以降は `Interview-Pilot_<version>_x64_ja-JP.msi` / `Interview-Pilot_<version>_x64-setup.exe` のような名前になる想定。次回リリースで実際のファイル名・インストール中のウィザード文言（日本語化されているか）を確認すること。
+
 ## 7. 注意点
 
 - 署名なしビルドのため、Windows SmartScreen の警告が出る可能性がある

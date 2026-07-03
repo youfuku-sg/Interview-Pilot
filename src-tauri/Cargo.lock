@@ -4123,7 +4123,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "pluely"
+name = "interview-pilot"
 version = "0.1.9"
 dependencies = [
  "anyhow",

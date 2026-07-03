@@ -42,7 +42,7 @@ export const DragButton = () => {
               </p>
               <p className="text-sm font-medium text-muted-foreground">
                 購入が完了すると、メールでライセンスキーが届きます。設定 →
-                Pluely Access セクションに貼り付けて有効化してください。
+                クラウドAPI セクションに貼り付けて有効化してください。
               </p>
             </div>
             <GetLicense setState={setIsOpen} />

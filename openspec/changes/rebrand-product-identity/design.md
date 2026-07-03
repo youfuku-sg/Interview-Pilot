@@ -44,41 +44,30 @@ Tauri のビルド成果物(Windows インストーラ)のファイル名は `pr
 
 ## Decisions
 
-(未決定 — 本 change は方針整理と提案が目的であり、以下はユーザー判断待ちの選択肢の整理)
+(2026-07-03 ユーザー判断により確定)
 
 1. **`productName` / パッケージ名の変更**
-   - 案A: `"Interview-Pilot"` に変更する(README のリブランドと一貫性を持たせる)
-   - 案B: 当面 `"Pluely"` のまま据え置く(個人利用規模のため急がない)
-   - 決定はユーザーに委ねる
+   - 決定: `"Interview-Pilot"` に変更する。`package.json` の `name` は npm 慣習に合わせ `"interview-pilot"`、`src-tauri/Cargo.toml` の `[package] name` も `"interview-pilot"`、`[lib] name` は Windows 上でのバイナリ名衝突回避のため `"interview_pilot_lib"` とした
 
 2. **`identifier` の変更**
-   - 現状 `com.srikanthnani.pluely`(fork元の識別子)
-   - 変更する場合の候補例: `com.<owner>.interview-pilot` 等
-   - リスク: Tauri は `identifier` をアプリの一意識別に使うため、変更すると OS 側(Windows のインストール済みアプリ一覧、将来的な updater)で別アプリとして扱われる可能性がある。個人利用・単一マシンでの運用が前提のため実害は限定的と考えられるが、変更前に一度アンインストールが必要になる可能性がある
-   - 決定はユーザーに委ねる
+   - 決定: `com.srikanthnani.pluely` から `com.interview-pilot.app` に変更する
+   - リスク: Tauri は `identifier` をアプリの一意識別に使うため、変更により OS 側(Windows のインストール済みアプリ一覧、将来的な updater)で別アプリとして扱われる可能性がある。既存インストール環境がある場合は、新しい identifier でのインストール前に旧 Pluely 名義のインストールをアンインストールしておくこと(未検証、次回リリース時に確認)
 
 3. **ネイティブウィンドウタイトルの扱い**
-   - 現状 `"Pluely - ダッシュボード"`(`window.rs`)、`"Pluely - AI Assistant"`(`tauri.conf.json` の `app.windows[0].title`、未翻訳) — `productName` を変更する場合はタイトルも合わせて更新するのが自然。`app.windows[0].title` は `productName` の変更有無に関わらず、少なくとも日本語化(例: `"Pluely - AIアシスタント"`)は独立して対応できる
-   - 決定は上記1と連動する(Pluely 表記の残し方の部分のみ)
+   - 決定: 上記1と連動して置き換える。`window.rs` の2箇所を `"Interview-Pilot - ダッシュボード"` に、`tauri.conf.json` の `app.windows[0].title` を `"Interview-Pilot - AIアシスタント"`(日本語化も合わせて実施)に変更した
 
 4. **MSIインストーラの言語・ウィザード文言(`en-US` サフィックス + インストール中の英語表示)**
-   - 案A: `bundle.windows.wix.language` に `"ja-JP"` を設定する。WiX Toolset 3系は `ja-JP.wxl` を標準同梱しており、追加リソース無しで動作する見込み(要実機検証)。ファイル名は `Pluely_<version>_x64_ja-JP.msi` のようになり、`wix.language` は WiX の UI 文言(ライセンス同意・インストール先選択・進捗表示等)にも使われるロケールリソースを兼ねるため、ファイル名とインストール中の表示言語は同じ設定で同時に解決する見込み
-   - 案B: 言語設定はそのまま(`en-US`)にし、ファイル名・ウィザード文言の言語にはこだわらない
-   - この決定は `productName`/`identifier` の変更(1・2)とは独立して先行実施できる
-   - 決定はユーザーに委ねる
+   - 決定: `bundle.windows.wix.language` に `["ja-JP"]` を設定する。ファイル名は `Interview-Pilot_<version>_x64_ja-JP.msi` になる見込み。WiX Toolset が `ja-JP.wxl` を標準同梱しているかどうか、インストール中のウィザード文言が実際に日本語表示されるかは次回リリースのビルドで実機検証する(タスク4.3)
 
 5. **NSISインストーラのウィザード文言**
-   - 現状 `bundle.windows.nsis.languages` の指定なし(Tauriの既定言語のみが使われ、英語表示になっていると推測される)
-   - 案A: `bundle.windows.nsis.languages` に `["Japanese"]`(NSIS の言語識別子)を設定する。tauri-bundlerが同梱するNSISには日本語(`Japanese.nsh`)を含む多数の言語リソースが標準で用意されている見込みだが、実機検証が必要
-   - 案B: 対応しない(現状維持)
-   - WiX(案4)とは別の設定項目のため、個別に検証・決定する
-   - 決定はユーザーに委ねる
+   - 決定: `bundle.windows.nsis.languages` に `["Japanese"]` を設定する。tauri-bundler 同梱の NSIS が日本語リソースを標準で持っているか、実際にウィザード文言が日本語表示されるかは次回リリースのビルドで実機検証する(タスク4.4)
 
 6. **アプリ内UIの「Pluely」ブランド名表記の置き換え**
-   - 案A: Context に列挙した箇所すべてで「Pluely」を `"Interview-Pilot"` 等の新しい名称に置き換える。ユーザーが「名前変更してほしい」と明示しているため、方向性としては最有力
-   - 案B: 一部箇所(例: ロゴ・タイトル等の目立つ箇所)のみ置き換え、`Pluely API`/`PluelyApiSetup` のようにライセンスキー課金機能自体の名称は Pluely 本家サービスを指す固有名詞として残す
-   - 論点: 「Pluely API」はコード上 Pluely 本家のクラウドAPIサービスへの実際の接続を指しており(`shouldUsePluelyAPI`、`api_access_key` 等)、表示名を変えても機能の実体(Pluely運営のサービスに接続する)は変わらない。表示名だけ変えると実態と乖離し紛らわしくなる可能性があるため、この機能自体を残すか削除するか(`pluely-cleanup-checklist` スキルが指摘する既存の論点)と合わせて検討する必要がある
-   - 決定(置き換え先名称、Pluely API機能の扱い)はユーザーに委ねる
+   - 決定: Context に列挙したユーザー向け表示文言(JSX にレンダリングされる文字列)はすべて「Interview-Pilot」または汎用名に置き換える
+   - 決定: 関数名(`shouldUsePluelyAPI` 等)・コンポーネント名(`PluelyApiSetup`、`PluelyPrompts` 等)・ファイル名(`pluely.api.ts` 等)・localStorage キー名(`pluely_license_key` 等)・コード内コメント・`console.*` ログは対象外とする(表示文言のみのリネームに留め、差分と既存ローカルデータへの影響を最小化する)
+   - 決定: 「Pluely API」は実際に Pluely 本家のクラウドAPIサービスへ接続する機能(`shouldUsePluelyAPI`、`api_access_key` 等)を指すが、表示名は汎用名「クラウドAPI」に統一する
+   - 決定: 「Pluely既定プロンプト」(`fetch_prompts` で Pluely 本家が提供するプロンプト一覧を取得する機能)は「推奨プロンプト」という汎用名に置き換える
+   - 決定: `Contribute.tsx` / `Promote.tsx`(pluely.com/contribute・pluely.com/promote への実際のリンクを含む Pluely 本家のマーケティング機能)、および `support@pluely.com` 等の実在する連絡先は、ブランド名の置き換え対象外とする。これらは実際に pluely.com 上のサービスを指しており、表示名だけ変えると実態と乖離し利用者に誤解を与えるため
 
 ## Risks / Trade-offs
 
@@ -90,9 +79,8 @@ Tauri のビルド成果物(Windows インストーラ)のファイル名は `pr
 
 ## Open Questions
 
-- `productName` / パッケージ名 / `identifier` を変更するかどうか、するとしていつ実施するか(ユーザー判断待ち)
-- ウィンドウタイトルの「Pluely」表記を残すか置き換えるか(上記と連動)
-- `bundle.windows.wix.language` を `ja-JP` に変更するか(上記と独立して判断可能)
-- `bundle.windows.nsis.languages` を日本語に変更するか(上記と独立して判断可能)
-- アプリ内UIの「Pluely」表記の置き換え先名称は何にするか(例: `Interview-Pilot`)
-- 「Pluely API」等、Pluely 本家サービスに接続する機能自体の名称・扱いをどうするか(表示名のみ変更 / 機能ごと見直し)
+すべて Decisions セクションのとおり確定した(2026-07-03)。残る未検証事項はタスク4章(検証)を参照:
+
+- `wix.language` / `nsis.languages` を日本語化した場合の実機での見た目(次回リリースビルドで確認)
+- `identifier` 変更後の既存インストール環境への影響(アンインストール要否の実機確認)
+- 実際に Tauri アプリを起動しての「Pluely」表記置き換えの目視確認(本 change の実装はコード上・grep 上の確認のみで、Rust ツールチェーン/GUI が無い作業環境のため実機起動での確認は未実施)

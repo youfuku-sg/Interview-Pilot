@@ -2,12 +2,15 @@
 
 `package.json` の `name`、`src-tauri/Cargo.toml` の `[package] name` / `[lib] name`、`src-tauri/tauri.conf.json` の `productName` / `identifier` は、fork元の Pluely のまま未変更である。この結果、`publish` ワークフロー(`ci.yml` の `publish-tauri` ジョブ)が生成する Windows インストーラのファイル名が `Pluely_0.2.0_x64_en-US.msi` / `Pluely_0.2.0_x64-setup.exe` のように、Interview-Pilot ではなく Pluely の名前のままになる。v0.2.0 リリースで実際にユーザーがこれを確認し、指摘があった。`docs/仕様/TODO.md` にも「`productName` / `identifier` / window title の変更タイミングを決める」が未チェック項目として残っている。
 
+加えて、MSIインストーラのファイル名にある `en-US`(WiX の言語設定に由来)も、アプリが日本語UI専用になっている実態に合っていないとの指摘があった。また `src-tauri/tauri.conf.json` の `app.windows[0].title`(`"Pluely - AI Assistant"`)は、`localize-ui-japanese` change での日本語化パスから漏れており、未翻訳のまま残っている。
+
 ## What Changes
 
 - `package.json` の `name`、`src-tauri/Cargo.toml` の `[package] name` / `[lib] name`、`src-tauri/tauri.conf.json` の `productName` を Interview-Pilot 向けの名称に変更する方針を検討し、実装タスクに落とし込む
 - `identifier`(`com.srikanthnani.pluely`)の変更要否を検討する。**BREAKING**: `identifier` を変更する場合、既存インストール環境からの自動アップデート・アンインストールに影響する可能性があるため、変更する場合は移行方針も合わせて検討する
-- ネイティブウィンドウタイトル(`src-tauri/src/window.rs` の `"Pluely - ダッシュボード"` 等)の扱いを検討する。「Pluely」表記自体を残すか置き換えるかは `docs/仕様/ブランチ・リリース戦略.md` の未決事項(「いつ Pluely から Interview-Pilot へアプリ識別名を変更するか」)に関わるため、本 change ではまず方針の整理と提案を行い、ユーザーの判断を仰ぐ
-- 変更後、Windows インストーラのファイル名が Interview-Pilot 由来の名称になることを確認する
+- ネイティブウィンドウタイトル(`src-tauri/src/window.rs` の `"Pluely - ダッシュボード"` 等、および `src-tauri/tauri.conf.json` の `app.windows[0].title`)の扱いを検討する。「Pluely」表記自体を残すか置き換えるかは `docs/仕様/ブランチ・リリース戦略.md` の未決事項(「いつ Pluely から Interview-Pilot へアプリ識別名を変更するか」)に関わるため、本 change ではまず方針の整理と提案を行い、ユーザーの判断を仰ぐ
+- MSIインストーラファイル名の `en-US` サフィックスの扱いを検討する(`bundle.windows.wix.language` を `ja-JP` 等に変更する案を含む)。WiX の `ja-JP` ロケールリソースでインストーラUI自体も日本語化されるかどうかを事前に調査する
+- 変更後、Windows インストーラのファイル名が Interview-Pilot / 日本語版として意図通りの名称になることを確認する
 
 **BREAKING**: `identifier` を変更した場合、Windows 上で既存の Pluely 名義でのインストール状態と新しい identifier のインストールが別アプリとして扱われる可能性がある(未検証、design.md で調査する)。
 

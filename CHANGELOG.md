@@ -2,6 +2,17 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.1] - 2026-07-06
+
+### Changed
+
+- npm依存パッケージを既存の`package.json`のセマンティックバージョン範囲(`^`)内でマイナー・パッチレベルに更新した(`npm update`)。メジャーバージョンアップ(`lucide-react`、`recharts`、`typescript`、`vite` 8系、`@vitejs/plugin-react` 6系など)は互換性への影響が大きいため対象外とした
+
+### Notes
+
+- 作業環境に Rust ツールチェーン(`cargo`)が無く、`src-tauri/`(Cargo依存関係)の更新は今回未実施。次回 cargo が使える環境で `cargo update` の実行を推奨する
+- typecheck・lint・build で回帰がないことを確認済み
+
 ## [0.5.0] - 2026-07-06
 
 ### Removed

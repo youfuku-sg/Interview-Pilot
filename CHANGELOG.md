@@ -2,6 +2,18 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.0] - 2026-07-06
+
+### Removed
+
+- **BREAKING**: Pluely から継承していたアプリ内自動アップデート機能を完全に削除した。対象: 更新確認・ダウンロード・インストールUI(`Updater`コンポーネント)、`tauri-plugin-updater` / `@tauri-apps/plugin-updater` のプラグイン登録・依存関係、`tauri.conf.json` の `plugins.updater`(Pluely の更新サーバーエンドポイント・公開鍵)設定、`bundle.createUpdaterArtifacts`、両capabilitiesファイルの `updater:default` 権限。他で未使用だった `@tauri-apps/plugin-process` 依存も合わせて削除した
+- 本フォークは第三者への再配布を予定しておらず、独自のリリースワークフローも更新マニフェスト(updater JSON)を生成しない方針のため、Pluely本家の更新サーバーを参照し続ける当該機能は死んだコード、あるいは誤ってPluely本家のリリースに誘導しかねない不整合な残留物だった。今後、新バージョンの入手は GitHub Releases からの手動ダウンロードのみとなる(`openspec/specs/manual-update-distribution/spec.md` に方針を明記)
+
+### Notes
+
+- `src-tauri/`(Rust/Tauriバックエンド)の変更を含む。作業環境に Rust ツールチェーン(`cargo`)が無く、`cargo build` / `cargo fmt --check` / `cargo clippy` を実行できなかったため、`Cargo.toml`/`Cargo.lock` はバージョン・依存関係の記述のみ手動更新した。次回 cargo が使える環境でのビルド時に整合性を再確認すること
+- 詳細は `openspec/changes/remove-pluely-updater/` を参照
+
 ## [0.4.0] - 2026-07-06
 
 ### Changed

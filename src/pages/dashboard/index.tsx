@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { GetLicense } from "@/components";
-import { PluelyApiSetup, Usage } from "./components";
+import { Usage } from "./components";
 import { PageLayout } from "@/layouts";
 import { useApp } from "@/contexts";
 
@@ -49,12 +48,8 @@ const Dashboard = () => {
   return (
     <PageLayout
       title="ダッシュボード"
-      description="クラウドAPIライセンスで、より高速な応答・迅速なサポート・プレミアム機能を利用できます。"
-      rightSlot={!hasActiveLicense ? <GetLicense /> : null}
+      description="APIプロバイダーの設定と利用状況を確認できます。"
     >
-      {/* Pluely API Setup */}
-      <PluelyApiSetup />
-
       <Usage
         loading={loadingActivity}
         onRefresh={fetchActivity}

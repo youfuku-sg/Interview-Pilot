@@ -1,89 +1,89 @@
 ## Context
 
-`src/components/DragButton.tsx` renders a grip-icon button in the main overlay window. Its behavior branches on `hasActiveLicense` (from `useApp()`, sourced from `src/contexts/app.context.tsx:134`, `useState<boolean>(false)` with no code path that ever sets it `true` in this fork):
+`src/components/DragButton.tsx` は、メインオーバーレイウィンドウ内にグリップアイコンのボタンを描画するコンポーネントである。その挙動は `hasActiveLicense`(`useApp()` 経由、`src/contexts/app.context.tsx:134` の `useState<boolean>(false)` が発生元で、このフォークには値を `true` にするコードパスが存在しない)によって分岐している。
 
-- `hasActiveLicense === false` (always, in this fork): renders a `Popover` with copy "この機能を使用するには有効なライセンスが必要です" and a `GetLicense` CTA. The button itself has no `data-tauri-drag-region`, so the window cannot be dragged from this handle.
-- `hasActiveLicense === true` (dead code in this fork): renders a plain button with `data-tauri-drag-region={hasActiveLicense}`, which is how Tauri's native window-drag is wired up (any DOM element with `data-tauri-drag-region="true"` becomes a drag handle for the OS window, per Tauri v2 docs).
+- `hasActiveLicense === false`(このフォークでは常にこちら): 「この機能を使用するには有効なライセンスが必要です」という文言と `GetLicense` CTA を含む `Popover` を描画する。ボタン自体には `data-tauri-drag-region` が付いていないため、このハンドルからウィンドウをドラッグすることはできない
+- `hasActiveLicense === true`(このフォークではデッドコード): `data-tauri-drag-region={hasActiveLicense}` を持つ通常のボタンを描画する。これは Tauri v2 の仕組みで、DOM要素に `data-tauri-drag-region="true"` を付けることでOSネイティブのウィンドウドラッグハンドルになる
 
-Window config (`src-tauri/tauri.conf.json`) has `decorations: false` — there is no OS title bar to drag from, so this in-app drag handle is the only way to reposition the window. Without it, the window is stuck wherever it spawns (top-center).
+ウィンドウ設定(`src-tauri/tauri.conf.json`)は `decorations: false` になっており、OSのタイトルバーが存在しないため、このアプリ内ドラッグハンドルがウィンドウを移動させる唯一の手段になっている。これが機能しない場合、ウィンドウは起動時の位置(画面上部中央)に固定されたままになる。
 
-Separately, `src/hooks/useWindow.ts:39` already has generic drag-region handling (`isDragRegion = target.closest('[data-tauri-drag-region="true"]')`) that works off the DOM attribute, not off `hasActiveLicense` directly — so fixing `DragButton.tsx` alone is sufficient; no changes needed in `useWindow.ts`.
+なお `src/hooks/useWindow.ts:39` には、既に汎用的なドラッグ領域判定処理(`isDragRegion = target.closest('[data-tauri-drag-region="true"]')`)があり、これは `hasActiveLicense` を直接見るのではなく DOM属性を見て動作している。そのため `DragButton.tsx` だけを修正すれば十分であり、`useWindow.ts` 側の変更は不要である。
 
 ## Goals / Non-Goals
 
 **Goals:**
-- The grip handle in the main overlay is always draggable, independent of `hasActiveLicense`.
-- Remove the license-required popover/CTA from this specific control, since it advertises a purchase flow that doesn't exist in this fork.
-- Keep the change minimal and localized to `DragButton.tsx` — don't touch the `hasActiveLicense` state/plumbing itself, since ~40 other call sites depend on it and are out of scope for this task.
+- メインオーバーレイのグリップハンドルが、`hasActiveLicense` に関わらず常にドラッグ可能であること
+- この特定のコントロールから、存在しない購入フローを宣伝する「ライセンス必須」ポップオーバー/CTAを削除すること
+- 変更を `DragButton.tsx` に最小限・局所的にとどめること。`hasActiveLicense` の状態管理そのものには触れない。他に約40箇所の参照元があり、このタスクの対象外であるため
 
 **Non-Goals:**
-- Changing window chrome, decorations, or resize behavior.
-- (Superseded by the "License paywall removal" section below — the other `hasActiveLicense` call sites are now in scope as a second, explicitly-tracked item in this same change, not left as an open-ended future backlog.)
+- ウィンドウの装飾(chrome)・デコレーション・リサイズ挙動を変更すること
+- (以下の「ライセンス課金撤去」セクションにより上書きされる — 他の `hasActiveLicense` 参照箇所は、この同じ change 内で明示的に追跡される2件目の要望として、今や対象範囲に含まれる。将来の未定バックログとして放置されるものではない)
 
-## License paywall removal (2nd request in this change)
+## ライセンス課金の撤去(この change 内の2件目の要望)
 
 ### Context
 
-A full-codebase inventory (see task history / PR discussion) found `hasActiveLicense`-gated behavior in ~19 frontend files plus a parallel, independent license gate on the Rust/Tauri side:
+コードベース全体の棚卸し(タスク履歴・PRでの議論を参照)の結果、フロントエンドの約19ファイルで `hasActiveLicense` によるゲートが見つかった。加えて、Rust/Tauri側にも独立したライセンスゲートが存在する。
 
-- **Frontend feature gates** (`hasActiveLicense` read directly): Theme/transparency (`Theme.tsx`), response length/language/auto-scroll (`responses/index.tsx`, `ResponseLength.tsx`, `LanguageSelector.tsx`, `AutoScrollToggle.tsx`), Pluely prompt presets (`PluelyPrompts.tsx`), AI prompt generator (`Generate.tsx`), sidebar support menu item (`useMenuItems.tsx`), screenshot selection mode (`ScreenshotConfigs.tsx`, `useSettings.ts`, `useChatCompletion.ts`), Dashboard activity view + CTA (`dashboard/index.tsx`), the "Pluely API 有効化" toggle (`PluelyApiSetup.tsx`), the entire chat input area (`chats/components/View.tsx`), the screenshot-attach button in the audio popover (`speech/index.tsx`), and shortcut re-binding (`ShortcutManager.tsx`, `shortcuts.storage.ts`).
-- **License-purchase/entry UI** (not a feature gate, but the paywall UI itself): `GetLicense.tsx` (checkout-URL button, used as the CTA in most of the above), `Promote.tsx` (referral/coupon promo card shown to unlicensed users), and the license-key entry/activate/deactivate/model-select section inside `PluelyApiSetup.tsx`.
-- **Backend (Rust) license gates**, independent of the frontend flag: `src-tauri/src/shortcuts.rs` has its own `LicenseState` (synced from the frontend via `set_license_status`) that silently no-ops the arrow-key `move_window` shortcut and skips its OS-level registration when inactive; `src-tauri/src/activate.rs` and parts of `src-tauri/src/api.rs` implement the actual checkout/activate/validate/proxy calls to Pluely's payment backend, which this fork never configures (`PAYMENT_ENDPOINT`/`API_ACCESS_KEY` are unset, confirmed via the `github-actions-installer-release` change that deliberately removed the CI step injecting them).
+- **フロントエンドの機能ゲート**(`hasActiveLicense` を直接参照): テーマ/透過度(`Theme.tsx`)、応答の長さ・言語・自動スクロール(`responses/index.tsx`、`ResponseLength.tsx`、`LanguageSelector.tsx`、`AutoScrollToggle.tsx`)、Pluelyプロンプトプリセット(`PluelyPrompts.tsx`)、AIプロンプト生成(`Generate.tsx`)、サイドバーのサポートメニュー項目(`useMenuItems.tsx`)、スクリーンショット範囲選択モード(`ScreenshotConfigs.tsx`、`useSettings.ts`、`useChatCompletion.ts`)、ダッシュボードのアクティビティ表示+CTA(`dashboard/index.tsx`)、「Pluely API 有効化」トグル(`PluelyApiSetup.tsx`)、チャット入力エリア全体(`chats/components/View.tsx`)、音声ポップオーバー内のスクリーンショット添付ボタン(`speech/index.tsx`)、ショートカット再割り当て(`ShortcutManager.tsx`、`shortcuts.storage.ts`)
+- **ライセンス購入・登録UI**(機能ゲートではなく、課金導線そのもの): `GetLicense.tsx`(決済URLへのボタン。上記のほとんどでCTAとして使われている)、`Promote.tsx`(未ライセンスユーザーに表示される紹介・クーポン販促カード)、および `PluelyApiSetup.tsx` 内のライセンスキー入力・有効化/無効化・モデル選択セクション
+- **バックエンド(Rust)側のライセンスゲート**(フロントエンドのフラグとは独立): `src-tauri/src/shortcuts.rs` は独自の `LicenseState`(フロントエンドから `set_license_status` 経由で同期される)を持っており、無効時には矢印キーの `move_window` ショートカットを黙って no-op にし、OSレベルへの登録自体もスキップする。`src-tauri/src/activate.rs` と `src-tauri/src/api.rs` の一部は、Pluelyの決済バックエンドに対する実際のチェックアウト/有効化/検証/プロキシ呼び出しを実装しているが、このフォークではそのバックエンドを一切設定していない(`PAYMENT_ENDPOINT`/`API_ACCESS_KEY` は未設定。これは `github-actions-installer-release` change で、これらを注入するCIステップを意図的に削除したことで確認済み)
 
-The user's explicit direction after seeing this inventory: it's fine if the license-purchase/entry surfaces end up **hidden and unusable** rather than surgically deleted, and anything that "システムに絡む" (touches system-level registration/backend plumbing) should not be forced open — leaving it non-functional is an acceptable outcome, since forcing it open risks destabilizing OS-level shortcut registration for no real benefit in a personal, non-commercial fork.
+上記の棚卸しを見た上でのユーザーの明示的な指示: ライセンス購入・登録の導線は、外科的に削除するのではなく、**非表示・使用不能な状態のまま残る**のでよい。また「システムに絡む」箇所(グローバルショートカット登録・バックエンドの決済プロキシ配管)を無理に開放する必要はない。個人利用・非商用のフォークにおいて、グローバルショートカット登録や決済プロキシのコードパスに手を入れるリスクに見合うだけの実益がないため、非機能のまま残すことは許容できる結果である。
 
 ### Goals
 
-- Every frontend `hasActiveLicense`-gated **product feature** listed above behaves as if always licensed (fully usable, no dimming/locking/early-return).
-- Every license-purchase/entry **UI surface** (`GetLicense` CTA renders, `Promote.tsx`, the license-key section of `PluelyApiSetup.tsx`, the Dashboard license CTA) is removed or hidden from the UI, since it dead-ends at a payment backend this fork doesn't run.
-- No changes to Rust/Tauri backend code. The `move_window` arrow-key shortcut's `LicenseState` gate and the Pluely SaaS-proxy backend (`activate.rs`, relevant parts of `api.rs`) are left exactly as-is — already non-functional in this fork, which satisfies the requirement without touching system-level registration code.
+- 上記に挙げた、フロントエンドで `hasActiveLicense` によりゲートされている**製品機能**はすべて、常にライセンスが有効であるかのように動作すること(完全に利用可能で、暗転・ロック・早期returnがないこと)
+- ライセンス購入・登録の**UI導線**(`GetLicense` CTAのレンダリング、`Promote.tsx`、`PluelyApiSetup.tsx` のライセンスキーセクション、ダッシュボードのライセンスCTA)はすべて、UIから削除または非表示にすること。このフォークが動かしていない決済バックエンドへの行き止まりになっているため
+- Rust/Tauriバックエンドのコードは変更しないこと。矢印キー `move_window` ショートカットの `LicenseState` ゲート、および Pluely SaaS プロキシバックエンド(`activate.rs`、`api.rs` の該当部分)は現状のまま残す。このフォークでは既に非機能であり、システムレベルの登録コードに触れることなく要件を満たせる
 
 ### Non-Goals
 
-- Modifying `src-tauri/src/shortcuts.rs`, `src-tauri/src/activate.rs`, `src-tauri/src/api.rs`, or `src-tauri/build.rs`.
-- Restoring or fixing the arrow-key `move_window` shortcut (mouse-drag, unlocked by request #1 in this change, already covers the underlying need).
-- Deleting the `hasActiveLicense` state/plumbing in `app.context.tsx` itself, or the Rust `secure_storage`/`validate_license_api`/etc. commands — removing the *reads* (gates) is sufficient; the dormant state and backend commands can remain unused rather than risk a wider refactor.
-- Renaming or removing the "Pluely API" concept/toggle's underlying functions (`shouldUsePluelyAPI`, `fetchPluelyAIResponse`, `fetchPluelySTT`) — only the UI entry point to enable it is removed; the functions become unreachable dead code, not deleted, to limit blast radius.
+- `src-tauri/src/shortcuts.rs`、`src-tauri/src/activate.rs`、`src-tauri/src/api.rs`、`src-tauri/build.rs` の変更
+- 矢印キー `move_window` ショートカットの復旧・修正(この change の要望1で解除されるマウスドラッグが、既に本質的なニーズをカバーしている)
+- `app.context.tsx` 自体の `hasActiveLicense` の状態管理・配管や、Rustの `secure_storage`/`validate_license_api` 等のコマンドを削除すること。ゲート(参照箇所)を取り除くだけで十分であり、休眠状態のフラグやバックエンドコマンドは、より広範なリファクタのリスクを避けるため未使用のまま残してよい
+- 「Pluely API」の概念・トグルの裏側にある関数(`shouldUsePluelyAPI`、`fetchPluelyAIResponse`、`fetchPluelySTT`)のリネーム・削除。有効化のためのUI入口だけを削除し、関数自体は到達不能なデッドコードとして残す(削除はしない)。影響範囲を限定するため
 
 ### Decisions
 
-**Decision: For each frontend feature gate, delete the `hasActiveLicense` conditional and keep the "licensed" behavior as the only behavior** (mirrors the `DragButton.tsx` approach from request #1). Applies to: `Theme.tsx`, `responses/index.tsx` + its 3 sub-components, `PluelyPrompts.tsx`, `Generate.tsx`, `useMenuItems.tsx`, `ScreenshotConfigs.tsx` + `useSettings.ts` + `useChatCompletion.ts`, `View.tsx`, `speech/index.tsx`, `ShortcutManager.tsx` (re-binding only) + `shortcuts.storage.ts`'s `getAllShortcutActions`.
-Alternative considered: introduce a single `const hasActiveLicense = true` constant/flag instead of editing every call site — rejected because it leaves ~19 files silently depending on a lie, is easy to accidentally revert, and still ships dead `GetLicense`/lock-icon UI branches that need removing anyway.
+**決定: 各フロントエンドの機能ゲートについて、`hasActiveLicense` の条件分岐を削除し、「ライセンスあり」側の挙動だけを残す**(要望1の `DragButton.tsx` と同じやり方を踏襲する)。対象: `Theme.tsx`、`responses/index.tsx` とその3つのサブコンポーネント、`PluelyPrompts.tsx`、`Generate.tsx`、`useMenuItems.tsx`、`ScreenshotConfigs.tsx` + `useSettings.ts` + `useChatCompletion.ts`、`View.tsx`、`speech/index.tsx`、`ShortcutManager.tsx`(再割り当てのみ)+ `shortcuts.storage.ts` の `getAllShortcutActions`。
+検討した代替案: 各呼び出し箇所を編集する代わりに、`const hasActiveLicense = true` という単一の定数/フラグを導入する案 — 却下。約19ファイルが「嘘の値」に黙って依存し続ける状態になり、誤って元に戻されやすく、それでもなお削除が必要な `GetLicense`/ロックアイコンのデッドUI分岐が残ってしまうため
 
-**Decision: `dashboard/index.tsx`'s activity fetch stays gated in effect, since it targets a Pluely backend endpoint that doesn't exist for this fork — but drop the "requires license" framing.** `get_activity` (Rust) calls a Pluely-hosted usage-stats endpoint; there's nothing to unlock since there's no local activity source to show instead. Remove the `GetLicense` CTA from the page header and the "Pluelyライセンスで..." marketing copy; leave the activity section either empty/omitted or replaced with a short explanatory note, rather than pretending it will now show real data.
+**決定: `dashboard/index.tsx` のアクティビティ取得は、実質的にゲートされたままにする。取得先がこのフォークに存在しないPluelyバックエンドのエンドポイントを指しているため。ただし「ライセンスが必要」という見せ方は取り除く。** `get_activity`(Rust)はPluelyがホストする利用状況エンドポイントを呼び出すものであり、代わりに表示できるローカルなアクティビティ源がないため、そもそも「解除」できるものがない。ページヘッダーの `GetLicense` CTA と「Pluelyライセンスで...」というマーケティング文言を削除し、アクティビティ表示部分は空表示のままにするか、簡単な説明文に差し替える。実際にデータが表示されるようになるかのように見せかけることはしない
 
-**Decision: Remove the license-purchase/entry UI outright rather than leave it dimmed.** `GetLicense.tsx` usages, `Promote.tsx`, and the license-key/activate/deactivate/checkout/model-select block in `PluelyApiSetup.tsx` are removed from their parent components' render trees. This is a UI-level removal (delete JSX + now-dead handlers/imports), not a deletion of the underlying Rust commands or `pluely.api.ts` — per the Non-Goals above, the backend plumbing stays in place but becomes unreferenced from the UI.
+**決定: ライセンス購入・登録UIは、暗転させたままにするのではなく、完全に削除する。** `GetLicense.tsx` の利用箇所、`Promote.tsx`、および `PluelyApiSetup.tsx` 内のライセンスキー入力・有効化/無効化・決済・モデル選択ブロックは、それぞれの親コンポーネントのレンダーツリーから削除する。これはUIレベルの削除(JSXと、今や不要になったハンドラ/importの削除)であり、裏側のRustコマンドや `pluely.api.ts` 自体の削除ではない。上記のNon-Goalsの通り、バックエンドの配管はそのまま残り、UIから参照されなくなるだけである
 
-**Decision: Do not touch anything in `src-tauri/`.** Per explicit user direction, system-level/global-shortcut and payment-backend code is left untouched. The arrow-key `move_window` shortcut remains non-functional (already the case today); this is an accepted, intentional gap, not a bug to fix in this change.
+**決定: `src-tauri/` 配下には一切手を入れない。** ユーザーの明示的な指示により、システムレベル/グローバルショートカットおよび決済バックエンドのコードには触れない。矢印キーの `move_window` ショートカットは(現状と変わらず)非機能のままとなる。これはこの change で修正すべきバグではなく、受け入れ済みの意図的なギャップである
 
 ## Risks / Trade-offs
 
 ## Decisions
 
-**Decision: Always render the plain draggable button; delete the license-gated branch in `DragButton.tsx`.**
-Rather than flipping a default or special-casing this fork, remove the `if (!hasActiveLicense) { ... }` branch entirely so the component has one unconditional render path with `data-tauri-drag-region={true}`. This directly matches the guidance in `CLAUDE.md`/`pluely-cleanup-checklist` to remove Pluely-era license-gating rather than work around it, and avoids leaving dead conditional code that references a `hasActiveLicense` value that can never be `true`.
-Alternative considered: keep the branch but force `data-tauri-drag-region={true}` in both cases — rejected because it leaves confusing dead code (an unreachable-in-practice popover) and unused imports (`Popover`, `GetLicense`) that a future reader would have to puzzle through.
+**決定: 常に通常のドラッグ可能なボタンを描画し、`DragButton.tsx` 内のライセンスゲート分岐を削除する。**
+デフォルト値を変えたり、このフォーク用に特別扱いをしたりするのではなく、`if (!hasActiveLicense) { ... }` の分岐そのものを削除し、コンポーネントが `data-tauri-drag-region={true}` を持つ単一の無条件レンダーパスだけになるようにする。これは `CLAUDE.md`/`pluely-cleanup-checklist` が示す「Pluely時代のライセンスゲートは回避するのではなく削除する」という方針に直接合致しており、決して `true` にならない `hasActiveLicense` を参照する死んだ条件分岐コードを残さずに済む。
+検討した代替案: 分岐はそのまま残し、両方のケースで `data-tauri-drag-region={true}` を強制する案 — 却下。実質的に到達しないポップオーバーや、未使用のimport(`Popover`、`GetLicense`)という紛らわしいデッドコードが残り、将来読む人がその理由を考え込むことになるため
 
-**Decision (request #1 only): Do not touch `hasActiveLicense` itself or other call sites for the drag-button fix.**
-At the time of request #1, the other 40+ call sites were out of scope. Request #2 (see "License paywall removal" above) now explicitly brings the frontend call sites into scope, so this decision applies only to keeping request #1's diff minimal — it does not mean those call sites stay locked forever.
+**決定(要望1に限る): ドラッグボタンの修正にあたっては、`hasActiveLicense` 自体や他の参照箇所には触れない。**
+要望1の時点では、他の40箇所以上の参照箇所は対象外だった。要望2(上記「ライセンス課金の撤去」)により、フロントエンドの参照箇所は今や明示的に対象範囲に入っている。この決定はあくまで要望1の差分を最小限に保つためのものであり、それらの参照箇所を永久にロックしたままにするという意味ではない
 
 ## Risks / Trade-offs
 
-- [Risk] Removing the `Popover`/`GetLicense` import usage in `DragButton.tsx` may leave now-unused imports if not cleaned up → Mitigation: remove unused imports as part of the same edit; run `npm run lint` / `npm run typecheck` to confirm.
-- [Risk] Other code may rely on `DragButton` being non-interactive/hidden when unlicensed (e.g., a screenshot test or layout assumption) → Mitigation: grep for `DragButton` usage before editing to confirm it's only rendered in the one overlay layout; manually verify the overlay in the running app after the change (per repo convention of testing UI changes live).
-- [Trade-off] This creates a small, deliberate behavior divergence from upstream Pluely (window is draggable without a license) — acceptable per `CLAUDE.md`: this fork has "no third-party redistribution planned" and is not bound by upstream's monetization model.
-- [Risk] Removing `hasActiveLicense` conditionals across ~19 files is mechanically repetitive and easy to do inconsistently (e.g. missing an unused import, leaving a dangling `isLocked`-style prop) → Mitigation: go file-by-file per the task list, `npm run typecheck` + `npm run lint` after each group, not just at the end.
-- [Risk] Removing the `PluelyApiSetup.tsx` license section might leave `pluelyApiEnabled` in a confusing half-state (toggle removed from UI, but the underlying `localStorage` flag / Rust fallback code paths still exist) → Mitigation: since the toggle UI is gone, `pluelyApiEnabled` can never be set to `true` again through normal use going forward; existing `true` values from before this change are a pre-existing edge case, not something this change needs to migrate (no data migration performed, per Non-Goals).
-- [Trade-off] Leaving `src-tauri/` untouched means the arrow-key `move_window` shortcut and the Pluely SaaS-proxy backend remain present but permanently unreachable dead code in the Rust binary — accepted per explicit user direction, to avoid the higher risk of touching global-shortcut registration and payment-proxy code paths for a personal fork.
+- [リスク] `DragButton.tsx` 内で `Popover`/`GetLicense` のimportを使わなくなった際、整理し忘れると未使用importが残る → 対策: 同じ編集の中で未使用importを削除する。`npm run lint` / `npm run typecheck` で確認する
+- [リスク] 他のコードが「未ライセンス時は `DragButton` が操作不能/非表示である」ことを前提にしている可能性がある(例: スクリーンショットテストやレイアウト上の想定) → 対策: 編集前に `DragButton` の利用箇所を grep し、1つのオーバーレイレイアウトでのみ描画されていることを確認する。変更後は実際に起動しているアプリでオーバーレイを目視確認する(UI変更は実機で確認するという本リポジトリの慣習に従う)
+- [トレードオフ] これにより upstream の Pluely から小さいが意図的な挙動の差異が生まれる(ライセンスなしでウィンドウがドラッグ可能になる) — `CLAUDE.md` により許容される。このフォークは「サードパーティへの再配布を予定しない」ため、upstreamの収益化モデルに縛られない
+- [リスク] 約19ファイルにわたる `hasActiveLicense` 条件分岐の削除は機械的な繰り返し作業であり、一貫性を欠きやすい(未使用importの消し忘れ、`isLocked` 系propsの残留など) → 対策: タスクリストに沿ってファイルごとに進め、最後にまとめてではなく、各グループの後に `npm run typecheck` + `npm run lint` を実行する
+- [リスク] `PluelyApiSetup.tsx` のライセンスセクションを削除すると、`pluelyApiEnabled` が中途半端な状態になる可能性がある(UIからトグルは消えるが、裏側の `localStorage` フラグやRustのフォールバック処理は残り続ける) → 対策: トグルUIが無くなるため、今後通常の利用を通じて `pluelyApiEnabled` が再び `true` になることはない。この change 以前から `true` になっていた既存値は、この change でマイグレーションすべき対象ではなく、既存の想定外ケースとして扱う(Non-Goalsの通り、データマイグレーションは行わない)
+- [トレードオフ] `src-tauri/` 配下に触れないことで、矢印キー `move_window` ショートカットと Pluely SaaS プロキシバックエンドは、Rustバイナリ内に存在はするが恒久的に到達不能なデッドコードとして残る — ユーザーの明示的な指示により許容する。個人フォークにおいて、グローバルショートカット登録や決済プロキシのコードパスに手を入れる、より高いリスクを避けるため
 
 ## Migration Plan
 
-No data migration. Ship as a normal frontend change:
-1. Edit `DragButton.tsx` per Decisions above.
-2. `npm run typecheck` and `npm run lint`.
-3. Manually verify in the running app: launch, confirm the grip handle drags the window, confirm no license popover appears.
-4. No rollback concerns beyond a normal git revert.
+データマイグレーションはなし。通常のフロントエンド変更として進める。
+1. 上記の決定に沿って `DragButton.tsx` を編集する
+2. `npm run typecheck` と `npm run lint` を実行する
+3. 実際に起動しているアプリで目視確認する: 起動し、グリップハンドルでウィンドウがドラッグできること、ライセンスポップオーバーが表示されないことを確認する
+4. 通常の `git revert` 以上のロールバック上の懸念はない
 
 ## Open Questions
 
-- Should the `GetLicense`/license-key UI be removed project-wide, or intentionally kept for other surfaces (e.g. as a no-op placeholder in case a future non-commercial "settings profile" concept reuses it)? Deferred — out of scope here, candidate for a future backlog task in this change or a dedicated cleanup change.
+- `GetLicense`/ライセンスキーUIをプロジェクト全体から削除すべきか、それとも他の画面(例: 将来の非商用「設定プロファイル」的な概念が再利用する場合に備えたno-opのプレースホルダーとして)に意図的に残すべきか? → 保留。ここではスコープ外とし、この change 内の将来のバックログタスク、または専用のクリーンアップ change の候補とする

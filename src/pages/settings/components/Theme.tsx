@@ -1,4 +1,4 @@
-import { useApp, useTheme } from "@/contexts";
+import { useTheme } from "@/contexts";
 import { Header, Label, Slider, Button } from "@/components";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import {
@@ -10,26 +10,17 @@ import {
 
 export const Theme = () => {
   const { theme, transparency, setTheme, onSetTransparency } = useTheme();
-  const { hasActiveLicense } = useApp();
 
   return (
     <div id="theme" className="relative space-y-3">
       <Header
-        title={`テーマのカスタマイズ ${
-          hasActiveLicense
-            ? ""
-            : " (この機能の利用には有効なライセンスが必要です)"
-        }`}
+        title="テーマのカスタマイズ"
         description="カスタムテーマと透明度の設定で表示をカスタマイズします"
         isMainTitle
       />
 
       {/* Theme Toggle */}
-      <div
-        className={`space-y-2 ${
-          hasActiveLicense ? "" : "opacity-60 pointer-events-none"
-        }`}
-      >
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div>
@@ -87,11 +78,7 @@ export const Theme = () => {
       </div>
 
       {/* Transparency Slider */}
-      <div
-        className={`space-y-2 ${
-          hasActiveLicense ? "" : "opacity-60 pointer-events-none"
-        }`}
-      >
+      <div className="space-y-2">
         <Header
           title="ウィンドウの透明度"
           description="アプリケーションウィンドウの透明度を調整します"

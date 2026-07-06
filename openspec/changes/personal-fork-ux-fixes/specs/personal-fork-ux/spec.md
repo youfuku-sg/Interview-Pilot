@@ -1,12 +1,12 @@
 ## ADDED Requirements
 
-### Requirement: Main overlay window is always draggable by mouse
-The main overlay window's grip handle SHALL be draggable with the mouse to reposition the window, regardless of `hasActiveLicense` state. Since this fork has no license-activation flow and `hasActiveLicense` is always `false`, dragging MUST NOT be conditioned on that flag.
+### Requirement: メインオーバーレイウィンドウは常にマウスでドラッグ可能である
+メインオーバーレイウィンドウのグリップハンドルは、`hasActiveLicense` の状態に関わらず、ウィンドウを移動させるためにマウスでドラッグ可能でなければならない (SHALL)。このフォークにはライセンス有効化フローが存在せず、`hasActiveLicense` は常に `false` であるため、ドラッグ可能かどうかがこのフラグに左右されてはならない (MUST NOT)。
 
-#### Scenario: User drags the window from the grip handle
-- **WHEN** the user presses the mouse button on the grip handle in the main overlay and moves the mouse
-- **THEN** the window follows the mouse movement (native OS window drag), regardless of license state
+#### Scenario: ユーザーがグリップハンドルからウィンドウをドラッグする
+- **WHEN** ユーザーがメインオーバーレイのグリップハンドル上でマウスボタンを押し、マウスを動かす
+- **THEN** ライセンス状態に関わらず、ウィンドウがマウスの動きに追従する(OSネイティブのウィンドウドラッグ)
 
-#### Scenario: No license-required prompt on the grip handle
-- **WHEN** the user clicks the grip handle
-- **THEN** no "有効なライセンスが必要です" popover or license-purchase call-to-action is shown
+#### Scenario: グリップハンドルにライセンス必須のプロンプトが出ない
+- **WHEN** ユーザーがグリップハンドルをクリックする
+- **THEN** 「有効なライセンスが必要です」ポップオーバーやライセンス購入CTAは表示されない

@@ -2,6 +2,12 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.3] - 2026-07-07
+
+### Notes
+
+- コード変更なし。OpenSpec変更 `update-dependencies-minor-patch`(v0.5.1/v0.5.2で実施した依存関係更新の計画・仕様)をアーカイブした。`tasks.md` は実際の完了状況(npm更新・typecheck/lint/build・CI経由のtauriビルド確認は完了、cargo未導入によるRust依存更新・手動回帰確認・メジャー更新の別チケット化は未実施)に合わせて更新済み。delta spec `dependency-currency` はRust側要件が未達のためmain specへは同期していない
+
 ## [0.5.2] - 2026-07-07
 
 ### Fixed

@@ -2,6 +2,17 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.2] - 2026-07-07
+
+### Fixed
+
+- **hotfix**: v0.5.1 で更新した `@tauri-apps/api` / `@tauri-apps/plugin-opener` / `@tauri-apps/plugin-sql` が、対応する Rust 側crate(`tauri` 2.8.2、`tauri-plugin-opener` 2.4.0、`tauri-plugin-sql` 2.3.0)より大きく先行してしまい、`tauri build` のバージョン不一致チェックでCIビルドが失敗していた(GitHub Releaseは未作成)。作業環境に Rust ツールチェーン(`cargo`)が無く Rust 側を追従更新できないため、この3パッケージのみ更新前のバージョン(2.8.0 / 2.4.0 / 2.3.0)に戻して整合を保った
+
+### Notes
+
+- 次回 cargo が使える環境で `cargo update` を実行し、`@tauri-apps/*` npmパッケージも合わせて追従更新することを推奨する
+- typecheck・lint・build・`npm ci`・GitHub Actions publish-tauriビルドで回帰がないことを確認済み
+
 ## [0.5.1] - 2026-07-06
 
 ### Changed
@@ -10,8 +21,8 @@
 
 ### Notes
 
-- 作業環境に Rust ツールチェーン(`cargo`)が無く、`src-tauri/`(Cargo依存関係)の更新は今回未実施。次回 cargo が使える環境で `cargo update` の実行を推奨する
-- typecheck・lint・build で回帰がないことを確認済み
+- 作業環境に Rust ツールチェーン(`cargo`)が無く、`src-tauri/`(Cargo依存関係)の更新は今回未実施
+- typecheck・lint・buildで回帰がないことを確認済み(GitHub Actions publish-tauriビルドはRust側とのバージョン不一致により失敗。[0.5.2]で修正)
 
 ## [0.5.0] - 2026-07-06
 

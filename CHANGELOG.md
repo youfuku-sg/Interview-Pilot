@@ -2,6 +2,18 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.13] - 2026-07-08
+
+### Fixed
+
+- STT の multipart/form-data リクエストで明示的な言語指定がない場合に `language=ja` を追加し、長い日本語発話が provider 側の自動判定で英語として認識される問題を抑制した
+- 既存の `language` / `languageCode` / `language_code` / URL query / provider 固有 config 内の言語指定は上書き・重複追加しないようにした
+
+### Changed
+
+- 同梱 STT provider の curl テンプレートと Dev Space のカスタム STT provider 例を日本語向け（`ja` / `ja-JP`）に更新した
+- 完了した OpenSpec change `force-japanese-stt-language` をアーカイブし、`stt-transcription-language` capability spec を追加した
+
 ## [0.5.12] - 2026-07-08
 
 ### Fixed

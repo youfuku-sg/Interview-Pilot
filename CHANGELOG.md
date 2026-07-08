@@ -2,6 +2,12 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.11] - 2026-07-08
+
+### Fixed
+
+- 文字起こし結果が上段パネルに一切表示されなかったバグを修正した。原因は2点: (1) `capturing` 中は TranscriptionPanel が排他的に非表示になっていた → キャプチャ中も TranscriptionPanel を常時表示するよう変更、(2) `stopCapture` が `setLastTranscription("")` で結果をリセットしていた → 停止後もパネルに結果が残るよう削除した
+
 ## [0.5.10] - 2026-07-08
 
 ### Fixed

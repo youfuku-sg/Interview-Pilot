@@ -83,11 +83,11 @@ const App = () => {
 
           {/* 右エリア: 3段構造（常時表示） */}
           <div className="flex-1 flex flex-col min-w-0">
-            {/* 上段: キャプチャ中は AudioVisualizer + StatusIndicator、それ以外は文字起こしパネル */}
-            <div data-slot="top-panel" className="flex-1 border-b border-border/40 overflow-hidden">
-              {systemAudio?.capturing ? (
-                <div className="flex flex-col h-full">
-                  <div className="flex flex-1 items-center gap-2">
+            {/* 上段: 文字起こしパネル（常時表示）。キャプチャ中は AudioVisualizer + StatusIndicator も表示 */}
+            <div data-slot="top-panel" className="flex-1 border-b border-border/40 overflow-hidden flex flex-col">
+              {systemAudio?.capturing && (
+                <>
+                  <div className="flex items-center gap-2 shrink-0">
                     <AudioVisualizer isRecording={systemAudio.capturing} />
                   </div>
                   <StatusIndicator
@@ -97,14 +97,13 @@ const App = () => {
                     isAIProcessing={systemAudio.isAIProcessing}
                     capturing={systemAudio.capturing}
                   />
-                </div>
-              ) : (
-                <TranscriptionPanel
-                  lastTranscription={systemAudio.lastTranscription}
-                  isProcessing={systemAudio.isProcessing}
-                  sttReady={sttReady}
-                />
+                </>
               )}
+              <TranscriptionPanel
+                lastTranscription={systemAudio.lastTranscription}
+                isProcessing={systemAudio.isProcessing}
+                sttReady={sttReady}
+              />
             </div>
             {/* 中段: AI回答パネル */}
             <div data-slot="middle-panel" className="flex-1 border-b border-border/40 overflow-hidden">

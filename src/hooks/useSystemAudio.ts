@@ -616,15 +616,13 @@ export function useSystemAudio() {
       // Stop the audio capture
       await invoke<string>("stop_system_audio_capture");
 
-      // Reset ALL states
+      // Reset states (lastTranscription / lastAIResponse はパネルに残すためリセットしない)
       setCapturing(false);
       setIsProcessing(false);
       setIsAIProcessing(false);
       setIsContinuousMode(false);
       setIsRecordingInContinuousMode(false);
       setRecordingProgress(0);
-      setLastTranscription("");
-      setLastAIResponse("");
       setError("");
       setIsPopoverOpen(false);
     } catch (err) {

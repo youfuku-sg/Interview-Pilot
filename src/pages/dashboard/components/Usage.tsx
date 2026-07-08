@@ -41,10 +41,10 @@ export function Usage({
 }) {
   const chartConfig = {
     views: {
-      label: "Requests",
+      label: "リクエスト数",
     },
     requests: {
-      label: "Requests",
+      label: "リクエスト数",
       color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
@@ -57,9 +57,11 @@ export function Usage({
       <CardHeader className="flex flex-row items-stretch border-b !p-0 ">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 pb-0">
-            <CardTitle className="text-md lg:text-lg">Pluely Usage</CardTitle>
+            <CardTitle className="text-md lg:text-lg">
+              クラウドAPIの利用状況
+            </CardTitle>
             <CardDescription className="text-xs lg:text-sm">
-              Your current monthly usage of Pluely's API
+              今月のクラウドAPIの利用状況
             </CardDescription>
           </div>
 
@@ -75,11 +77,11 @@ export function Usage({
         <div className="flex flex-1">
           {[
             {
-              label: "Total Requests",
+              label: "合計リクエスト数",
               value: data.reduce((acc, curr) => acc + curr.requests, 0),
             },
             {
-              label: "Total Tokens",
+              label: "合計トークン数",
               value: totalTokens,
             },
           ].map((key, index) => {

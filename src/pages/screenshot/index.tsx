@@ -6,8 +6,8 @@ const Settings = () => {
   const settings = useSettings();
   return (
     <PageLayout
-      title="Screenshot"
-      description="Manage your screenshot settings"
+      title="スクリーンショット"
+      description="スクリーンショットの設定を管理します"
     >
       {/* Screenshot Configs */}
       <ScreenshotConfigs {...settings} />

@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(openspec instructions *)",
+      "Bash(openspec status *)",
+      "Bash(openspec validate *)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git ls-remote *)",
+      "Bash(npm run *)",
+      "Bash(npm outdated *)",
+      "Bash(which cargo *)",
+      "Bash(cargo --version)",
+      "Bash(rustc --version)"
+    ]
+  },
+  "promptSuggestionEnabled": false,
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://192.168.4.30:20128",
+    "ANTHROPIC_AUTH_TOKEN": "sk-bf2544ba7f7c1c8f-b97a2f-8aec1688",
+    "ANTHROPIC_MODEL": "claude90-codex",
+        "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
+  }
+}

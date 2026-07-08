@@ -7,8 +7,8 @@ export const STTProviders = (settings: UseSettingsReturn) => {
   return (
     <div id="stt-providers" className="space-y-3">
       <Header
-        title="STT Providers"
-        description="Select your preferred STT service provider to get started."
+        title="STTプロバイダー"
+        description="使用するSTTサービスプロバイダーを選択してください。"
         isMainTitle
       />
 

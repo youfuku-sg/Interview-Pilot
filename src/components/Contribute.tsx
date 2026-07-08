@@ -6,12 +6,13 @@ const Contribute = () => {
       <CardContent className="flex flex-col gap-4 p-4 py-0 md:flex-row md:items-center md:justify-between">
         <div className="space-y-2 md:max-w-[70%]">
           <CardTitle className="text-xs lg:text-sm">
-            Contribute to Pluely, Earn Lifetime Access
+            Pluelyに貢献して永久ライセンスを獲得
           </CardTitle>
           <CardDescription className="text-[10px] lg:text-xs">
-            Fix a listed critical issue and earn a lifetime Dev Pro license
-            valued at $120. Only issues on our contribute page qualify. read
-            more at pluely.com/contribute
+            掲載されている重大な issue を修正すると、$120 相当の永久 Dev
+            Pro ライセンスを獲得できます。対象は contribute
+            ページに掲載されている issue のみです。詳細は
+            pluely.com/contribute をご覧ください
           </CardDescription>
         </div>
         <Button asChild className="w-full md:w-auto text-[10px] lg:text-xs">

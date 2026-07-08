@@ -32,7 +32,7 @@ async function fetchPluelySTT(audio: File | Blob): Promise<string> {
     }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    return `Pluely STT Error: ${errorMessage}`;
+    return `クラウドAPI STT Error: ${errorMessage}`;
   }
 }
 
@@ -60,9 +60,9 @@ export async function fetchSTT(params: STTParams): Promise<string> {
       return await fetchPluelySTT(audio);
     }
 
-    if (!provider) throw new Error("Provider not provided");
-    if (!selectedProvider) throw new Error("Selected provider not provided");
-    if (!audio) throw new Error("Audio file is required");
+    if (!provider) throw new Error("プロバイダーが指定されていません");
+    if (!selectedProvider) throw new Error("選択されたプロバイダーが指定されていません");
+    if (!audio) throw new Error("音声ファイルが必要です");
 
     let curlJson: any;
     try {
@@ -77,7 +77,7 @@ export async function fetchSTT(params: STTParams): Promise<string> {
 
     // Validate audio file
     const file = audio as File;
-    if (file.size === 0) throw new Error("Audio file is empty");
+    if (file.size === 0) throw new Error("音声ファイルが空です");
     // maximum size of 10MB
     // const maxSize = 10 * 1024 * 1024;
     // if (file.size > maxSize) {

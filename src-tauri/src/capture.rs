@@ -121,7 +121,7 @@ pub async fn start_screen_capture(app: tauri::AppHandle) -> Result<(), String> {
 
         let overlay =
             WebviewWindowBuilder::new(&app, &window_label, WebviewUrl::App("index.html".into()))
-                .title("Screen Capture")
+                .title("画面キャプチャ")
                 .inner_size(logical_width, logical_height)
                 .position(logical_x, logical_y)
                 .transparent(true)

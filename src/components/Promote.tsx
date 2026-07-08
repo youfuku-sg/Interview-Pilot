@@ -29,18 +29,18 @@ const Promote = () => {
       <CardContent className="flex flex-col gap-4 p-4 py-0 md:flex-row md:items-center md:justify-between">
         <div className="space-y-2 md:max-w-[70%]">
           <CardTitle className="text-xs lg:text-sm">
-            Promote Pluely, Earn Rewards
+            Pluelyを拡散して報酬を獲得
           </CardTitle>
           <CardDescription className="text-[10px] lg:text-xs">
-            Share Pluely on social, hit 5K impressions, and we&apos;ll send you
-            a $5&ndash;$10 coupon for a monthly plan. Email your post link to{" "}
+            SNS で Pluely をシェアしてインプレッション数が5,000に達すると、
+            月額プラン向けの$5〜$10クーポンをお送りします。投稿リンクを{" "}
             <a
               className="text-primary underline underline-offset-4"
               href="mailto:support@pluely.com"
             >
               support@pluely.com
             </a>
-            .
+            までメールしてください。
           </CardDescription>
         </div>
         <Button asChild className="w-full md:w-auto text-[10px] lg:text-xs">
@@ -54,7 +54,7 @@ const Promote = () => {
         </Button>
       </CardContent>
       <button
-        aria-label="Dismiss promotion"
+        aria-label="このお知らせを閉じる"
         className="absolute -right-1 -top-2 rounded-full border border-transparent bg-primary/10 p-1 transition hover:border-primary/20 hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         onClick={handleDismiss}
         type="button"

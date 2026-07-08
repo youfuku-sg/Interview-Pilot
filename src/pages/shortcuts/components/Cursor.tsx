@@ -22,8 +22,8 @@ export const CursorSelection = ({ className }: CursorSelectionProps) => {
   return (
     <div id="cursor" className={`space-y-2 ${className}`}>
       <Header
-        title="Cursor"
-        description="Control pluely cursor visibility"
+        title="カーソル"
+        description="Interview-Pilotのカーソル表示を制御します"
         isMainTitle
         rightSlot={
           <Select
@@ -31,22 +31,22 @@ export const CursorSelection = ({ className }: CursorSelectionProps) => {
             onValueChange={(value) => setCursorType(value as CursorType)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select a cursor type" />
+              <SelectValue placeholder="カーソルの種類を選択" />
             </SelectTrigger>
             <SelectContent position="popper" align="end">
               <SelectItem value="invisible" disabled={platform === "linux"}>
-                Invisible (<MousePointer2 className="size-3 px-0" />){" "}
+                非表示 (<MousePointer2 className="size-3 px-0" />){" "}
                 {platform === "linux" && (
                   <span className="text-xs text-muted-foreground">
-                    Not supported on Linux
+                    Linuxでは非対応
                   </span>
                 )}
               </SelectItem>
               <SelectItem value="default">
-                Default (<MousePointer className="size-3" />)
+                既定 (<MousePointer className="size-3" />)
               </SelectItem>
               <SelectItem value="auto">
-                Auto (
+                自動 (
                 <MousePointer className="size-3" />/
                 <TextCursor className="size-3" /> /
                 <Pointer className="size-3" />)

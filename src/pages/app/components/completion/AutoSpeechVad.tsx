@@ -47,7 +47,7 @@ const AutoSpeechVADInternal = ({
           setState((prev: any) => ({
             ...prev,
             error:
-              "No speech provider selected. Please select one in settings.",
+              "音声プロバイダーが選択されていません。設定画面で選択してください。",
           }));
           return;
         }
@@ -61,7 +61,7 @@ const AutoSpeechVADInternal = ({
           setState((prev: any) => ({
             ...prev,
             error:
-              "Speech provider configuration not found. Please check your settings.",
+              "音声プロバイダーの設定が見つかりません。設定を確認してください。",
           }));
           return;
         }
@@ -83,7 +83,7 @@ const AutoSpeechVADInternal = ({
         setState((prev: any) => ({
           ...prev,
           error:
-            error instanceof Error ? error.message : "Transcription failed",
+            error instanceof Error ? error.message : "文字起こしに失敗しました",
         }));
       } finally {
         setIsTranscribing(false);

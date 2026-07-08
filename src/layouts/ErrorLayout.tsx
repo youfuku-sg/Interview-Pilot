@@ -8,7 +8,7 @@ export const ErrorLayout = ({ isCompact }: { isCompact?: boolean }) => {
         <SparklesIcon className="size-5 text-background" />
       </div>
       <p className="text-sm md:text-xl">
-        Oops! Something went wrong. Click reload to restart the app.
+        エラーが発生しました。再読み込みしてアプリを再起動してください。
       </p>
 
       <div className="flex flex-row items-center gap-2">
@@ -26,21 +26,22 @@ export const ErrorLayout = ({ isCompact }: { isCompact?: boolean }) => {
             <div className="flex size-6 items-center justify-center rounded-lg bg-foreground">
               <SparklesIcon className="size-4 text-background" />
             </div>
-            <h1 className="text-md font-semibold text-foreground">Pluely</h1>
+            <h1 className="text-md font-semibold text-foreground">
+              Interview-Pilot
+            </h1>
           </div>
         </div>
 
         <div className="flex flex-col gap-4 items-center text-center select-none mt-8">
           <h1 className="text-6xl md:text-6xl font-bold hover:scale-105 transition-transform duration-200">
-            Oops!
+            エラー
           </h1>
           <div className="space-y-2">
             <p className="text-xl md:text-2xl font-medium text-foreground">
-              Something unexpected happened
+              予期しないエラーが発生しました
             </p>
             <p className="text-sm md:text-base text-muted-foreground">
-              Don't worry! Just click the reload button below to restart the
-              app.
+              下の再読み込みボタンをクリックしてアプリを再起動してください。
             </p>
           </div>
         </div>
@@ -51,7 +52,7 @@ export const ErrorLayout = ({ isCompact }: { isCompact?: boolean }) => {
             onClick={() => window.location.reload()}
             className="w-full shadow-sm hover:shadow-md transition-shadow duration-200"
           >
-            <RefreshCcwIcon className="size-4" /> Reload
+            <RefreshCcwIcon className="size-4" /> 再読み込み
           </Button>
         </div>
       </div>

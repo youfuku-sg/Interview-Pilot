@@ -7,15 +7,8 @@ import {
   CardTitle,
   Header,
   Empty,
-  GetLicense,
 } from "@/components";
-import {
-  CheckCircle2,
-  Sparkles,
-  BotIcon,
-  LockIcon,
-  ClockIcon,
-} from "lucide-react";
+import { CheckCircle2, Sparkles, BotIcon, ClockIcon } from "lucide-react";
 import { useApp } from "@/contexts";
 import { safeLocalStorage } from "@/lib";
 import { STORAGE_KEYS } from "@/config";
@@ -48,12 +41,7 @@ const SELECTED_PLUELY_MODEL_STORAGE_KEY = "selected_pluely_model";
 const SELECTED_PLUELY_PROMPT_STORAGE_KEY = "selected_pluely_prompt";
 
 export const PluelyPrompts = () => {
-  const {
-    setSystemPrompt,
-    hasActiveLicense,
-    setSupportsImages,
-    pluelyApiEnabled,
-  } = useApp();
+  const { setSystemPrompt, setSupportsImages, pluelyApiEnabled } = useApp();
   const [prompts, setPrompts] = useState<PluelyPrompt[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -122,7 +110,7 @@ export const PluelyPrompts = () => {
     } catch (err) {
       console.error("Failed to fetch Pluely prompts:", err);
       setError(
-        typeof err === "string" ? err : "Failed to fetch Pluely prompts"
+        typeof err === "string" ? err : "推奨プロンプトの取得に失敗しました"
       );
     } finally {
       setIsLoading(false);
@@ -139,11 +127,6 @@ export const PluelyPrompts = () => {
   };
 
   const handleSelectPluelyPrompt = async (prompt: PluelyPrompt) => {
-    // Check if user has active license
-    if (!hasActiveLicense) {
-      return;
-    }
-
     try {
       // Set the system prompt
       setSystemPrompt(prompt.prompt);
@@ -204,14 +187,14 @@ export const PluelyPrompts = () => {
     return (
       <div className="space-y-4 mt-6">
         <Header
-          title="Pluely Default Prompts"
-          description="Pre-configured prompts with optimal model selection"
+          title="推奨プロンプト"
+          description="最適なモデルがあらかじめ設定されたプロンプトです"
         />
         <Empty
           isLoading={true}
           icon={Sparkles}
-          title="Loading prompts..."
-          description="Fetching Pluely default prompts"
+          title="プロンプトを読み込み中..."
+          description="推奨プロンプトを取得しています"
         />
       </div>
     );
@@ -221,8 +204,8 @@ export const PluelyPrompts = () => {
     return (
       <div className="space-y-4 mt-6">
         <Header
-          title="Pluely Default Prompts"
-          description="Pre-configured prompts with optimal model selection"
+          title="推奨プロンプト"
+          description="最適なモデルがあらかじめ設定されたプロンプトです"
         />
         <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-3">
           <p className="text-sm text-destructive">{error}</p>
@@ -241,35 +224,26 @@ export const PluelyPrompts = () => {
         <div className="flex items-start gap-3 w-full">
           <div className="flex flex-col gap-1 w-full">
             <Header
-              title="Pluely Default Prompts"
-              description="Pre-configured prompts with optimal model pairings. Selecting a prompt will automatically set the recommended AI model for best results."
+              title="推奨プロンプト"
+              description="最適なモデルの組み合わせがあらかじめ設定されたプロンプトです。選択すると、最良の結果を得るための推奨AIモデルが自動的に設定されます。"
             />
             {lastUpdated && (
               <div className="flex justify-end items-center gap-1 text-[10px] text-muted-foreground">
                 <ClockIcon className="size-2" />
-                <span>Last updated: {moment(lastUpdated).fromNow()}</span>
+                <span>最終更新: {moment(lastUpdated).fromNow()}</span>
               </div>
             )}
           </div>
         </div>
-        {!hasActiveLicense && (
-          <GetLicense buttonText="Unlock" buttonClassName="shrink-0" />
-        )}
       </div>
 
-      <div
-        className={`grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 pb-4 ${
-          !hasActiveLicense ? "opacity-60" : ""
-        }`}
-      >
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 pb-4">
         {prompts.map((prompt, index) => {
           const isSelected = isPromptSelected(prompt);
           return (
             <Card
               key={`${prompt.title}-${index}`}
-              className={`relative border lg:border-2 shadow-none p-4 pb-10 gap-0 group transition-all hover:shadow-sm ${
-                hasActiveLicense ? "cursor-pointer" : "cursor-not-allowed"
-              } ${
+              className={`relative border lg:border-2 shadow-none p-4 pb-10 gap-0 group transition-all hover:shadow-sm cursor-pointer ${
                 isSelected
                   ? "!bg-primary/5 dark:!bg-primary/10 border-primary"
                   : "!bg-black/5 dark:!bg-white/5 border-transparent"
@@ -278,9 +252,6 @@ export const PluelyPrompts = () => {
             >
               {isSelected && (
                 <CheckCircle2 className="size-5 text-green-500 flex-shrink-0 absolute top-2 right-2" />
-              )}
-              {!hasActiveLicense && (
-                <LockIcon className="size-4 text-muted-foreground flex-shrink-0 absolute top-2 right-2" />
               )}
               <CardHeader className="p-0 pb-0 select-none">
                 <div className="flex items-start justify-between gap-2 relative">

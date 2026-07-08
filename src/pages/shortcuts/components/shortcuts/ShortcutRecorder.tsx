@@ -79,7 +79,7 @@ export const ShortcutRecorder = ({
       if (isMoveWindow) {
         if (["up", "down", "left", "right"].includes(mainKey)) {
           setError(
-            "Arrow keys are automatic for Move Window. Only set modifiers."
+            "矢印キーはウィンドウ移動用に自動設定されます。修飾キーのみ設定してください。"
           );
           return;
         }
@@ -87,7 +87,7 @@ export const ShortcutRecorder = ({
           setRecordedKeys(keys);
           setError("");
         } else {
-          setError("Must include at least one modifier (Cmd/Ctrl/Alt/Shift)");
+          setError("少なくとも1つの修飾キー(Cmd/Ctrl/Alt/Shift)を含めてください");
         }
       } else {
         if (!["control", "alt", "shift", "meta"].includes(mainKey)) {
@@ -99,7 +99,7 @@ export const ShortcutRecorder = ({
           setError("");
         } else {
           setError(
-            "Must include at least one modifier (Cmd/Ctrl/Alt/Shift) and one key"
+            "修飾キー(Cmd/Ctrl/Alt/Shift)を1つとキーを1つ以上含めてください"
           );
         }
       }
@@ -135,8 +135,8 @@ export const ShortcutRecorder = ({
     if (recordedKeys.length < minKeys) {
       setError(
         isMoveWindow
-          ? "Move Window needs at least one modifier"
-          : "Shortcut must have at least one modifier and one key"
+          ? "ウィンドウ移動には少なくとも1つの修飾キーが必要です"
+          : "ショートカットには修飾キーとキーをそれぞれ1つ以上含めてください"
       );
       return;
     }
@@ -147,7 +147,7 @@ export const ShortcutRecorder = ({
     if (!isMoveWindow) {
       // Validate with frontend
       if (!validateShortcutKey(shortcutKey)) {
-        setError("Invalid shortcut combination");
+        setError("無効なショートカットの組み合わせです");
         return;
       }
 
@@ -158,11 +158,11 @@ export const ShortcutRecorder = ({
         });
 
         if (!isValid) {
-          setError("This shortcut combination is not supported");
+          setError("このショートカットの組み合わせはサポートされていません");
           return;
         }
       } catch (e) {
-        setError("Failed to validate shortcut");
+        setError("ショートカットの検証に失敗しました");
         return;
       }
     }
@@ -179,7 +179,7 @@ export const ShortcutRecorder = ({
   const displayKey =
     recordedKeys.length > 0
       ? formatShortcutKeyForDisplay(recordedKeys.join("+"))
-      : "Waiting for keys...";
+      : "キー入力を待っています...";
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -201,20 +201,20 @@ export const ShortcutRecorder = ({
           variant="default"
           onClick={handleSave}
           disabled={disabled || recordedKeys.length < minKeys}
-          title="Save shortcut"
+          title="ショートカットを保存"
         >
           <Check className="h-4 w-4" />
-          Save
+          保存
         </Button>
         <Button
           size="sm"
           variant="outline"
           onClick={handleCancel}
           disabled={disabled}
-          title="Cancel"
+          title="キャンセル"
         >
           <X className="h-4 w-4" />
-          Cancel
+          キャンセル
         </Button>
       </div>
 
@@ -223,14 +223,14 @@ export const ShortcutRecorder = ({
       {isRecording && !error && (
         <p className="text-xs text-muted-foreground">
           {isMoveWindow
-            ? "Press modifier keys (e.g., Cmd+Shift). Arrow keys work automatically."
-            : "Press a key combination now (e.g., Cmd+Shift+K)"}
+            ? "修飾キーを押してください(例: Cmd+Shift)。矢印キーは自動的に動作します。"
+            : "キーの組み合わせを押してください(例: Cmd+Shift+K)"}
         </p>
       )}
 
       {recordedKeys.length >= minKeys && !error && (
         <p className="text-xs text-green-600">
-          ✓ Shortcut captured! Click "Save" to apply.
+          ✓ ショートカットを記録しました!「保存」をクリックして適用してください。
         </p>
       )}
     </div>

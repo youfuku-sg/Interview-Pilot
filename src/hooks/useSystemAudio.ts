@@ -237,7 +237,7 @@ export function useSystemAudio() {
 
             const usePluelyAPI = await shouldUsePluelyAPI();
             if (!selectedSttProvider.provider && !usePluelyAPI) {
-              setError("No speech provider selected.");
+              setError("音声プロバイダーが選択されていません。");
               return;
             }
 
@@ -246,7 +246,7 @@ export function useSystemAudio() {
             );
 
             if (!providerConfig && !usePluelyAPI) {
-              setError("Speech provider config not found.");
+              setError("音声プロバイダーの設定が見つかりません。");
               return;
             }
 
@@ -290,7 +290,7 @@ export function useSystemAudio() {
                   previousMessages
                 );
               } else {
-                setError("Received empty transcription");
+                setError("文字起こし結果が空でした");
               }
             } catch (sttError: any) {
               console.error("STT Error:", sttError);
@@ -298,13 +298,13 @@ export function useSystemAudio() {
               setIsPopoverOpen(true);
             }
           } catch (err) {
-            setError("Failed to process speech");
+            setError("音声の処理に失敗しました");
           } finally {
             setIsProcessing(false);
           }
         });
       } catch (err) {
-        setError("Failed to setup speech listener");
+        setError("音声リスナーの設定に失敗しました");
       }
     };
 
@@ -489,7 +489,7 @@ export function useSystemAudio() {
 
         const usePluelyAPI = await shouldUsePluelyAPI();
         if (!selectedAIProvider.provider && !usePluelyAPI) {
-          setError("No AI provider selected.");
+          setError("AIプロバイダーが選択されていません。");
           return;
         }
 
@@ -497,7 +497,7 @@ export function useSystemAudio() {
           (p) => p.id === selectedAIProvider.provider
         );
         if (!provider && !usePluelyAPI) {
-          setError("AI provider config not found.");
+          setError("AIプロバイダーの設定が見つかりません。");
           return;
         }
 
@@ -541,7 +541,7 @@ export function useSystemAudio() {
           }));
         }
       } catch (err) {
-        setError("Failed to get AI response");
+        setError("AIの応答取得に失敗しました");
       } finally {
         setIsAIProcessing(false);
         // No auto-restart - user manually controls when to start next recording
@@ -672,10 +672,10 @@ export function useSystemAudio() {
         await startCapture();
       } else {
         setSetupRequired(true);
-        setError("Permission not granted. Please try the manual steps.");
+        setError("権限が許可されていません。手動手順をお試しください。");
       }
     } catch (err) {
-      setError("Failed to request access. Please try the manual steps below.");
+      setError("アクセス要求に失敗しました。以下の手動手順をお試しください。");
       setSetupRequired(true);
     }
   }, [startCapture]);

@@ -23,10 +23,10 @@ export const Sidebar = () => {
         </div>
         <div className="flex flex-col">
           <h1 className="text-xs lg:text-md font-semibold text-foreground transition-all duration-300">
-            Pluely
+            Interview-Pilot
           </h1>
           <span className="text-[8px] lg:text-[10px] text-muted-foreground -mt-1 block">
-            {isLoading ? "Loading..." : `(v${version})`}
+            {isLoading ? "読み込み中..." : `(v${version})`}
           </span>
         </div>
       </div>

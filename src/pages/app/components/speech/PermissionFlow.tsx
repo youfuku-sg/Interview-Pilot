@@ -86,8 +86,8 @@ export const PermissionFlow = ({
   const stateConfig = {
     checking: {
       icon: <LoaderIcon className="w-5 h-5 animate-spin" />,
-      title: "Checking Permissions",
-      description: "Verifying system audio access...",
+      title: "権限を確認中",
+      description: "システム音声へのアクセス権限を確認しています...",
       bgColor: "bg-blue-50",
       borderColor: "border-blue-200",
       textColor: "text-blue-800",
@@ -95,8 +95,8 @@ export const PermissionFlow = ({
     },
     granted: {
       icon: <CheckCircle2Icon className="w-5 h-5" />,
-      title: "Permission Granted",
-      description: "Starting capture...",
+      title: "権限が許可されました",
+      description: "キャプチャを開始しています...",
       bgColor: "bg-green-50",
       borderColor: "border-green-200",
       textColor: "text-green-800",
@@ -104,8 +104,8 @@ export const PermissionFlow = ({
     },
     requesting: {
       icon: <LoaderIcon className="w-5 h-5 animate-spin" />,
-      title: "Waiting for Permission",
-      description: `Enable Pluely in System Settings (${checkAttempts}/20)`,
+      title: "権限の許可待ち",
+      description: `システム設定でInterview-Pilotを有効にしてください (${checkAttempts}/20)`,
       bgColor: "bg-orange-50",
       borderColor: "border-orange-200",
       textColor: "text-orange-800",
@@ -113,8 +113,8 @@ export const PermissionFlow = ({
     },
     denied: {
       icon: <ShieldAlertIcon className="w-5 h-5" />,
-      title: "Permission Required",
-      description: "Grant access to capture system audio",
+      title: "権限が必要です",
+      description: "システム音声をキャプチャするための権限を許可してください",
       bgColor: "bg-muted/50",
       borderColor: "border-border",
       textColor: "text-muted-foreground",
@@ -145,14 +145,14 @@ export const PermissionFlow = ({
           {permissionState === "denied" && (
             <div className="mt-3 space-y-2">
               <Button onClick={requestPermission} size="sm" className="w-full">
-                Grant Permission
+                権限を許可
               </Button>
               <button
                 type="button"
                 onClick={() => setShowManual(!showManual)}
                 className="w-full flex items-center justify-center gap-1 text-xs text-muted-foreground hover:text-foreground"
               >
-                Manual setup
+                手動で設定
                 <ChevronDownIcon
                   className={cn(
                     "w-3 h-3 transition-transform",
@@ -162,10 +162,10 @@ export const PermissionFlow = ({
               </button>
               {showManual && (
                 <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside pt-2 border-t border-border/50">
-                  <li>Open System Settings</li>
-                  <li>Go to Privacy & Security</li>
-                  <li>Select Screen & System Audio Recording</li>
-                  <li>Enable Pluely</li>
+                  <li>システム設定を開く</li>
+                  <li>「プライバシーとセキュリティ」に移動</li>
+                  <li>「画面と システム音声の録画」を選択</li>
+                  <li>Interview-Pilotを有効にする</li>
                 </ol>
               )}
             </div>
@@ -179,7 +179,7 @@ export const PermissionFlow = ({
                 onClick={checkPermission}
                 className="text-xs"
               >
-                Check Now
+                今すぐ確認
               </Button>
             </div>
           )}

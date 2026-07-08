@@ -32,20 +32,20 @@ const SENSITIVITY_PRESETS = {
   low: {
     sensitivity_rms: 0.015,
     noise_gate_threshold: 0.005,
-    label: "Low",
-    description: "Only picks up clear, loud speech",
+    label: "低",
+    description: "はっきりした大きな声のみ検出します",
   },
   normal: {
     sensitivity_rms: 0.012,
     noise_gate_threshold: 0.003,
-    label: "Normal",
-    description: "Balanced for typical conversations",
+    label: "標準",
+    description: "通常の会話に合わせたバランス設定です",
   },
   high: {
     sensitivity_rms: 0.008,
     noise_gate_threshold: 0.002,
-    label: "High",
-    description: "Picks up quieter speech",
+    label: "高",
+    description: "小さな声も検出します",
   },
 } as const;
 
@@ -132,7 +132,7 @@ export const SettingsPanel = ({
       >
         <div className="flex items-center gap-2">
           <SettingsIcon className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-xs font-medium">Settings</span>
+          <span className="text-xs font-medium">設定</span>
         </div>
         <ChevronDownIcon
           className={cn(
@@ -148,14 +148,14 @@ export const SettingsPanel = ({
           {/* Recording Settings Section */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              Recording
+              録音
             </h4>
 
             {/* Sensitivity Presets - Only for VAD mode */}
             {vadConfig.enabled && (
               <div className="space-y-2">
                 <Label className="text-xs font-medium">
-                  Speech Sensitivity
+                  音声感度
                 </Label>
                 <div className="flex gap-2">
                   {(
@@ -181,7 +181,7 @@ export const SettingsPanel = ({
                 </div>
                 <p className="text-[10px] text-muted-foreground">
                   {currentPreset === "custom"
-                    ? "Custom sensitivity values"
+                    ? "カスタム感度設定"
                     : SENSITIVITY_PRESETS[currentPreset as SensitivityPreset]
                         .description}
                 </p>
@@ -192,9 +192,9 @@ export const SettingsPanel = ({
             {!vadConfig.enabled && (
               <div className="space-y-2">
                 <Label className="text-xs font-medium flex items-center justify-between">
-                  <span>Max Recording Duration</span>
+                  <span>最大録音時間</span>
                   <span className="text-muted-foreground font-normal">
-                    {Math.round(vadConfig.max_recording_duration_secs / 60)} min
+                    {Math.round(vadConfig.max_recording_duration_secs / 60)}分
                   </span>
                 </Label>
                 <Slider
@@ -217,16 +217,16 @@ export const SettingsPanel = ({
           {/* Context Section */}
           <div className="space-y-3 pt-3 border-t border-border/50">
             <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              AI Context
+              AIコンテキスト
             </h4>
 
             <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
-                <Label className="text-xs font-medium">Use System Prompt</Label>
+                <Label className="text-xs font-medium">システムプロンプトを使用</Label>
                 <p className="text-[10px] text-muted-foreground mt-0.5">
                   {useSystemPrompt
-                    ? "Using default prompt from settings"
-                    : "Using custom context below"}
+                    ? "設定画面の既定プロンプトを使用しています"
+                    : "以下のカスタムコンテキストを使用しています"}
                 </p>
               </div>
               <Switch
@@ -245,12 +245,12 @@ export const SettingsPanel = ({
                   >
                     <SelectTrigger className="w-auto h-7 text-xs">
                       <WandIcon className="w-3 h-3 mr-1.5" />
-                      <SelectValue placeholder="Templates" />
+                      <SelectValue placeholder="テンプレート" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel className="text-xs py-1">
-                          Quick-fill a template
+                          テンプレートを選択して入力
                         </SelectLabel>
                         {PROMPT_TEMPLATES.map((template) => (
                           <SelectItem
@@ -266,7 +266,7 @@ export const SettingsPanel = ({
                   </Select>
                 </div>
                 <Textarea
-                  placeholder="Enter custom system prompt and context..."
+                  placeholder="カスタムのシステムプロンプトとコンテキストを入力..."
                   value={contextContent}
                   onChange={(e) => setContextContent(e.target.value)}
                   className="min-h-24 resize-none text-xs"
@@ -282,7 +282,7 @@ export const SettingsPanel = ({
               className="w-full flex items-center justify-between text-xs text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setShowAdvanced(!showAdvanced)}
             >
-              <span>Advanced Settings</span>
+              <span>詳細設定</span>
               {showAdvanced ? (
                 <ChevronUpIcon className="w-3 h-3" />
               ) : (
@@ -297,7 +297,7 @@ export const SettingsPanel = ({
                   <>
                     <div className="space-y-2">
                       <Label className="text-xs font-medium flex items-center justify-between">
-                        <span>Speech Sensitivity (Raw)</span>
+                        <span>音声感度(数値)</span>
                         <span className="text-muted-foreground font-normal">
                           {(vadConfig.sensitivity_rms * 1000).toFixed(1)}
                         </span>
@@ -319,7 +319,7 @@ export const SettingsPanel = ({
 
                     <div className="space-y-2">
                       <Label className="text-xs font-medium flex items-center justify-between">
-                        <span>Silence Duration</span>
+                        <span>無音判定時間</span>
                         <span className="text-muted-foreground font-normal">
                           {(
                             (vadConfig.silence_chunks * vadConfig.hop_size) /
@@ -342,7 +342,7 @@ export const SettingsPanel = ({
                         className="w-full"
                       />
                       <p className="text-[10px] text-muted-foreground">
-                        How long to wait after speech stops
+                        発話が止まってから待機する時間
                       </p>
                     </div>
                   </>
@@ -351,7 +351,7 @@ export const SettingsPanel = ({
                 {/* Noise gate - both modes */}
                 <div className="space-y-2">
                   <Label className="text-xs font-medium flex items-center justify-between">
-                    <span>Noise Gate</span>
+                    <span>ノイズゲート</span>
                     <span className="text-muted-foreground font-normal">
                       {(vadConfig.noise_gate_threshold * 1000).toFixed(1)}
                     </span>
@@ -370,7 +370,7 @@ export const SettingsPanel = ({
                     className="w-full"
                   />
                   <p className="text-[10px] text-muted-foreground">
-                    Filters background noise
+                    背景ノイズを除去します
                   </p>
                 </div>
 
@@ -382,7 +382,7 @@ export const SettingsPanel = ({
                   className="w-full text-xs"
                 >
                   <RotateCcwIcon className="w-3 h-3 mr-1.5" />
-                  Reset to Defaults
+                  既定値にリセット
                 </Button>
               </div>
             )}

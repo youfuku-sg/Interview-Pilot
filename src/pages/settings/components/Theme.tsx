@@ -1,4 +1,4 @@
-import { useApp, useTheme } from "@/contexts";
+import { useTheme } from "@/contexts";
 import { Header, Label, Slider, Button } from "@/components";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import {
@@ -10,26 +10,17 @@ import {
 
 export const Theme = () => {
   const { theme, transparency, setTheme, onSetTransparency } = useTheme();
-  const { hasActiveLicense } = useApp();
 
   return (
     <div id="theme" className="relative space-y-3">
       <Header
-        title={`Theme Customization ${
-          hasActiveLicense
-            ? ""
-            : " (You need an active license to use this feature)"
-        }`}
-        description="Personalize your experience with custom theme and transparency settings"
+        title="テーマのカスタマイズ"
+        description="カスタムテーマと透明度の設定で表示をカスタマイズします"
         isMainTitle
       />
 
       {/* Theme Toggle */}
-      <div
-        className={`space-y-2 ${
-          hasActiveLicense ? "" : "opacity-60 pointer-events-none"
-        }`}
-      >
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div>
@@ -37,24 +28,24 @@ export const Theme = () => {
                 {theme === "system" ? (
                   <>
                     <MonitorIcon className="h-4 w-4" />
-                    System
+                    システム
                   </>
                 ) : theme === "light" ? (
                   <>
                     <SunIcon className="h-4 w-4" />
-                    Light Mode
+                    ライトモード
                   </>
                 ) : (
                   <>
                     <MoonIcon className="h-4 w-4" />
-                    Dark Mode
+                    ダークモード
                   </>
                 )}
               </Label>
               <p className="text-xs text-muted-foreground mt-1">
                 {theme === "light"
-                  ? "Using light theme for better visibility in bright environments"
-                  : "Using dark theme for comfortable viewing in low light"}
+                  ? "明るい環境で見やすいライトテーマを使用しています"
+                  : "暗い環境で見やすいダークテーマを使用しています"}
               </p>
             </div>
           </div>
@@ -73,13 +64,13 @@ export const Theme = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTheme("light")}>
-                Light
+                ライト
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
-                Dark
+                ダーク
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("system")}>
-                System
+                システム
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -87,14 +78,10 @@ export const Theme = () => {
       </div>
 
       {/* Transparency Slider */}
-      <div
-        className={`space-y-2 ${
-          hasActiveLicense ? "" : "opacity-60 pointer-events-none"
-        }`}
-      >
+      <div className="space-y-2">
         <Header
-          title="Window Transparency"
-          description="Adjust the transparency level of the application window"
+          title="ウィンドウの透明度"
+          description="アプリケーションウィンドウの透明度を調整します"
         />
         <div className="space-y-3">
           <div className="flex items-center gap-4 mt-4">
@@ -109,8 +96,7 @@ export const Theme = () => {
           </div>
 
           <p className="text-xs text-muted-foreground/70">
-            💡 Tip: Higher transparency lets you see through the window, perfect
-            for dark overlay. Changes apply immediately.
+            💡 ヒント: 透明度を上げるとウィンドウが透けて見えるようになり、暗いオーバーレイに最適です。変更はすぐに反映されます。
           </p>
         </div>
       </div>

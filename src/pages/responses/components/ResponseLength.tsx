@@ -1,13 +1,11 @@
 import { Card, Header } from "@/components";
 import { RESPONSE_LENGTHS } from "@/lib";
-import { useApp } from "@/contexts";
 import { updateResponseLength } from "@/lib/storage/response-settings.storage";
 import { useState, useEffect } from "react";
 import { getResponseSettings } from "@/lib";
 import { CheckCircle2 } from "lucide-react";
 
 export const ResponseLength = () => {
-  const { hasActiveLicense } = useApp();
   const [selectedLength, setSelectedLength] = useState<string>("auto");
 
   useEffect(() => {
@@ -16,9 +14,6 @@ export const ResponseLength = () => {
   }, []);
 
   const handleLengthChange = (lengthId: string) => {
-    if (!hasActiveLicense) {
-      return;
-    }
     setSelectedLength(lengthId);
     updateResponseLength(lengthId);
   };
@@ -26,8 +21,8 @@ export const ResponseLength = () => {
   return (
     <div className="space-y-4">
       <Header
-        title="Response Length"
-        description="Control how detailed the AI responses should be. Changes apply to all new conversations and will influence how the AI structures responses"
+        title="回答の長さ"
+        description="AIの回答の詳しさを制御します。変更は新しい会話すべてに適用され、AIの回答構成に影響します"
         isMainTitle
       />
 
@@ -39,7 +34,7 @@ export const ResponseLength = () => {
               selectedLength === length.id
                 ? "border-primary"
                 : "border-border hover:border-primary/50"
-            } ${!hasActiveLicense ? "opacity-50 cursor-not-allowed" : ""}`}
+            }`}
             onClick={() => handleLengthChange(length.id)}
           >
             <div className="space-y-1">

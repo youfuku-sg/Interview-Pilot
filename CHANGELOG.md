@@ -2,6 +2,13 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.12] - 2026-07-08
+
+### Fixed
+
+- 上段の文字起こし表示が AudioVisualizer / StatusIndicator に押し出されて見えない問題を修正した。文字起こし結果が存在する場合は TranscriptionPanel を優先表示し、AudioVisualizer / StatusIndicator は文字起こし前のみ表示するよう変更した
+- TranscriptionPanel の表示優先順位を「文字起こし結果 > 処理中表示」に変更し、結果が届いた後は処理中ステータスに隠されないようにした
+
 ## [0.5.11] - 2026-07-08
 
 ### Fixed

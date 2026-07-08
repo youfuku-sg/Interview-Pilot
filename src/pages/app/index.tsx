@@ -5,6 +5,8 @@ import {
   CompletionInput,
   AudioVisualizer,
   StatusIndicator,
+  TranscriptionPanel,
+  AIResponsePanel,
 } from "./components";
 import { useApp } from "@/hooks";
 import { useApp as useAppContext } from "@/contexts";
@@ -17,7 +19,10 @@ import { getPlatform } from "@/lib";
 
 const App = () => {
   const { isHidden, systemAudio } = useApp();
-  const { customizable } = useAppContext();
+  const { customizable, selectedSttProvider, selectedAIProvider, pluelyApiEnabled } = useAppContext();
+
+  const sttReady = !!selectedSttProvider.provider || pluelyApiEnabled;
+  const aiReady = !!selectedAIProvider.provider || pluelyApiEnabled;
   const completion = useCompletion();
   const platform = getPlatform();
 
@@ -95,10 +100,22 @@ const App = () => {
               </div>
             ) : (
               <>
-                {/* 上段: 将来用 */}
-                <div data-slot="top-panel" className="flex-1 border-b border-border/40" />
-                {/* 中段: 将来用 */}
-                <div data-slot="middle-panel" className="flex-1 border-b border-border/40" />
+                {/* 上段: 文字起こしパネル */}
+                <div data-slot="top-panel" className="flex-1 border-b border-border/40 overflow-hidden">
+                  <TranscriptionPanel
+                    lastTranscription={systemAudio.lastTranscription}
+                    isProcessing={systemAudio.isProcessing}
+                    sttReady={sttReady}
+                  />
+                </div>
+                {/* 中段: AI回答パネル */}
+                <div data-slot="middle-panel" className="flex-1 border-b border-border/40 overflow-hidden">
+                  <AIResponsePanel
+                    lastAIResponse={systemAudio.lastAIResponse}
+                    isAIProcessing={systemAudio.isAIProcessing}
+                    aiReady={aiReady}
+                  />
+                </div>
                 {/* 下段: テキスト入力 */}
                 <div className="shrink-0 flex items-center px-1">
                   <CompletionInput isHidden={isHidden} completion={completion} />

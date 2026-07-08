@@ -2,6 +2,14 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.9] - 2026-07-08
+
+### Added
+
+- トップバー右エリアの上段に `TranscriptionPanel` コンポーネントを追加した。`useSystemAudio` が返す最新の文字起こし結果をリアルタイム表示し、STT プロバイダー未設定時はオレンジ色のエラーメッセージ、処理中はローディングスピナーを表示する
+- トップバー右エリアの中段に `AIResponsePanel` コンポーネントを追加した。AI 回答を `Markdown` コンポーネントでレンダリングし、AI プロバイダー未設定時はオレンジ色のエラーメッセージ、処理中はローディングスピナーを表示する
+- `sttReady` / `aiReady` フラグを `selectedSttProvider`・`selectedAIProvider`・`pluelyApiEnabled` から算出し、Pluely API 有効時はエラーを表示しない
+
 ## [0.5.7] - 2026-07-08
 
 ### Changed

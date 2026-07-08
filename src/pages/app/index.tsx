@@ -9,7 +9,7 @@ import {
 import { useApp } from "@/hooks";
 import { useApp as useAppContext } from "@/contexts";
 import { useCompletion } from "@/hooks";
-import { Settings } from "lucide-react";
+import { Settings, Power } from "lucide-react";
 import { invoke } from "@tauri-apps/api/core";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorLayout } from "@/layouts";
@@ -26,6 +26,14 @@ const App = () => {
       await invoke("open_dashboard");
     } catch (error) {
       console.error("Failed to open dashboard:", error);
+    }
+  };
+
+  const quitApp = async () => {
+    try {
+      await invoke("exit_app");
+    } catch (error) {
+      console.error("Failed to quit app:", error);
     }
   };
 
@@ -56,6 +64,14 @@ const App = () => {
               onClick={openDashboard}
             >
               <Settings className="h-4 w-4" />
+            </Button>
+            <Button
+              size={"icon"}
+              className="cursor-pointer"
+              title="アプリを終了"
+              onClick={quitApp}
+            >
+              <Power className="h-4 w-4" />
             </Button>
             <DragButton />
           </div>

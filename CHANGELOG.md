@@ -2,6 +2,12 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.10] - 2026-07-08
+
+### Fixed
+
+- 音声キャプチャ中（`capturing` が true）に `TranscriptionPanel` が表示されなかったバグを修正した。右エリアの `capturing ? <AudioVisualizer> : <3段パネル>` という排他分岐を廃止し、3段構造を常時表示するよう変更した。上段ではキャプチャ中は AudioVisualizer + StatusIndicator を、停止中は TranscriptionPanel を表示する
+
 ## [0.5.9] - 2026-07-08
 
 ### Added

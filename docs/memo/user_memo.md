@@ -3,7 +3,7 @@
 
 ---
 
-top bar right panel three rows
+force-japanese-stt-language
 
 この実装をお願いしたい
 まずはブランチを切って、今のopenspecの差分を全てコミットしてから
@@ -11,5 +11,7 @@ top bar right panel three rows
 
 ---
 
-mainにリリースしていいです
+ブランチ戦略に沿った形で
+mainにリリースしてください
+
 

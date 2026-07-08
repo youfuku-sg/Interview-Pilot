@@ -8,3 +8,8 @@ top bar right panel three rows
 この実装をお願いしたい
 まずはブランチを切って、今のopenspecの差分を全てコミットしてから
 作業に取り掛かってほしいです
+
+---
+
+mainにリリースしていいです
+

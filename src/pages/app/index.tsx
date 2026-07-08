@@ -76,8 +76,8 @@ const App = () => {
             <DragButton />
           </div>
 
-          {/* 右エリア: テキスト入力 or 音声キャプチャUI */}
-          <div className="flex-1 flex flex-col justify-center min-w-0">
+          {/* 右エリア: 3段構造 */}
+          <div className="flex-1 flex flex-col min-w-0">
             {systemAudio?.capturing ? (
               <div className="flex flex-col gap-2 justify-center h-full">
                 <div className="flex flex-1 items-center gap-2">
@@ -94,7 +94,16 @@ const App = () => {
                 </div>
               </div>
             ) : (
-              <CompletionInput isHidden={isHidden} completion={completion} />
+              <>
+                {/* 上段: 将来用 */}
+                <div data-slot="top-panel" className="flex-1 border-b border-border/40" />
+                {/* 中段: 将来用 */}
+                <div data-slot="middle-panel" className="flex-1 border-b border-border/40" />
+                {/* 下段: テキスト入力 */}
+                <div className="shrink-0 flex items-center px-1">
+                  <CompletionInput isHidden={isHidden} completion={completion} />
+                </div>
+              </>
             )}
           </div>
         </Card>

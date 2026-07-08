@@ -81,14 +81,15 @@ const App = () => {
             <DragButton />
           </div>
 
-          {/* 右エリア: 3段構造 */}
+          {/* 右エリア: 3段構造（常時表示） */}
           <div className="flex-1 flex flex-col min-w-0">
-            {systemAudio?.capturing ? (
-              <div className="flex flex-col gap-2 justify-center h-full">
-                <div className="flex flex-1 items-center gap-2">
-                  <AudioVisualizer isRecording={systemAudio?.capturing} />
-                </div>
-                <div className="flex items-center gap-2">
+            {/* 上段: キャプチャ中は AudioVisualizer + StatusIndicator、それ以外は文字起こしパネル */}
+            <div data-slot="top-panel" className="flex-1 border-b border-border/40 overflow-hidden">
+              {systemAudio?.capturing ? (
+                <div className="flex flex-col h-full">
+                  <div className="flex flex-1 items-center gap-2">
+                    <AudioVisualizer isRecording={systemAudio.capturing} />
+                  </div>
                   <StatusIndicator
                     setupRequired={systemAudio.setupRequired}
                     error={systemAudio.error}
@@ -97,31 +98,26 @@ const App = () => {
                     capturing={systemAudio.capturing}
                   />
                 </div>
-              </div>
-            ) : (
-              <>
-                {/* 上段: 文字起こしパネル */}
-                <div data-slot="top-panel" className="flex-1 border-b border-border/40 overflow-hidden">
-                  <TranscriptionPanel
-                    lastTranscription={systemAudio.lastTranscription}
-                    isProcessing={systemAudio.isProcessing}
-                    sttReady={sttReady}
-                  />
-                </div>
-                {/* 中段: AI回答パネル */}
-                <div data-slot="middle-panel" className="flex-1 border-b border-border/40 overflow-hidden">
-                  <AIResponsePanel
-                    lastAIResponse={systemAudio.lastAIResponse}
-                    isAIProcessing={systemAudio.isAIProcessing}
-                    aiReady={aiReady}
-                  />
-                </div>
-                {/* 下段: テキスト入力 */}
-                <div className="shrink-0 flex items-center px-1">
-                  <CompletionInput isHidden={isHidden} completion={completion} />
-                </div>
-              </>
-            )}
+              ) : (
+                <TranscriptionPanel
+                  lastTranscription={systemAudio.lastTranscription}
+                  isProcessing={systemAudio.isProcessing}
+                  sttReady={sttReady}
+                />
+              )}
+            </div>
+            {/* 中段: AI回答パネル */}
+            <div data-slot="middle-panel" className="flex-1 border-b border-border/40 overflow-hidden">
+              <AIResponsePanel
+                lastAIResponse={systemAudio.lastAIResponse}
+                isAIProcessing={systemAudio.isAIProcessing}
+                aiReady={aiReady}
+              />
+            </div>
+            {/* 下段: テキスト入力 */}
+            <div className="shrink-0 flex items-center px-1">
+              <CompletionInput isHidden={isHidden} completion={completion} />
+            </div>
           </div>
         </Card>
         {customizable.cursor.type === "invisible" && platform !== "linux" ? (

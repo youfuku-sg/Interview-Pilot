@@ -1,6 +1,6 @@
 ## 1. STT Request Behavior
 
-- [ ] 1.1 Update `fetchSTT` multipart/form-data request construction to append `language=ja` when no explicit language field is present.
+- [x] 1.1 Update `fetchSTT` multipart/form-data request construction to append `language=ja` when no explicit language field is present.
 - [ ] 1.2 Ensure explicit provider language settings are preserved and not overwritten during form construction.
 - [ ] 1.3 Keep binary and JSON request handling compatible with existing providers.
 

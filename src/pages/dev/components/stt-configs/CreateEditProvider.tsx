@@ -83,7 +83,7 @@ export const CreateEditProvider = ({
             <div className="space-y-1">
               <Header
                 title="curlコマンド *"
-                description="STTプロバイダーで使用するcurlコマンドです。"
+                description="STTプロバイダーで使用するcurlコマンドです。OpenAI互換の文字起こしでは日本語固定用に language=ja を含めてください。"
               />
               <Textarea
                 className={cn(
@@ -93,7 +93,8 @@ export const CreateEditProvider = ({
                 placeholder={`curl -X POST "https://api.openai.com/v1/audio/transcriptions" \\
       -H "Authorization: Bearer {{API_KEY}}" \\
       -F "file={{AUDIO}}" \\
-      -F "model={{MODEL}}"`}
+      -F "model={{MODEL}}" \\
+      -F "language=ja"`}
                 value={formData.curl}
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, curl: e.target.value }))
@@ -157,7 +158,11 @@ export const CreateEditProvider = ({
                     <code className="bg-muted px-1 rounded text-xs">
                       {"{{AUDIO}}"}
                     </code>{" "}
-                    変数はSTT機能に必須です。curlコマンドに正しく含まれていることを確認してください。
+                    変数はSTT機能に必須です。日本語面接支援では、OpenAI互換のmultipart/form-dataに
+                    <code className="bg-muted px-1 rounded text-xs mx-1">
+                      language=ja
+                    </code>
+                    も含めると長い発話が英語として誤判定されにくくなります。
                   </p>
                 </div>
               </div>

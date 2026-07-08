@@ -133,16 +133,27 @@ export async function fetchSTT(params: STTParams): Promise<string> {
       const headerKeys = Object.keys(headers).map((k) =>
         k.toUpperCase().replace(/[-_]/g, "")
       );
+      const isLanguageKey = (key: string) =>
+        ["language", "languagecode"].includes(
+          key.toLowerCase().replace(/[-_]/g, "")
+        );
+      const hasLanguageField = (value: string) =>
+        /(?:^|[{\s'",&?])language(?:[-_]?code)?["']?\s*[:=]/i.test(
+          value
+        );
+      let hasExplicitLanguage = Object.keys(replacedParams).some(isLanguageKey);
 
       for (const [key, val] of Object.entries(formData)) {
         if (typeof val !== "string") {
+          const formKey = key.toLowerCase();
+          if (isLanguageKey(formKey)) hasExplicitLanguage = true;
           if (
             !val ||
             headerKeys.includes(key.toUpperCase()) ||
             key.toUpperCase() === "AUDIO"
           )
             continue;
-          form.append(key.toLowerCase(), val as string | Blob);
+          form.append(formKey, val as string | Blob);
           continue;
         }
 
@@ -150,8 +161,12 @@ export async function fetchSTT(params: STTParams): Promise<string> {
         if (!isNaN(parseInt(key, 10))) {
           const [formKey, ...formValueParts] = val.split("=");
           const formValue = formValueParts.join("=");
+          const normalizedFormKey = formKey.toLowerCase();
 
-          if (formKey.toLowerCase() === "file") continue; // Already handled by form.append('file', audio)
+          if (isLanguageKey(normalizedFormKey) || hasLanguageField(val)) {
+            hasExplicitLanguage = true;
+          }
+          if (normalizedFormKey === "file") continue; // Already handled by form.append('file', audio)
 
           if (
             !formValue ||
@@ -161,15 +176,20 @@ export async function fetchSTT(params: STTParams): Promise<string> {
 
           form.append(formKey, formValue);
         } else {
-          if (key.toLowerCase() === "file") continue; // Already handled by form.append('file', audio)
+          const formKey = key.toLowerCase();
+          if (isLanguageKey(formKey)) hasExplicitLanguage = true;
+          if (formKey === "file") continue; // Already handled by form.append('file', audio)
           if (
             !val ||
             headerKeys.includes(key.toUpperCase()) ||
             key.toUpperCase() === "AUDIO"
           )
             continue;
-          form.append(key.toLowerCase(), val as string | Blob);
+          form.append(formKey, val as string | Blob);
         }
+      }
+      if (!hasExplicitLanguage) {
+        form.append("language", "ja");
       }
       delete finalHeaders["Content-Type"];
       body = form;

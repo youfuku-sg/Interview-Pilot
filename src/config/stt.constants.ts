@@ -5,7 +5,8 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
     curl: `curl -X POST "https://api.openai.com/v1/audio/transcriptions" \\
       -H "Authorization: Bearer {{API_KEY}}" \\
       -F "file={{AUDIO}}" \\
-      -F "model={{MODEL}}"`,
+      -F "model={{MODEL}}" \\
+      -F "language=ja"`,
     responseContentPath: "text",
     streaming: false,
   },
@@ -18,7 +19,7 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
       -F model={{MODEL}} \\
       -F temperature=0 \\
       -F response_format=text \\
-      -F language=en`,
+      -F language=ja`,
     responseContentPath: "text",
     streaming: false,
   },
@@ -28,7 +29,8 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
     curl: `curl -X POST "https://api.elevenlabs.io/v1/speech-to-text" \\
       -H "xi-api-key: {{API_KEY}}" \\
       -F "file={{AUDIO}}" \\
-      -F "model_id={{MODEL}}"`,
+      -F "model_id={{MODEL}}" \\
+      -F "language_code=ja"`,
     responseContentPath: "text",
     streaming: false,
   },
@@ -41,9 +43,9 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
       -H "x-goog-user-project: {{PROJECT_ID}}" \\
       -d '{
         "config": {
-          "encoding": "LINEAR16", 
+          "encoding": "LINEAR16",
           "sampleRateHertz": 16000,
-          "languageCode": "en-US"
+          "languageCode": "ja-JP"
         },
         "audio": {
           "content": "{{AUDIO}}"
@@ -55,7 +57,7 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
   {
     id: "deepgram-stt",
     name: "Deepgram Speech-to-Text",
-    curl: `curl -X POST "https://api.deepgram.com/v1/listen?model={{MODEL}}" \\
+    curl: `curl -X POST "https://api.deepgram.com/v1/listen?model={{MODEL}}&language=ja" \\
       -H "Authorization: TOKEN {{API_KEY}}" \\
       -H "Content-Type: audio/wav" \\
       --data-binary {{AUDIO}}`,
@@ -65,7 +67,7 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
   {
     id: "azure-stt",
     name: "Azure Speech-to-Text",
-    curl: `curl -X POST "https://{{REGION}}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US" \\
+    curl: `curl -X POST "https://{{REGION}}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=ja-JP" \\
       -H "Ocp-Apim-Subscription-Key: {{API_KEY}}" \\
       -H "Content-Type: audio/wav" \\
       --data-binary {{AUDIO}}`,
@@ -78,7 +80,7 @@ export const SPEECH_TO_TEXT_PROVIDERS = [
     curl: `curl -X POST "https://asr.api.speechmatics.com/v2/jobs" \\
       -H "Authorization: Bearer {{API_KEY}}" \\
       -F "data_file={{AUDIO}}" \\
-      -F 'config={"type": "transcription", "transcription_config": {"language": "en"}}'`,
+      -F 'config={"type": "transcription", "transcription_config": {"language": "ja"}}'`,
     responseContentPath: "job.id",
     streaming: false,
   },

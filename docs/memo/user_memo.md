@@ -1,3 +1,4 @@
+speech panel stt only
 よさそうなので、アーカイブにお願いします
 ただし、コミットはしなくていいです
 
@@ -23,7 +24,7 @@ mainにリリースしてください
 openspecで起票したい
 ---
 
-speech panel stt only
+stt accumulate session text
 
 この実装をお願いしたい
 まずはブランチを切って、今のopenspecの差分を全てコミットしてから

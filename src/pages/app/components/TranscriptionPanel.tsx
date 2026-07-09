@@ -1,13 +1,13 @@
 import { AlertCircleIcon, LoaderIcon } from "lucide-react";
 
 type Props = {
-  lastTranscription: string;
+  sessionTranscript: string[];
   isProcessing: boolean;
   sttReady: boolean;
 };
 
 export const TranscriptionPanel = ({
-  lastTranscription,
+  sessionTranscript,
   isProcessing,
   sttReady,
 }: Props) => {
@@ -22,10 +22,14 @@ export const TranscriptionPanel = ({
     );
   }
 
-  if (lastTranscription) {
+  if (sessionTranscript.length > 0) {
     return (
       <div className="h-full px-3 py-2 overflow-y-auto">
-        <p className="text-xs leading-relaxed">{lastTranscription}</p>
+        {sessionTranscript.map((line, i) => (
+          <p key={i} className="text-xs leading-relaxed mb-1">
+            {line}
+          </p>
+        ))}
       </div>
     );
   }

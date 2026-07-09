@@ -489,7 +489,7 @@ export function useSystemAudio() {
 
         const usePluelyAPI = await shouldUsePluelyAPI();
         if (!selectedAIProvider.provider && !usePluelyAPI) {
-          setError("AIプロバイダーが選択されていません。");
+          // AI プロバイダー未設定時はエラーを出さずに文字起こし結果のみ表示して終了
           return;
         }
 
@@ -497,7 +497,7 @@ export function useSystemAudio() {
           (p) => p.id === selectedAIProvider.provider
         );
         if (!provider && !usePluelyAPI) {
-          setError("AIプロバイダーの設定が見つかりません。");
+          // AI プロバイダー設定が見つからない場合もエラーを出さずに終了
           return;
         }
 

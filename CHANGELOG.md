@@ -2,6 +2,14 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.15] - 2026-07-09
+
+### Changed
+
+- 音声パネル（ヘッドフォンボタン）を STT 専用表示にシンプル化した。AI プロバイダー未設定時にエラーを出さず文字起こし結果のみ表示する（`src/hooks/useSystemAudio.ts`）
+- 音声パネル内の結果セクションタイトルを「AIの回答」から「文字起こし」に変更し、アイコンを `SparklesIcon` → `FileTextIcon` に差し替えた（`src/pages/app/components/speech/ResultsSection.tsx`）
+- トップバー中段の「AIプロバイダーが選択されていません」警告表示を削除。AI 未設定時はパネルを非表示にする（`src/pages/app/components/AIResponsePanel.tsx`）
+
 ## [0.5.14] - 2026-07-09
 
 ### Changed

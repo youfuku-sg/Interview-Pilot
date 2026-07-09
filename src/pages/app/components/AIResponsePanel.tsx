@@ -1,4 +1,4 @@
-import { AlertCircleIcon, LoaderIcon } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import { Markdown } from "@/components";
 
 type Props = {
@@ -12,15 +12,9 @@ export const AIResponsePanel = ({
   isAIProcessing,
   aiReady,
 }: Props) => {
+  // AI プロバイダー未設定時はパネルを非表示にする（エラー表示なし）
   if (!aiReady) {
-    return (
-      <div className="flex items-center gap-2 px-3 py-2 text-orange-600">
-        <AlertCircleIcon className="w-4 h-4 shrink-0" />
-        <span className="text-xs font-medium">
-          AIプロバイダーが選択されていません
-        </span>
-      </div>
-    );
+    return null;
   }
 
   if (isAIProcessing) {

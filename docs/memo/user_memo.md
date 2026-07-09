@@ -3,11 +3,12 @@
 
 ---
 
-hide screenshot and new conversation buttons
+speech panel stt only
 
 この実装をお願いしたい
 まずはブランチを切って、今のopenspecの差分を全てコミットしてから
 作業に取り掛かってほしいです
+
 
 ---
 
@@ -20,3 +21,17 @@ mainにリリースしてください
 ---
 
 openspecで起票したい
+---
+
+speech panel stt only
+
+この実装をお願いしたい
+まずはブランチを切って、今のopenspecの差分を全てコミットしてから
+作業に取り掛かってほしいです
+作業が完了したら、ブランチ戦略に沿った形でmainにリリースしてください
+もし、ビルドに失敗したり、何が問題があった場合は、hotfixで対応してください
+
+
+---
+
+

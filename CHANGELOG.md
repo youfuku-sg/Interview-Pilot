@@ -2,6 +2,14 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.16] - 2026-07-09
+
+### Changed
+
+- STT セッション中の全発話を蓄積表示するように変更した。VAD が無音を検知するたびに発話を上書きしていた挙動を、セッション開始〜停止まで改行区切りで全発話をパネルに追記する方式に改めた（`useSystemAudio` に `sessionTranscript: string[]` ステート追加、`TranscriptionPanel` の表示ソースを `lastTranscription` から `sessionTranscript` に変更）
+- セッション開始（`startCapture`）および新規会話（`startNewConversation`）時に `sessionTranscript` をリセットする
+- AI 処理トリガーとして `lastTranscription` を内部で引き続き使用する（外部への影響なし）
+
 ## [0.5.15] - 2026-07-09
 
 ### Changed

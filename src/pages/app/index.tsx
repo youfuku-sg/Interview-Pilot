@@ -85,7 +85,7 @@ const App = () => {
           <div className="flex-1 flex flex-col min-w-0">
             {/* 上段: 文字起こしパネル（常時表示）。文字起こし前のみ AudioVisualizer + StatusIndicator を表示 */}
             <div data-slot="top-panel" className="flex-1 border-b border-border/40 overflow-hidden">
-              {systemAudio?.capturing && !systemAudio.lastTranscription ? (
+              {systemAudio?.capturing && systemAudio.sessionTranscript.length === 0 ? (
                 <div className="flex flex-col h-full">
                   <div className="flex items-center gap-2 shrink-0">
                     <AudioVisualizer isRecording={systemAudio.capturing} />
@@ -100,7 +100,7 @@ const App = () => {
                 </div>
               ) : (
                 <TranscriptionPanel
-                  lastTranscription={systemAudio.lastTranscription}
+                  sessionTranscript={systemAudio.sessionTranscript}
                   isProcessing={systemAudio.isProcessing}
                   sttReady={sttReady}
                 />

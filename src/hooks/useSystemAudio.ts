@@ -73,6 +73,7 @@ export function useSystemAudio() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isAIProcessing, setIsAIProcessing] = useState(false);
   const [lastTranscription, setLastTranscription] = useState<string>("");
+  const [sessionTranscript, setSessionTranscript] = useState<string[]>([]);
   const [lastAIResponse, setLastAIResponse] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [setupRequired, setSetupRequired] = useState<boolean>(false);
@@ -274,6 +275,7 @@ export function useSystemAudio() {
 
               if (transcription.trim()) {
                 setLastTranscription(transcription);
+                setSessionTranscript((prev) => [...prev, transcription]);
                 setError("");
 
                 const effectiveSystemPrompt = useSystemPrompt
@@ -573,6 +575,7 @@ export function useSystemAudio() {
         updatedAt: 0,
       });
 
+      setSessionTranscript([]);
       setCapturing(true);
       setIsPopoverOpen(true);
       setIsContinuousMode(isContinuous);
@@ -770,6 +773,7 @@ export function useSystemAudio() {
       updatedAt: 0,
     });
     setLastTranscription("");
+    setSessionTranscript([]);
     setLastAIResponse("");
     setError("");
     setSetupRequired(false);
@@ -881,6 +885,7 @@ export function useSystemAudio() {
     isProcessing,
     isAIProcessing,
     lastTranscription,
+    sessionTranscript,
     lastAIResponse,
     error,
     setupRequired,

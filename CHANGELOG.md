@@ -2,6 +2,13 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.17] - 2026-07-09
+
+### Changed
+
+- 音声パネルポップオーバー（ヘッドフォンボタン）の文字起こし表示を `lastTranscription`（直近1件）から `sessionTranscript`（セッション全発話の累積配列）に変更した。セッション中の過去の発話がポップオーバー内で消えなくなった（`ResultsSection` の props 変更、`SystemAudio` で `sessionTranscript` を渡すよう変更）
+- 音声パネルポップオーバーの通常モード・会話モード双方から「システム：」プレフィックス表示を削除した
+
 ## [0.5.16] - 2026-07-09
 
 ### Changed

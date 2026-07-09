@@ -4,7 +4,7 @@ import { BotIcon, FileTextIcon, HeadphonesIcon, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  lastTranscription: string;
+  sessionTranscript: string[];
   lastAIResponse: string;
   isAIProcessing: boolean;
   conversation: ChatConversation;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const ResultsSection = ({
-  lastTranscription,
+  sessionTranscript,
   lastAIResponse,
   isAIProcessing,
   conversation,
@@ -23,7 +23,7 @@ export const ResultsSection = ({
   const hasResponse = lastAIResponse || isAIProcessing;
   const hasHistory = conversation.messages.length > 2;
 
-  if (!hasResponse && !lastTranscription) {
+  if (!hasResponse && sessionTranscript.length === 0) {
     return null;
   }
 
@@ -56,11 +56,15 @@ export const ResultsSection = ({
       {/* RESPONSE MODE: System as text, then AI response */}
       {!conversationMode && (
         <div className="space-y-2">
-          {/* System Input - Just text with bold label */}
-          {lastTranscription && (
-            <p className="text-[11px] text-muted-foreground">
-              <span className="font-semibold">システム:</span> {lastTranscription}
-            </p>
+          {/* System Input - Accumulated transcript lines */}
+          {sessionTranscript.length > 0 && (
+            <div className="space-y-1">
+              {sessionTranscript.map((line, index) => (
+                <p key={index} className="text-[11px] text-muted-foreground">
+                  {line}
+                </p>
+              ))}
+            </div>
           )}
 
           {/* AI Response */}
@@ -116,16 +120,19 @@ export const ResultsSection = ({
             </div>
           )}
 
-          {/* System Input - Second */}
-          {lastTranscription && (
+          {/* System Input - Second (accumulated transcript) */}
+          {sessionTranscript.length > 0 && (
             <div className="rounded-md border-l-2 border-primary/50 bg-primary/5 p-2.5">
               <div className="flex items-center gap-1.5 mb-1">
                 <HeadphonesIcon className="h-3 w-3 text-primary" />
-                <span className="text-[9px] font-medium text-primary uppercase tracking-wide">
-                  システム
-                </span>
               </div>
-              <p className="text-sm">{lastTranscription}</p>
+              <div className="space-y-1">
+                {sessionTranscript.map((line, index) => (
+                  <p key={index} className="text-sm">
+                    {line}
+                  </p>
+                ))}
+              </div>
             </div>
           )}
 

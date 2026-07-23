@@ -2,11 +2,11 @@ import { Card, DragButton, CustomCursor, Button } from "@/components";
 import {
   SystemAudio,
   Audio,
-  CompletionInput,
   AudioVisualizer,
   StatusIndicator,
   TranscriptionPanel,
   AIResponsePanel,
+  SummaryPanel,
 } from "./components";
 import { useApp } from "@/hooks";
 import { useApp as useAppContext } from "@/contexts";
@@ -106,17 +106,21 @@ const App = () => {
                 />
               )}
             </div>
-            {/* 中段: AI回答パネル */}
+            {/* 中段: 要約パネル */}
             <div data-slot="middle-panel" className="flex-1 border-b border-border/40 overflow-hidden">
+              <SummaryPanel
+                summary={systemAudio.sessionSummary}
+                isSummaryProcessing={systemAudio.isSummaryProcessing}
+                aiReady={aiReady}
+              />
+            </div>
+            {/* 下段: AI回答パネル */}
+            <div data-slot="bottom-panel" className="flex-1 overflow-hidden">
               <AIResponsePanel
                 lastAIResponse={systemAudio.lastAIResponse}
                 isAIProcessing={systemAudio.isAIProcessing}
                 aiReady={aiReady}
               />
-            </div>
-            {/* 下段: テキスト入力 */}
-            <div className="shrink-0 flex items-center px-1">
-              <CompletionInput isHidden={isHidden} completion={completion} />
             </div>
           </div>
         </Card>

@@ -7,6 +7,7 @@ import { fetchSTT, fetchAIResponse } from "@/lib/functions";
 import {
   DEFAULT_QUICK_ACTIONS,
   DEFAULT_SYSTEM_PROMPT,
+  SUMMARY_SYSTEM_PROMPT,
   STORAGE_KEYS,
 } from "@/config";
 import {
@@ -75,6 +76,9 @@ export function useSystemAudio() {
   const [lastTranscription, setLastTranscription] = useState<string>("");
   const [sessionTranscript, setSessionTranscript] = useState<string[]>([]);
   const [lastAIResponse, setLastAIResponse] = useState<string>("");
+  const [sessionSummary, setSessionSummary] = useState<string>("");
+  const [isSummaryProcessing, setIsSummaryProcessing] =
+    useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [setupRequired, setSetupRequired] = useState<boolean>(false);
   const [quickActions, setQuickActions] = useState<string[]>([]);
@@ -108,6 +112,7 @@ export function useSystemAudio() {
     selectedAudioDevices,
   } = useApp();
   const abortControllerRef = useRef<AbortController | null>(null);
+  const summaryAbortControllerRef = useRef<AbortController | null>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isSavingRef = useRef<boolean>(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -275,7 +280,11 @@ export function useSystemAudio() {
 
               if (transcription.trim()) {
                 setLastTranscription(transcription);
-                setSessionTranscript((prev) => [...prev, transcription]);
+                let nextSessionTranscript: string[] = [];
+                setSessionTranscript((prev) => {
+                  nextSessionTranscript = [...prev, transcription];
+                  return nextSessionTranscript;
+                });
                 setError("");
 
                 const effectiveSystemPrompt = useSystemPrompt
@@ -285,6 +294,9 @@ export function useSystemAudio() {
                 const previousMessages = conversation.messages.map((msg) => {
                   return { role: msg.role, content: msg.content };
                 });
+
+                // 要約生成とAI回答生成を並行して実行する
+                generateSummary(nextSessionTranscript);
 
                 await processWithAI(
                   transcription,
@@ -552,6 +564,49 @@ export function useSystemAudio() {
     [selectedAIProvider, allAiProviders, conversation.messages]
   );
 
+  // Session transcript summarization (independent of the per-utterance AI answer)
+  const generateSummary = useCallback(
+    async (transcript: string[]) => {
+      if (summaryAbortControllerRef.current) {
+        summaryAbortControllerRef.current.abort();
+      }
+      summaryAbortControllerRef.current = new AbortController();
+
+      const usePluelyAPI = await shouldUsePluelyAPI();
+      if (!selectedAIProvider.provider && !usePluelyAPI) {
+        // AI プロバイダー未設定時はエラーを出さずに終了
+        return;
+      }
+
+      const provider = allAiProviders.find(
+        (p) => p.id === selectedAIProvider.provider
+      );
+      if (!provider && !usePluelyAPI) {
+        return;
+      }
+
+      try {
+        setIsSummaryProcessing(true);
+        setSessionSummary("");
+
+        for await (const chunk of fetchAIResponse({
+          provider: usePluelyAPI ? undefined : provider,
+          selectedProvider: selectedAIProvider,
+          systemPrompt: SUMMARY_SYSTEM_PROMPT,
+          userMessage: transcript.join("\n"),
+          signal: summaryAbortControllerRef.current.signal,
+        })) {
+          setSessionSummary((prev) => prev + chunk);
+        }
+      } catch (err) {
+        // 中断による失敗は無視する（次の要約リクエストに引き継がれる）
+      } finally {
+        setIsSummaryProcessing(false);
+      }
+    },
+    [selectedAIProvider, allAiProviders]
+  );
+
   const startCapture = useCallback(async () => {
     try {
       setError("");
@@ -576,6 +631,8 @@ export function useSystemAudio() {
       });
 
       setSessionTranscript([]);
+      setSessionSummary("");
+      setIsSummaryProcessing(false);
       setCapturing(true);
       setIsPopoverOpen(true);
       setIsContinuousMode(isContinuous);
@@ -614,6 +671,10 @@ export function useSystemAudio() {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
         abortControllerRef.current = null;
+      }
+      if (summaryAbortControllerRef.current) {
+        summaryAbortControllerRef.current.abort();
+        summaryAbortControllerRef.current = null;
       }
 
       // Stop the audio capture
@@ -775,6 +836,8 @@ export function useSystemAudio() {
     setLastTranscription("");
     setSessionTranscript([]);
     setLastAIResponse("");
+    setSessionSummary("");
+    setIsSummaryProcessing(false);
     setError("");
     setSetupRequired(false);
     setIsProcessing(false);
@@ -887,6 +950,8 @@ export function useSystemAudio() {
     lastTranscription,
     sessionTranscript,
     lastAIResponse,
+    sessionSummary,
+    isSummaryProcessing,
     error,
     setupRequired,
     startCapture,

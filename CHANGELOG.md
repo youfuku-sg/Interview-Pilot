@@ -2,6 +2,14 @@
 
 このファイルは [Keep a Changelog](https://keepachangelog.com/) 形式に準ずる。過去のリリース（v0.1.10 より前）は遡って記載しない。形式・運用方針は `docs/仕様/ブランチ・リリース戦略.md` 4.3節を参照。
 
+## [0.5.18] - 2026-07-23
+
+### Changed
+
+- トップバー右エリアの中段を「直近発話へのAI回答」から「セッション累積発話（`sessionTranscript`）をAIプロバイダーで要約したテキスト」の表示に変更した（`SummaryPanel` を新設）
+- 既存の「直近発話へのAI回答」表示（`AIResponsePanel`）は下段に移動した
+- 下段のテキスト入力欄（`CompletionInput`）はデフォルトで非表示にした
+
 ## [0.5.17] - 2026-07-09
 
 ### Changed

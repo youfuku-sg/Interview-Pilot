@@ -4,3 +4,4 @@ export * from "./speech/audio-visualizer";
 export * from "./speech/StatusIndicator";
 export * from "./TranscriptionPanel";
 export * from "./AIResponsePanel";
+export * from "./SummaryPanel";
